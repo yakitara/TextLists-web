@@ -1,0 +1,14 @@
+<%= form_for [@list, @item] do |form| %>
+  <%= error_messages_for @item %>
+  <div>
+    <%= form.fields_for :listings do |listings_fields| %>
+      <%= listings_fields.collection_select :list_id, @lists, :id, :name %>
+    <% end %>
+  </div>
+  <div>
+    <%= form.text_area :content, :rows => 8 %>
+  </div>
+  <div>
+    <button type="submit">save</button>
+  </div>
+<% end %>

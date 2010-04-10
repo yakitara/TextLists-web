@@ -1,4 +1,20 @@
 Items::Application.routes.draw do |map|
+  root :to => "nav#index"
+  
+  resources :items, :only => [:new, :create]
+  
+  match %r"/lists/:id$", :to => redirect("/lists/%{id}/items"), :as => :list
+  
+  resources :lists, :only => [:new, :create] do
+    resources :items, :only => [:index, :show, :new, :create, :update] do
+      resources :listings, :only => [:destroy] do
+        collection do
+          post :move
+        end
+      end
+    end
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

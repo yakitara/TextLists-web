@@ -1,0 +1,9 @@
+textarea {height:auto;}
+
+div.container {padding:1em;}
+
+nav ul {list-style:none; padding-left:0;}
+nav ul ol {list-style:none; padding-left:1em;}
+
+ul.items {padding-left:1em;}
+ul.items li {margin:1em;}

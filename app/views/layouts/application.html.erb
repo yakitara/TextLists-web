@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/stylesheets/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/stylesheets/blueprint/print.css" type="text/css" media="print">
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
+    <%= stylesheet_link_tag "application.css" %>
+    <%= javascript_include_tag "jquery-1.4.1.js", "jquery-ujs.js", "application" %>
+    <%= csrf_meta_tag %>
+  </head>
+  <body>
+    <div class="container span-16 noshowgrid">
+      <nav class="span-3 border">
+        <ul>
+          <li>items: <%= link_to "new", new_item_path %>
+            <ul>
+            </ul>
+          </li>
+          <li>lists: <%= link_to "new", new_list_path %>
+            <ol>
+            <% @lists.each do |list| %>
+              <li><%= link_to list.name, list_items_path(list) %></li>
+            <% end %>
+            </ol>
+          </li>
+         </ul>
+      </nav>
+      <div class="span-13 last">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>
