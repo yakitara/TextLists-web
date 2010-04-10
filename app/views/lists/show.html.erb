@@ -1,4 +1,5 @@
 <%= form_for @list do |form| %>
+  <%= error_messages_for @list %>
   <%= form.text_field :name %>
   <button type="submit">save</button>
 <% end %>

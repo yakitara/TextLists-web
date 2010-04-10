@@ -14,7 +14,7 @@
     <div class="container span-16 noshowgrid">
       <nav class="span-3 border">
         <ul>
-          <li>items: <%= link_to "new", new_item_path %>
+          <li>items: <%= link_to "new", [:new, @list, :item] %>
             <ul>
             </ul>
           </li>

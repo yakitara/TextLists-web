@@ -17,13 +17,13 @@ class ItemsController < ApplicationController
   
   def new
     @item = Item.new
-    @item.listings.build(:list => List.find_by_name("in-box"))
+    @item.listings.build(:list => @list)
     render :show
   end
   
   def create
     if @item = Item.create(params[:item])
-      redirect_to @list || root_path
+      redirect_to(@list ? [@list, :items] : root_path)
     else
       render :show
     end
@@ -32,7 +32,7 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     if @item.update_attributes(params[:item])
-      redirect_to @list || root_path
+      redirect_to(@list ? [@list, :items] : root_path)
     else
       render :show
     end
