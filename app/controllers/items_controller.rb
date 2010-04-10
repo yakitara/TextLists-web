@@ -22,7 +22,8 @@ class ItemsController < ApplicationController
   end
   
   def create
-    if @item = Item.create(params[:item])
+    @item = Item.new(params[:item])
+    if @item.save
       redirect_to(@list ? [@list, :items] : root_path)
     else
       render :show

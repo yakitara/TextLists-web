@@ -9,7 +9,8 @@ class ListsController < ApplicationController
   end
   
   def create
-    if @list = List.create(params[:list])
+    @list = List.new(params[:list])
+    if @list.save
       redirect_to root_path
     else
       render :show
