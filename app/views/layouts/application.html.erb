@@ -14,7 +14,7 @@
     <div class="container span-16 noshowgrid">
       <nav class="span-3 border">
         <ul>
-          <li>items: <%= link_to "new", [:new, @list.try(:new_record?) ? nil : @list, :item] %>
+          <li>items: <%= link_to "new", new_item_path %>
             <ul>
             </ul>
           </li>
@@ -27,7 +27,7 @@
           </li>
          </ul>
       </nav>
-      <div class="span-13 last">
+      <div class="main span-13 last">
         <%= yield %>
       </div>
     </div>

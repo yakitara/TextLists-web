@@ -1,14 +1,18 @@
+<%= link_to "new item", [:new, @list.try(:new_record?) ? nil : @list, :item] %>
+<hr/>
 <ol>
 <% @items.each do |item| %>
-  <li>
-    <%= link_to item.content, list_item_path(@list, item) %>
-    <span style="margin:0 1em">
+  <li class='<%= cycle "odd", "even" %>'>
+    <div class="span-10">
+      <%= link_to item.content, list_item_path(@list, item) %>
+    </div>
+    <div class="prepend-10">
       <select name="listing[list_id]" data-url='<%= move_list_item_listings_path(@list, item) %>' data-method="post">
         <%= options_from_collection_for_select @lists, :id, :name, @list.id %>
         <!-- <option value="new">new list...</option> -->
       </select>
       <%= link_to "done", list_item_listing_path(@list, item, item.listings.first), :method => "delete" %>
-    </span>
+    </div>
   </li>
 <% end %>
 </ol>

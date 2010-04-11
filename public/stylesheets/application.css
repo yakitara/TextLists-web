@@ -1,9 +1,13 @@
 textarea {height:auto;}
 
-div.container {padding:1em;}
+div.container {margin:1em;}
 
 nav ul {list-style:none; padding-left:0;}
 nav ul ol {list-style:none; padding-left:1em;}
 
 ul.items {padding-left:1em;}
 ul.items li {margin:1em;}
+
+div.main ol {list-style:none; padding-left:0;}
+
+li.even {background:#e5ecf9;}
