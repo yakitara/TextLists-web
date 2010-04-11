@@ -13,9 +13,11 @@ class InitialSchema < ActiveRecord::Migration
     create_table :listings do |t|
       t.integer :list_id, :null => false
       t.integer :item_id, :null => false
+      t.integer :position
       t.datetime :deleted_at
       t.timestamps
     end
+    add_index [:list_id, :item_id], :unique => true
   end
 
   def self.down

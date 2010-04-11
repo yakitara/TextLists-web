@@ -21,4 +21,15 @@ jQuery(function ($) {
         e.preventDefault();
         form.submit();
     });
+    
+    $(".sortable").sortable({
+      update:function(event, ui) {
+          $.ajax({
+            url: $(this).attr('data-url'),
+            data: $(this).sortable('serialize'),
+            type: "POST"
+            });
+        }
+      });
+    $(".sortable").disableSelection();
 });

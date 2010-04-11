@@ -7,6 +7,9 @@ Items::Application.routes.draw do |map|
   
   resources :lists, :only => [:new, :create] do
     resources :items, :only => [:index, :show, :new, :create, :update] do
+      collection do
+        post :sort
+      end
       resources :listings, :only => [:destroy] do
         collection do
           post :move

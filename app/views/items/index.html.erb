@@ -1,8 +1,8 @@
 <%= link_to "new item", [:new, @list.try(:new_record?) ? nil : @list, :item] %>
 <hr/>
-<ol>
+<ol class="sortable" data-url='<%= sort_list_items_path(@list) %>'>
 <% @items.each do |item| %>
-  <li class='<%= cycle "odd", "even" %>'>
+  <li class='<%= cycle "odd", "even" %>' id='item_<%= item.id %>'>
     <div class="span-10">
       <%= link_to item.content, list_item_path(@list, item) %>
     </div>

@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   def index
     @items = Item
     if @list
-      @items = @items.includes(:listings).where("listings.list_id" => @list)
+      @items = @items.includes(:listings).where("listings.list_id" => @list).order("listings.position ASC")
     end
     @items = @items.all
   end
@@ -36,6 +36,13 @@ class ItemsController < ApplicationController
       redirect_to(@list ? [@list, :items] : root_path)
     else
       render :show
+    end
+  end
+  
+  def sort
+    # @items = @list.listings.where(:item_id => params[:item]).all
+    params[:item].each.with_index do |item_id, pos|
+      Listing.update_all({:position => pos}, {:list_id => @list, :item_id => item_id})
     end
   end
 end
