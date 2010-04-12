@@ -23,6 +23,7 @@ jQuery(function ($) {
     });
     
     $(".sortable").sortable({
+      axis: 'y',
       update:function(event, ui) {
           $.ajax({
             url: $(this).attr('data-url'),

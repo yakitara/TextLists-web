@@ -31,4 +31,10 @@ class ListsController < ApplicationController
     @list.destroy
     redirect_to root_path
   end
+  
+  def sort
+    params[:list].each.with_index do |id, pos|
+      List.update_all({:position => pos}, {:id => id})
+    end
+  end
 end

@@ -6,6 +6,9 @@ Items::Application.routes.draw do |map|
   #match %r|/lists/:id$|, :to => redirect("/lists/%{id}/items"), :as => :list
   
   resources :lists, :only => [:show, :new, :update, :create] do
+    collection do
+      post :sort
+    end
     resources :items, :only => [:index, :show, :new, :create, :update] do
       collection do
         post :sort

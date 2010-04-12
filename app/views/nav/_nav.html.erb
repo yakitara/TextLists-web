@@ -1,0 +1,15 @@
+<ul>
+  <li>items: <%= link_to "new", new_item_path %>
+    <ul>
+    </ul>
+  </li>
+  <li>lists: <%= link_to "new", new_list_path %>
+    <ol class="sortable" data-url='<%= sort_lists_path %>'>
+    <% @lists.each do |list| %>
+      <li id='list_<%= list.id %>'>
+        <%= link_to list.name, list_items_path(list) %> (<%= list.item_count %>)
+      </li>
+    <% end %>
+    </ol>
+  </li>
+</ul>

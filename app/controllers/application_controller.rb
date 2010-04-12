@@ -3,6 +3,6 @@ class ApplicationController < ActionController::Base
   
   before_filter do
     @lists = List.joins("LEFT JOIN listings ON listings.list_id = lists.id").group("lists.id")
-    @lists = @lists.all(:select => "lists.*, COUNT(listings.id) AS item_count")
+    @lists = @lists.order("lists.position ASC").all(:select => "lists.*, COUNT(listings.id) AS item_count")
   end
 end
