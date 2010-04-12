@@ -1,0 +1,5 @@
+<% if !@list.new_record? %>
+List: <%= @list.name %> |
+<%= link_to "new item", [:new, @list, :item] %> | 
+<%= link_to "delete this list", list_path(@list), :method => "delete" %>
+<% end %>

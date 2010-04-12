@@ -1,4 +1,7 @@
-<%= link_to "new item", [:new, @list.try(:new_record?) ? nil : @list, :item] %>
+<% if @list  %>
+<%= render :partial => "/lists/header" %>
+<% end %>
+
 <hr/>
 <ol class="sortable" data-url='<%= sort_list_items_path(@list) %>'>
 <% @items.each do |item| %>
