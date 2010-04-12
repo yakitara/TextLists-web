@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
-  def index
-    # TODO: 
+  def show
+    redirect_to list_items_path(params[:id])
   end
   
   def new
@@ -11,6 +11,15 @@ class ListsController < ApplicationController
   def create
     @list = List.new(params[:list])
     if @list.save
+      redirect_to list_path(@list)
+    else
+      render :show
+    end
+  end
+  
+  def update
+    @list = List.find(params[:id])
+    if @list.update_attributes(params[:list])
       redirect_to list_path(@list)
     else
       render :show

@@ -3,9 +3,9 @@ Items::Application.routes.draw do |map|
   
   resources :items, :only => [:new, :create]
   
-  match /\/lists\/:id$/, :to => redirect("/lists/%{id}/items"), :as => :list
+  #match %r|/lists/:id$|, :to => redirect("/lists/%{id}/items"), :as => :list
   
-  resources :lists, :only => [:new, :create, :destroy] do
+  resources :lists, :only => [:show, :new, :update, :create] do
     resources :items, :only => [:index, :show, :new, :create, :update] do
       collection do
         post :sort
