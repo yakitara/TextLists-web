@@ -20,7 +20,10 @@ Items::Application.routes.draw do |map|
       end
     end
   end
-
+  
+  match "/bookmarklet(.:format)", :to => "items#bookmarklet", :via => :get, :as => "bookmarklet"
+  match "/api/items", :to => "items#bookmark", :via => :post, :as => "bookmark"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

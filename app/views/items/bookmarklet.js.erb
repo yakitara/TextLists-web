@@ -1,0 +1,15 @@
+window.Items = {
+  bookmark: function() {
+    var f=document.createElement('form');
+    f.method='post';
+    f.target='_blank';
+    f.action='<%= bookmark_url %>';
+    var h=document.createElement('input');
+    h.type='hidden';
+    h.name='item[content]';
+    h.value= document.title+'\n'+document.location+'\n\n'+document.getSelection();
+    f.appendChild(h);
+    document.body.appendChild(f);
+    f.submit();
+  }
+};
