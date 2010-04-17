@@ -23,12 +23,14 @@ ActiveRecord::Schema.define(:version => 20100409022200) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "position"
   end
 
   create_table "lists", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "position"
   end
 
 end
