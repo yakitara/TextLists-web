@@ -10,7 +10,11 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-# load "/usr/local/rvm/gems/ruby-1.9.2-head/gems/ar_fixtures-0.0.4/tasks/ar_fixtures.rake"
-# require "yaml_waml"
+# load tasks from gems
+Bundler.require(:tasks)
+def load_task(task_file)
+  load Dir[Bundler.bundle_path + "gems/*/{tasks,rails/tasks,lib/tasks}/#{task_file}.rake"].first
+end
+load_task "ar_fixtures"
 
 Rails::Application.load_tasks

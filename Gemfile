@@ -6,10 +6,10 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'pg'
 gem 'bundler'
 
-# #group :tasks do
-#   gem 'ar_fixtures'
-#   gem 'yaml_waml'
-# #end
+group :tasks do
+  gem 'ar_fixtures'
+  gem 'yaml_waml'
+end
 
 
 
