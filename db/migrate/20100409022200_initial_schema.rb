@@ -18,7 +18,7 @@ class InitialSchema < ActiveRecord::Migration
       t.datetime :deleted_at
       t.timestamps
     end
-    add_index [:list_id, :item_id], :unique => true
+    add_index :listings, [:list_id, :item_id], :unique => true
   end
 
   def self.down
