@@ -19,7 +19,7 @@ production:
   encoding: unicode
   database: items_production
   pool: 5
-  username: postgres
+  username: www-data
   password:
 
 # development:
