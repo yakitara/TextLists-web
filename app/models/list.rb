@@ -3,4 +3,6 @@ class List < ActiveRecord::Base
   has_many :items, :through => :listings
   
   validates :name, :presence => true
+  
+  include UserScope
 end

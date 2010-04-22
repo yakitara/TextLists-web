@@ -1,5 +1,10 @@
 Items::Application.routes.draw do |map|
   root :to => "nav#index"
+  match "/bookmarklet(.:format)", :to => "items#bookmarklet", :via => :get, :as => "bookmarklet"
+  match "/api/items", :to => "items#bookmark", :via => :post, :as => "bookmark"
+  match "/login", :to => "nav#login", :via => :get, :as => "login"
+  match "/openid", :to => "nav#openid", :via => :post, :as => "openid"
+  match "/logout", :to => "nav#logout", :via => :delete, :as => "logout"
   
   resources :items, :only => [:new, :create]
   
@@ -21,8 +26,6 @@ Items::Application.routes.draw do |map|
     end
   end
   
-  match "/bookmarklet(.:format)", :to => "items#bookmarklet", :via => :get, :as => "bookmarklet"
-  match "/api/items", :to => "items#bookmark", :via => :post, :as => "bookmark"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

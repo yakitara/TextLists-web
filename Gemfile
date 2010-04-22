@@ -11,7 +11,8 @@ group :tasks do
   gem 'yaml_waml'
 end
 
-
+gem 'ruby-openid', '2.1.8', :git => "git://github.com/openid/ruby-openid.git"
+gem 'rack-openid', :require => 'rack/openid'
 
 
 # Bundle edge Rails instead:

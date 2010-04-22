@@ -1,4 +1,11 @@
 class ListsController < ApplicationController
+  before_filter :login_required
+  around_filter do |controller, action|
+    List.with_user_scope(current_user) do
+      action.call
+    end
+  end
+  
   def show
     redirect_to list_items_path(params[:id])
   end

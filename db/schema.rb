@@ -9,12 +9,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100409022200) do
+ActiveRecord::Schema.define(:version => 20100422032219) do
+
+  create_table "credentials", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.string   "identifier", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "credentials", ["identifier"], :name => "index_credentials_on_identifier", :unique => true
 
   create_table "items", :force => true do |t|
     t.text     "content",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id",    :null => false
   end
 
   create_table "listings", :force => true do |t|
@@ -24,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20100409022200) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position"
+    t.integer  "user_id",    :null => false
   end
 
   create_table "lists", :force => true do |t|
@@ -31,6 +42,12 @@ ActiveRecord::Schema.define(:version => 20100409022200) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "position"
+    t.integer  "user_id",    :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

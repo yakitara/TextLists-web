@@ -1,4 +1,6 @@
 class ListingsController < ApplicationController
+  before_filter :login_required
+  
   def move
     # delete old listing
     old = Listing.first(:conditions => params.slice(:item_id, :list_id))

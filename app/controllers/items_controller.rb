@@ -1,8 +1,18 @@
 class ItemsController < ApplicationController
+  before_filter :login_required
+  
   before_filter do
     @list = List.find_by_id(params[:list_id])
   end
-
+  
+  around_filter do |controller, action|
+    Item.with_user_scope(current_user) do
+      Listing.with_user_scope(current_user) do
+        action.call
+      end
+    end
+  end
+  
   def index
     @items = Item
     if @list

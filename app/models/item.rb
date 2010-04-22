@@ -5,4 +5,6 @@ class Item < ActiveRecord::Base
   accepts_nested_attributes_for :listings
   
   validates :content, :presence => true
+  
+  include UserScope
 end
