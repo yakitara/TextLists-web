@@ -1,7 +1,6 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0.beta3'
-gem 'rspec-rails', :group => :test
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'pg'
 gem 'bundler'
@@ -13,6 +12,10 @@ end
 
 gem 'ruby-openid', '2.1.8', :git => "git://github.com/openid/ruby-openid.git"
 gem 'rack-openid', :require => 'rack/openid'
+
+gem 'rspec-rails', '2.0.0.beta.7', :group => :test
+
+
 
 
 # Bundle edge Rails instead:
