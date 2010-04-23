@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-
-  before_filter do
+  
+  before_filter :set_lists
+  def set_lists
     if openid = session[:openid]
       @current_user = User.joins(:credentials).where("credentials.identifier" => openid).first
     end
@@ -25,4 +26,10 @@ class ApplicationController < ActionController::Base
       false
     end
   end
+  
+  def calculate_api_key(salt, path=self.controller_path, action=self.action_name)
+    require "digest/sha2"
+    Digest::SHA2.hexdigest("#{salt}-#{path}#{action}")
+  end
+  helper_method :calculate_api_key
 end

@@ -1,8 +1,10 @@
 class CreateUserAndCredential < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
+      t.string :salt, :null => false
       t.timestamps
     end
+    add_index :users, :salt, :unique => true
     
     create_table :credentials do |t|
       t.integer :user_id, :null => false

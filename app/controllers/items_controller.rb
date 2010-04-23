@@ -54,23 +54,4 @@ class ItemsController < ApplicationController
       Listing.update_all({:position => pos}, {:list_id => @list, :item_id => item_id})
     end
   end
-  
-  # API
-  skip_before_filter :verify_authenticity_token, :only => [:bookmark]
-  def bookmark
-    @item = Item.new(params[:item])
-    @item.lists << List.find_by_name("in-box")
-    if @item.save
-      render :inline => <<-HTML
-        <!DOCTYPE html>
-        <html><body><script>window.close();</script></body></html>
-      HTML
-    else
-      render :inline => <<-HTML
-        <!DOCTYPE html>
-        <html><body><%= error_messages_for @item %></body></html>
-      HTML
-    end
-    p params[:item]
-  end
 end
