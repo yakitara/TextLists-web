@@ -45,4 +45,7 @@ class NavController < ApplicationController
       render :nothing => true, :status => 401
     end
   end
+  
+  def bookmarklet
+  end
 end

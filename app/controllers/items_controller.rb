@@ -55,9 +55,6 @@ class ItemsController < ApplicationController
     end
   end
   
-  def bookmarklet
-  end
-
   # API
   skip_before_filter :verify_authenticity_token, :only => [:bookmark]
   def bookmark

@@ -1,6 +1,6 @@
 Items::Application.routes.draw do |map|
   root :to => "nav#index"
-  match "/bookmarklet(.:format)", :to => "items#bookmarklet", :via => :get, :as => "bookmarklet"
+  match "/bookmarklet(.:format)", :to => "nav#bookmarklet", :via => :get, :as => "bookmarklet"
   match "/api/items", :to => "items#bookmark", :via => :post, :as => "bookmark"
   match "/login", :to => "nav#login", :via => :get, :as => "login"
   match "/openid", :to => "nav#openid", :via => :post, :as => "openid"
