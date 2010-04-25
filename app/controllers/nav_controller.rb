@@ -28,9 +28,9 @@ class NavController < ApplicationController
       if resp.status == :success
         session[:openid] = resp.display_identifier
         # FIXME: thing the case that credential is, but user isn't
-        unless credential = Credential.find_by_identifier(resp.display_identifier)
+        unless credential = Credential.find_by_identifier(session[:openid])
           Credential.transaction do
-            credential = Credential.create!(:identifier => resp.display_identifier, :user => User.create!)
+            credential = Credential.create!(:identifier => session[:openid], :user => User.create!)
           end
         end
         redirect_to root_path

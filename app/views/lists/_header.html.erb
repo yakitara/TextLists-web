@@ -1,8 +1,17 @@
-<% if !@list.new_record? %>
 <%= form_for @list do |form| %>
-  <%= error_messages_for @list %>
-  List: <%= form.text_field :name %> <button type="submit">save</button> |
-  <%= link_to "delete this list", list_path(@list), :method => "delete", :confirm => "Delete this list." %> |
-  <%= link_to "new item", [:new, @list, :item] %>
+<% if @list.errors.any? %>
+  <div id="errorExplanation">
+    <h2>The following errors prohibited this form from being saved:</h2>
+    <ul>
+    <% @list.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+  List: <%= form.text_field :name %> <button type="submit">save</button>
+<% if !@list.new_record? %>
+  | <%= link_to "delete this list", list_path(@list), :method => "delete", :confirm => "Delete this list." %>
+  | <%= link_to "new item", [:new, @list, :item] %>
 <% end %>
 <% end %>

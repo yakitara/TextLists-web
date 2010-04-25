@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
   has_many :credentials
+  has_many :lists
+  has_many :items
+  has_many :listings
   
   before_save do
     if self.salt.blank?

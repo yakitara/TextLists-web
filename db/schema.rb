@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(:version => 20100422032219) do
   create_table "users", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "salt",       :null => false
   end
+
+  add_index "users", ["salt"], :name => "index_users_on_salt", :unique => true
 
 end

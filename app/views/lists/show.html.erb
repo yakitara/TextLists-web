@@ -1,5 +1,17 @@
+<%= render :partial => "header" %>
+<% if false %>
 <%= form_for @list do |form| %>
-  <%= error_messages_for @list %>
+<% if @list.errors.any? %>
+  <div id="errorExplanation">
+    <h2>The following errors prohibited this form from being saved:</h2>
+    <ul>
+    <% @list.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
   <%= form.text_field :name %>
   <button type="submit">save</button>
+<% end %>
 <% end %>
