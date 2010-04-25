@@ -10,4 +10,10 @@ class User < ActiveRecord::Base
       self.salt = Digest::SHA2.hexdigest("#{self.hash}-#{Time.now}")
     end
   end
+  
+  after_create do
+    if self.lists.blank?
+      self.lists.create!(:name => List::INBOX)
+    end
+  end
 end

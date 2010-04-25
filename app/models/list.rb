@@ -1,4 +1,6 @@
 class List < ActiveRecord::Base
+  INBOX = "in-box"
+  
   belongs_to :user
   has_many :listings, :dependent => :destroy
   has_many :items, :through => :listings
