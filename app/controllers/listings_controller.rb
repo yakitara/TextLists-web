@@ -1,6 +1,16 @@
 class ListingsController < ApplicationController
   before_filter :login_required
   
+  around_filter do |controller, action|
+    List.with_user_scope(current_user) do
+      Item.with_user_scope(current_user) do
+        Listing.with_user_scope(current_user) do
+          action.call
+        end
+      end
+    end
+  end
+  
   def move
     # delete old listing
     old = Listing.first(:conditions => params.slice(:item_id, :list_id))

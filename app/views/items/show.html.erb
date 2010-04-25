@@ -1,5 +1,15 @@
 <%= form_for [@list, @item] do |form| %>
-  <%= error_messages_for @item %>
+<% if @item.errors.any? %>
+  <div id="errorExplanation">
+    <h2>The following errors prohibited this form from being saved:</h2>
+    <ul>
+    <% @item.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
   <div>
     <%= form.fields_for :listings do |listings_fields| %>
       <%= listings_fields.collection_select :list_id, @lists, :id, :name %>
