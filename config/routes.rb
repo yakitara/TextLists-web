@@ -27,6 +27,7 @@ Items::Application.routes.draw do |map|
   end
 
   namespace :api do
+    match "key", :to => "api#key", :via => :get, :as => "api_key"
     resources :items, :only => [:create]
   end
   

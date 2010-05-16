@@ -1,12 +1,14 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  before_filter :set_lists
-  def set_lists
+  before_filter :set_current_user
+  def set_current_user
     if openid = session[:openid]
       @current_user = User.joins(:credentials).where("credentials.identifier" => openid).first
     end
-    
+  end
+  before_filter :set_lists
+  def set_lists
     selects = "lists.id, lists.name, lists.position" # for PostgreSQL
     @lists = List.joins("LEFT JOIN listings ON listings.list_id = lists.id").group(selects)
     @lists = @lists.where(:user_id => current_user.try(:id))

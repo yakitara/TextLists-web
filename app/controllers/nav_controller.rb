@@ -16,6 +16,7 @@ class NavController < ApplicationController
   end
   
   def login
+    #Rails.logger.info request.env.to_yaml
   end
 
   def logout
