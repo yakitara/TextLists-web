@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     @lists = @lists.order("lists.position ASC").all(:select => "#{selects}, COUNT(listings.id) AS item_count")
   end
   
-  #= about authorization
+  #= authorization
   attr_reader :current_user
   def current_user?
     current_user.present?
@@ -28,10 +28,25 @@ class ApplicationController < ActionController::Base
       false
     end
   end
-  
+
+  #= authentication
   def calculate_api_key(salt, path=self.controller_path, action=self.action_name)
     require "digest/sha2"
     Digest::SHA2.hexdigest("#{salt}-#{path}#{action}")
   end
   helper_method :calculate_api_key
+  
+  def api_key_required
+    if user = User.find_by_id(params[:user_id])
+      if params[:key] == calculate_api_key(user.salt)
+        @current_user = user
+      elsif params[:key] == calculate_api_key(user.salt, "*", "*")
+        @current_user = user
+      end
+    end
+    unless @current_user
+      render :nothing => true, :status => 403
+      false
+    end
+  end
 end
