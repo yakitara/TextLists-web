@@ -31,6 +31,8 @@ Items::Application.routes.draw do |map|
     match "changes", :to => "api#changes", :via => :get, :as => "api_changes"
     resources :items, :only => [:create]
     match "in-box/items(.:format)", :to => "items#create", :via => :post, :as => "inbox_items", :defaults => {:list => "in-box"}
+    resources :lists, :only => [:create]
+    resources :listings, :only => [:create]
   end
   
   

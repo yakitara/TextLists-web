@@ -38,7 +38,7 @@ class Api::ItemsController < ApplicationController
         end
       else
         format.json do
-          render :json => {:id => nil}
+          render :json => {:id => nil}, :status => 401
         end
         format.html do
           render :inline => <<-HTML
