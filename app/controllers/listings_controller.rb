@@ -22,8 +22,9 @@ class ListingsController < ApplicationController
   end
 
   def destroy
-    @item = Listing.first(:conditions => params.slice(:item_id, :list_id, :id))
-    @item.destroy
+    @listing = Listing.first(:conditions => params.slice(:item_id, :list_id, :id))
+    # @listing.destroy
+    @listing.done!
     redirect_to list_items_path(params[:list_id])
   end
 end

@@ -5,4 +5,8 @@ class Listing < ActiveRecord::Base
   belongs_to :user
   
   include UserScope
+
+  def done!
+    update_attributes!(:deleted_at => Time.now)
+  end
 end

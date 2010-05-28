@@ -14,9 +14,12 @@ class ItemsController < ApplicationController
   end
   
   def index
-    @items = Item
+    
     if @list
-      @items = @items.includes(:listings).where("listings.list_id" => @list).order("listings.position ASC")
+      # @items = @items.includes(:listings).where("listings.list_id" => @list).order("listings.position ASC")
+      @items = @list.items.select("items.*, listings.id AS listed_listing_id")
+    else
+      @items = Item
     end
     @items = @items.all
   end
