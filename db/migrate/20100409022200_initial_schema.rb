@@ -7,14 +7,14 @@ class InitialSchema < ActiveRecord::Migration
     
     create_table :lists do |t|
       t.string :name, :null => false
-      t.integer :position
+      t.integer :position, :null => false, :default => 999
       t.timestamps
     end
     
     create_table :listings do |t|
       t.integer :list_id, :null => false
       t.integer :item_id, :null => false
-      t.integer :position
+      t.integer :position, :null => false, :default => 0
       t.datetime :deleted_at
       t.timestamps
     end

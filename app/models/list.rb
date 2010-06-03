@@ -8,12 +8,6 @@ class List < ActiveRecord::Base
   has_many :items, :through => :listings, :conditions => "listings.deleted_at IS NULL", :order => "listings.position ASC, listings.created_at DESC"
   
   validates :name, :presence => true
- 
-  before_create do
-    self.position = 999
-    # The magic number 999 must be same as lists created at iphone app.
-  end
-
-
+  
   include UserScope
 end
