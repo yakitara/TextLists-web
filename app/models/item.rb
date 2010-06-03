@@ -1,4 +1,6 @@
 class Item < ActiveRecord::Base
+  default_scope :order => "created_at DESC"
+  
   belongs_to :user
   has_many :listings, :dependent => :destroy
   has_many :lists, :through => :listings

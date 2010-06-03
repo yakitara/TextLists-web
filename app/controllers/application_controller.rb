@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
   end
   before_filter :set_lists
   def set_lists
-    selects = "lists.id, lists.name, lists.position" # for PostgreSQL
+    selects = "lists.id, lists.name, lists.position, lists.created_at" # for PostgreSQL
     @lists = List.joins("LEFT JOIN listings ON listings.list_id = lists.id").group(selects)
     @lists = @lists.where(:user_id => current_user.try(:id))
-    @lists = @lists.order("lists.position ASC").all(:select => "#{selects}, COUNT(listings.id) AS item_count")
+    @lists = @lists.order("lists.position ASC, lists.created_at ASC").all(:select => "#{selects}, COUNT(listings.id) AS item_count")
   end
   
   #= authorization
