@@ -9,10 +9,11 @@ class ApplicationController < ActionController::Base
   end
   before_filter :set_lists
   def set_lists
-    selects = "lists.id, lists.name, lists.position, lists.created_at" # for PostgreSQL
-    @lists = List.joins("LEFT JOIN listings ON listings.list_id = lists.id").group(selects)
-    @lists = @lists.where(:user_id => current_user.try(:id))
-    @lists = @lists.order("lists.position ASC, lists.created_at ASC").all(:select => "#{selects}, COUNT(listings.id) AS item_count")
+    List.with_user_scope(current_user) do
+      selects = "lists.id, lists.name, lists.position, lists.created_at" # for PostgreSQL
+      @lists = List.joins("LEFT JOIN listings AS lg ON lg.list_id = lists.id AND lg.deleted_at IS NULL").group(selects)
+      @lists = @lists.order("lists.position ASC, lists.created_at ASC").all(:select => "#{selects}, COUNT(lg.id) AS item_count")
+    end
   end
   
   #= authorization
