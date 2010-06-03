@@ -12,12 +12,14 @@ class ListingsController < ApplicationController
   end
   
   def move
-    # delete old listing
-    old = Listing.first(:conditions => params.slice(:item_id, :list_id))
-    old.destroy
-    # insert new listing
-    list = List.find(params[:listing][:list_id])
-    list.listings.create!(params.slice(:item_id))
+    Listing.transaction do
+      # delete old listing
+      old = Listing.first(:conditions => params.slice(:item_id, :list_id))
+      old.destroy
+      # insert new listing
+      list = List.find(params[:listing][:list_id])
+      list.listings.create!(params.slice(:item_id))
+    end
     redirect_to list_items_path(params[:list_id])
   end
 
