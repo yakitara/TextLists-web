@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   
   def login_required
     unless current_user?
-      redirect_to login_path
+      redirect_to login_path(:return_to => request.url)
       false
     end
   end

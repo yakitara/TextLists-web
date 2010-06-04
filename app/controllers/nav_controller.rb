@@ -34,14 +34,14 @@ class NavController < ApplicationController
             credential = Credential.create!(:identifier => session[:openid], :user => User.create!)
           end
         end
-        redirect_to root_path
+        redirect_to params[:return_to] || root_path
       else
         flash[:error] = "Error: #{resp.status}"
         redirect_to login_path
       end
     else
       headers['WWW-Authenticate'] = Rack::OpenID.build_header(
-        :identifier => params["identifier"]
+        params.slice(:identifier).merge(:return_to => openid_url(params.slice(:return_to)), :method => "post")
         )
       render :nothing => true, :status => 401
     end
