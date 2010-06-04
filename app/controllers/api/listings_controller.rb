@@ -17,7 +17,7 @@ class Api::ListingsController < ApplicationController
         end
       else
         format.json do
-          render :json => {:id => nil}, :status => 401
+          render :json => {:id => nil, :errors => @listing.errors.full_messages}, :status => 400
         end
       end
     end
