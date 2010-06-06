@@ -28,27 +28,29 @@ ActiveRecord::Schema.define(:version => 20100422032219) do
   end
 
   create_table "listings", :force => true do |t|
-    t.integer  "list_id",    :null => false
-    t.integer  "item_id",    :null => false
+    t.integer  "list_id",                   :null => false
+    t.integer  "item_id",                   :null => false
+    t.integer  "position",   :default => 0, :null => false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position"
-    t.integer  "user_id",    :null => false
+    t.integer  "user_id",                   :null => false
   end
 
+  add_index "listings", ["list_id", "item_id"], :name => "index_listings_on_list_id_and_item_id", :unique => true
+
   create_table "lists", :force => true do |t|
-    t.string   "name",       :null => false
+    t.string   "name",                        :null => false
+    t.integer  "position",   :default => 999, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position"
-    t.integer  "user_id",    :null => false
+    t.integer  "user_id",                     :null => false
   end
 
   create_table "users", :force => true do |t|
+    t.string   "salt",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "salt",       :null => false
   end
 
   add_index "users", ["salt"], :name => "index_users_on_salt", :unique => true
