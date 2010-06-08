@@ -26,9 +26,9 @@ Items::Application.routes.draw do |map|
     end
   end
 
+  match "/api/key", :to => "api#key", :via => :get, :as => "api_key"
+  match "/api/changes", :to => "api#changes", :via => :get, :as => "api_changes"
   namespace :api do
-    match "key", :to => "api#key", :via => :get, :as => "api_key"
-    match "changes", :to => "api#changes", :via => :get, :as => "api_changes"
     resources :items, :only => [:create]
     match "in-box/items(.:format)", :to => "items#create", :via => :post, :as => "inbox_items", :defaults => {:list => "in-box"}
     resources :lists, :only => [:create]
