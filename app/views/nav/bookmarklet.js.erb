@@ -3,6 +3,8 @@ window.Items = {
     var f=document.createElement('form');
     f.method='post';
     f.target='_blank';
+    //f.acceptCharset=document.inputEncoding;
+    f.acceptCharset='UTF-8';
     f.action='<%= api_inbox_items_url %>?user_id=' + user_id + '&key=' + key;
     var h=document.createElement('input');
     h.type='hidden';
