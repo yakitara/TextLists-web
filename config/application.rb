@@ -46,5 +46,7 @@ module Items
     config.filter_parameters += [:password]
     
     config.middleware.use Rack::OpenID
+
+    config.active_record.include_root_in_json = false
   end
 end

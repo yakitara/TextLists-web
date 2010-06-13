@@ -7,19 +7,32 @@ class Api::ListsController < ApplicationController
       action.call
     end
   end
-
+  
+  def show
+    @list = List.find(params[:id])
+    render :json => @list
+  end
+  
+  def show
+    @list = List.find(params[:id])
+    render :json => @list
+  end
+  
   def create
     @list = List.new(params[:list])
-    respond_to do |format|
-      if @list.save
-        format.json do
-          render :json => {:id => @list.id}
-        end
-      else
-        format.json do
-          render :json => {:id => nil, :errors => @list.errors.full_messages}, :status => 400
-        end
-      end
+    if @list.save
+      render :json => {:id => @list.id}
+    else
+      render :json => {:id => nil, :errors => @list.errors.full_messages}, :status => 400
+    end
+  end
+  
+  def update
+    @list = List.find(params[:id])
+    if @list.update_attributes(params[:list])
+      render :json => {:id => @list.id}
+    else
+      render :json => {:id => nil, :errors => @list.errors.full_messages}, :status => 400
     end
   end
 end

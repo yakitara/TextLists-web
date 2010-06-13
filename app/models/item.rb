@@ -9,5 +9,13 @@ class Item < ActiveRecord::Base
   
   validates :content, :presence => true
   
-  include UserScope
+  include UserScope, HalfAutoTimestamp
+  # don't autotimestamp if timestamps are explicitly given
+#   record_timestamps = false
+#   before_save do
+#     self.touch(:updated_at) unless self.updated_at_changed?
+#   end
+#   before_create do
+#     self.touch(:created_at) unless self.created_at_changed?
+#   end
 end

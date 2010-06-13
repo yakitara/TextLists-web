@@ -8,5 +8,5 @@ class Listing < ActiveRecord::Base
     update_attributes!(:deleted_at => Time.now)
   end
   
-  include UserScope
+  include UserScope, HalfAutoTimestamp
 end

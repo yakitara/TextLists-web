@@ -1,3 +1,12 @@
+# require "json/pure"
+# require "active_support/json"
+# class Object
+#   def to_json(*args)
+#     ActiveSupport::JSON.encode(*args)
+#   end
+# end
+
+
 class ApiController < ApplicationController
   before_filter :login_required, :only => [:key]
   before_filter :api_key_required, :except => [:key]
@@ -14,10 +23,10 @@ class ApiController < ApplicationController
   end
   
   def changes
-    json = [List, Item, Listing].inject({}) do |h, klass|
-      h.update(klass.table_name => klass.all)
-    end.to_json
-    render :json => json
+    serializable = [List, Item, Listing].inject({}) do |h, klass|
+      h.update(klass.table_name => klass.select("id, updated_at").all)
+    end
+    render :json => serializable
     # render :text => '{"items":[{"id":1,"content":"new sync item","updated_at":"2010-05-20 01:02:30 +0900","created_at":"2010-05-20 01:02:30 +0900"}],"lists":[{"id":1,"name":"new sync list","updated_at":"2010-05-20 01:02:30 +0900","created_at":"2010-05-20 01:02:30 +0900"}],"listings":[{"id":1,"item_id":1,"list_id":1,"updated_at":"2010-05-20 01:02:30 +0900","created_at":"2010-05-20 01:02:30 +0900"}]}'
   end
 end

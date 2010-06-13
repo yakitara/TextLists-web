@@ -19,6 +19,11 @@ class Api::ItemsController < ApplicationController
     end
   end
   
+  def show
+    @item = Item.find(params[:id])
+    render :json => @item
+  end
+  
   def create
     @item = Item.new(params[:item])
     if list_name = params[:list]
@@ -47,6 +52,15 @@ class Api::ItemsController < ApplicationController
           HTML
         end
       end
+    end
+  end
+  
+  def update
+    @item = Item.find(params[:id])
+    if @item.update_attributes(params[:item])
+      render :json => {:id => @item.id}
+    else
+      render :json => {:id => nil, :errors => @item.errors.full_messages}, :status => 400
     end
   end
 end
