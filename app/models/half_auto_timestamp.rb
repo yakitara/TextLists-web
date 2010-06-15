@@ -2,10 +2,14 @@ module HalfAutoTimestamp
   def self.included(base)
     base.record_timestamps = false
     base.before_save do
-      self.touch(:updated_at) unless self.updated_at_changed?
+      unless self.updated_at_changed?
+        write_attribute(:updated_at, current_time_from_proper_timezone)
+      end
     end
     base.before_create do
-      self.touch(:created_at) unless self.created_at_changed?
+      unless self.created_at_changed?
+        write_attribute(:created_at, current_time_from_proper_timezone)
+      end
     end
   end
 end
