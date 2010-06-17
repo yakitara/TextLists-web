@@ -1,6 +1,6 @@
 window.Items = {
   bookmark: function(user_id, key) {
-    if (document.title === "Reader") {
+    if (/Reader/.test(document.title)) {
       var s = document.createElement('script');
       s.src='http://jquery.com/src/jquery-latest.js';
       s.addEventListener('load', function(){
