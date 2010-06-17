@@ -1,5 +1,28 @@
 window.Items = {
   bookmark: function(user_id, key) {
+    if (document.title === "Reader") {
+      var s = document.createElement('script');
+      s.src='http://jquery.com/src/jquery-latest.js';
+      s.addEventListener('load', function(){
+        switch (document.location.pathname) {
+        case "/reader/i/":
+          $("div.expanded a.item-title-link").each(function(i,e){
+            //$("div.expanded div.entry-contents-inner")[0].innerText
+            Items.bookmarkLink(user_id, key, e.href, e.text);
+          });
+          break;
+        default:
+          $("div#current-entry a.entry-title-link").each(function(i,e){
+            Items.bookmarkLink(user_id, key, e.href, e.text);
+          });
+        }
+      });
+      document.body.appendChild(s);
+    } else {
+      Items.bookmarkLink(user_id, key, document.location, document.title);
+    }
+  },
+  bookmarkLink: function(user_id, key, link, title) {
     var f=document.createElement('form');
     f.method='post';
     f.target='_blank';
@@ -9,9 +32,29 @@ window.Items = {
     var h=document.createElement('input');
     h.type='hidden';
     h.name='item[content]';
-    h.value= document.title+'\n'+document.location+'\n\n'+document.getSelection();
+    h.value= title+'\n'+link+'\n\n'+document.getSelection();
     f.appendChild(h);
     document.body.appendChild(f);
     f.submit();
+  },
+  livePulldown: function(user_id, key) {
+    $("a[target='_blank']").unbind('click').live('click', function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      //e.target.href
+      //$(e.target).after('<ul style="list-style:none"><li><li>jump</li><li>inbox</li></ul>');
+      var a = e.target;
+      var ul = $("<ul>",{style:"list-style:none;padding:4px;margin:0px;border:solid 1px;width:3em;"})
+        .append($("<li>",{}).append($("<a/>",{text:"jump", href:a.href, target:"_blank", "class":"jump"})))
+        .append($("<li>",{}).append($("<a/>",{text:"in-box", href:"#", onclick:function(){ Items.bookmarkLink(user_id,key,a.href,a.text); }})));
+      $(a).after(ul);
+      return false;
+    });
+  },
+  loadPulldown: function(user_id, key) {
+    var s = document.createElement('script');
+    s.src='http://jquery.com/src/jquery-latest.js';
+    s.addEventListener('load', function(){Items.livePulldown(user_id, key);});
+    document.body.appendChild(s);
   }
 };
