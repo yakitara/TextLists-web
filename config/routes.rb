@@ -27,12 +27,13 @@ Items::Application.routes.draw do |map|
   end
 
   match "/api/key", :to => "api#key", :via => :get, :as => "api_key"
-  match "/api/changes", :to => "api#changes", :via => :get, :as => "api_changes"
+  #match "/api/changes", :to => "api#changes", :via => :get, :as => "api_changes"
   namespace :api do
     resources :items, :only => [:create, :show, :update]
     match "in-box/items(.:format)", :to => "items#create", :via => :post, :as => "inbox_items", :defaults => {:list => "in-box"}
     resources :lists, :only => [:create, :show, :update]
     resources :listings, :only => [:create, :show, :update]
+    resources :changes, :controller => "change_logs", :only => [:create]
   end
   
   

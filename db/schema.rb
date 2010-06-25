@@ -9,7 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100422032219) do
+ActiveRecord::Schema.define(:version => 20100620153441) do
+
+  create_table "change_logs", :force => true do |t|
+    t.text     "json",        :null => false
+    t.string   "record_type", :null => false
+    t.integer  "record_id",   :null => false
+    t.integer  "user_id",     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "change_logs", ["record_type", "record_id"], :name => "index_change_logs_on_record_type_and_record_id"
 
   create_table "credentials", :force => true do |t|
     t.integer  "user_id",    :null => false
