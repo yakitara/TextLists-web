@@ -1,12 +1,3 @@
-# require "json/pure"
-# require "active_support/json"
-# class Object
-#   def to_json(*args)
-#     ActiveSupport::JSON.encode(*args)
-#   end
-# end
-
-
 class ApiController < ApplicationController
   before_filter :login_required, :only => [:key]
   before_filter :api_key_required, :except => [:key]

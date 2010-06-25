@@ -9,5 +9,5 @@ class List < ActiveRecord::Base
   
   validates :name, :presence => true
   
-  include UserScope, HalfAutoTimestamp, ChangeLog::Recorder
+  include UserScope, HalfAutoTimestamp, ChangeLog::Logger
 end

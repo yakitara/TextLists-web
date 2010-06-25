@@ -5,7 +5,8 @@ class CreateChangeLogs < ActiveRecord::Migration
       t.string :record_type, :null => false
       t.integer :record_id, :null => false
       t.integer :user_id, :null => false
-      t.timestamps
+      t.datetime :changed_at, :null => false
+      t.datetime :created_at, :null => false
     end
     add_index :change_logs, [:record_type, :record_id]
   end
