@@ -1,5 +1,7 @@
-#require "active_support/json"
-
+# The basic rule is simple:
+# 1. Sotre any change logs of clients and the server into the server.
+# 2. In ASC sequential order of change_logs.id, apply any unapplied logs to records.
+#   - If any newer changed_at logs are available, the change of the current log is going to be merged with them)
 class ChangeLog < ActiveRecord::Base
   include UserScope
   
@@ -12,18 +14,6 @@ class ChangeLog < ActiveRecord::Base
     end
   end
   
-#   def self.merged_change(record_type, 
-#     self.where("changed_at >= ?", change[:updated_at]).order("changed_at ASC").all.each do |log|
-#       change = change.merge(ActiveSupport::JSON.decode(log.json))
-#     end
-#   end
-#   def merged
-#     self.record.change_logs
-#     self.change_logs.where("changed_at >= ?", change[:updated_at]).all.each do |log|
-#       change = change.merge(ActiveSupport::JSON.decode(log.json))
-#     end
-#   end
-  
   module Logger
     def self.included(base)
       base.send(:attr_accessor, :no_auto_log)
@@ -33,9 +23,6 @@ class ChangeLog < ActiveRecord::Base
 # ArgumentError: wrong number of arguments (2 for 1)
 # from /usr/local/rvm/gems/ruby-1.9.2-preview3/gems/activesupport-3.0.0.beta4/lib/active_support/json/encoding.rb:133:in `to_json'
         unless self.no_auto_log
-#           jsonValue = self.attributes.slice(*self.changed)
-#           jsonValue.merge!(jsonValue){|k,v| v.as_json }
-#           ChangeLog.create!(:record => self, :json => jsonValue.to_json, :user_id => self.user_id, :changed_at => self.updated_at)
           self.log!(self.attributes.slice(*self.changed))
         end
         self.no_auto_log = nil
