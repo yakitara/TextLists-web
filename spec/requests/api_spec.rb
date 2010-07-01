@@ -30,7 +30,7 @@ describe "Api" do
     context "a new record" do
       it "works" do
         change = {:name => "foo", :position => 3, :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
-        post api_changes_path, @auth_params.merge(:type => "list", :change => change).to_json, JSON_HEADERS
+        post api_changes_path, @auth_params.merge(:record_type => "List", :json => change.to_json).to_json, JSON_HEADERS
         # TODO: be a more readable spec
         response.should be_success
         ActiveSupport::JSON.decode(response.body).should have_key("id")
@@ -38,21 +38,25 @@ describe "Api" do
       end
     end
     
+    it "a same new record posted twice"
+    
     context "existed record with old change" do
       it "works" do
         @list = List.create!(:user => @user, :name => "old name", :position => 3, :created_at => 1.week.ago, :updated_at => 1.week.ago)
         change = {:name => "stale name", :updated_at => 2.day.ago.as_json, :position => 0}
         @list.update_attributes!(:name => "new name", :updated_at => 1.day.ago)
-        post api_changes_path, @auth_params.merge(:type => "list", :id => @list.id, :change => change).to_json, JSON_HEADERS
+        post api_changes_path, @auth_params.merge(:record_type => "List", :record_id => @list.id, :json => change.to_json).to_json, JSON_HEADERS
         response.should be_success
         @list = List.find(@list.id)
         @list.position.should == 0
         @list.name.should == "new name"
-        @list.updated_at.should be_close(1.day.ago, 1.second)
+        @list.updated_at.should be_close(1.day.ago, 5.second)
         @posted_change = ActiveSupport::JSON.decode(ChangeLog.last.json)
         @posted_change.should == change.stringify_keys
       end
     end
+    
+    it "an existed record posted twice"
   end
   
   describe "GET /api/changes/next/:id" do

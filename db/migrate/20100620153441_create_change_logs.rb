@@ -8,7 +8,8 @@ class CreateChangeLogs < ActiveRecord::Migration
       t.datetime :changed_at, :null => false
       t.datetime :created_at, :null => false
     end
-    add_index :change_logs, [:record_type, :record_id]
+    #add_index :change_logs, [:record_type, :record_id]
+    add_index :change_logs, [:user_id, :record_type, :record_id, :json], :unique => true
   end
 
   def self.down

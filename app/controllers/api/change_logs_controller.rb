@@ -11,15 +11,21 @@ class Api::ChangeLogsController < ApplicationController
   respond_to :json
   
   def create
-    klass = params[:type].camelcase.constantize
-    @record = params[:id] ? klass.find(params[:id]) : klass.new(:user => current_user)
-    if @record.merge(params[:change])
-      render :json => {:id => @record.id}
+    @log = ChangeLog.recognize(params.slice(:json, :user_id, :record_type, :record_id))
+    if @log.accept
+      render :json => {:id => @log.record.id}
     else
-      render :json => {:errors => @record.errors.full_messages}, :status => :unprocessable_entity
+      render :json => {:errors => @log.errors.full_messages}, :status => :unprocessable_entity
     end
+#     klass = params[:record_type].camelcase.constantize
+#     @record = params[:record_id] ? klass.find(params[:record_id]) : klass.new(:user => current_user)
+#     if @record.merge(params[:change])
+#       render :json => {:id => @record.id}
+#     else
+#       render :json => {:errors => @record.errors.full_messages}, :status => :unprocessable_entity
+#     end
   end
-
+  
   def next
     # TODO: refactoring. move the logic into the model. and consider how to be DRY those codes...
     next_log = ChangeLog.where("id > ?", params[:id].to_i).first

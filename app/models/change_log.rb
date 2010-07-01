@@ -14,6 +14,36 @@ class ChangeLog < ActiveRecord::Base
     end
   end
   
+  # return already accepted log or new one
+  def self.recognize(attrs)
+    self.where(attrs.reject{|k,v|v.nil?}).first or self.new(attrs)
+  end
+  
+  def accept
+    return true unless self.new_record?
+    
+    change = ActiveSupport::JSON.decode(self.json)
+    transaction do
+      record = self.record_id ? self.record : (self.record = self.record_type.camelcase.constantize.new(:user_id => self.user_id))
+      record.no_auto_log = true
+      if record.new_record?
+        record.update_attributes!(change)
+        log = record.log!(self.json)
+      else
+        log = record.log!(self.json)
+        # It is possible that a client post older changes than server's. Overwriting the record with
+        # that change may revert the record. So, let's merge the change with newer changes.
+        record.change_logs.where("changed_at >= ?", log.changed_at).all.each do |l|
+          change = change.merge(ActiveSupport::JSON.decode(l.json))
+        end
+        record.update_attributes!(change)
+      end
+    end
+    true
+  rescue ActiveRecord::RecordNotSaved
+    false
+  end
+  
   module Logger
     def self.included(base)
       base.send(:attr_accessor, :no_auto_log)
@@ -23,28 +53,37 @@ class ChangeLog < ActiveRecord::Base
 # ArgumentError: wrong number of arguments (2 for 1)
 # from /usr/local/rvm/gems/ruby-1.9.2-preview3/gems/activesupport-3.0.0.beta4/lib/active_support/json/encoding.rb:133:in `to_json'
         unless self.no_auto_log
-          self.log!(self.attributes.slice(*self.changed))
+          change = self.attributes.slice(*self.changed)
+          jsonValue = change.merge(change){|k, v| v.as_json }
+          self.log!(jsonValue.to_json)
         end
         self.no_auto_log = nil
       end
     end
     
-    def log!(change)
-      jsonValue = change.merge(change){|k, v| v.as_json }
-      ChangeLog.create!(:record => self, :json => jsonValue.to_json, :user_id => self.user_id, :changed_at => change["updated_at"])
+    def log!(json)
+      #jsonValue = change.merge(change){|k, v| v.as_json }
+      change = ActiveSupport::JSON.decode(json)
+      ChangeLog.create!(:record => self, :json => json, :user_id => self.user_id, :changed_at => change["updated_at"])
     end
-    
+=begin    
     def merge(change)
-      unless self.new_record?
-        self.log!(change)
-        # It is possible that a client post older changes than server's. Overwriting the record with
-        # that change may revert the record. So, let's merge the change with newer changes.
-        self.change_logs.where("changed_at >= ?", change[:updated_at]).all.each do |log|
-          change = change.merge(ActiveSupport::JSON.decode(log.json))
+      change = ActiveSupport::JSON.decode(change) if change.is_a?(String)
+      transaction do
+        unless self.new_record?
+          self.log!(change)
+          # It is possible that a client post older changes than server's. Overwriting the record with
+          # that change may revert the record. So, let's merge the change with newer changes.
+          self.change_logs.where("changed_at >= ?", change[:updated_at]).all.each do |log|
+            change = change.merge(ActiveSupport::JSON.decode(log.json))
+          end
+          self.no_auto_log = true
         end
-        self.no_auto_log = true
+        self.update_attributes(change)
       end
-      self.update_attributes(change)
+#     rescue ActiveRecord::RecordNotUnique => e
+#       # this rescue can't help because there are no way to replace the record with unique one... any?
     end
+=end
   end
 end

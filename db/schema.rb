@@ -20,8 +20,6 @@ ActiveRecord::Schema.define(:version => 20100620153441) do
     t.datetime "created_at",  :null => false
   end
 
-  add_index "change_logs", ["record_type", "record_id"], :name => "index_change_logs_on_record_type_and_record_id"
-
   create_table "credentials", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.string   "identifier", :null => false
