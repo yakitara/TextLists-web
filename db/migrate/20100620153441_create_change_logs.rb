@@ -9,7 +9,9 @@ class CreateChangeLogs < ActiveRecord::Migration
       t.datetime :created_at, :null => false
     end
     #add_index :change_logs, [:record_type, :record_id]
-    add_index :change_logs, [:user_id, :record_type, :record_id, :json], :unique => true
+    # NOTE: some configuration of PostgreSQL may fail with the message: "Input string is longer than NAMEDATALEN-1 (63)"
+    # NOTE: automatic index name may be too long, so name as is.
+    add_index :change_logs, [:user_id, :record_type, :record_id, :json], :unique => true, :name => "change_logs_unique"
   end
 
   def self.down
