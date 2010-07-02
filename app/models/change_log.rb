@@ -8,11 +8,11 @@ class ChangeLog < ActiveRecord::Base
   belongs_to :record, :polymorphic => true
   default_scope :order => "id ASC"
   
-  def as_json(options=nil)
-    returning(self.attributes) do |value|
-      value["change"] = ActiveSupport::JSON.decode(value.delete("json"))
-    end
-  end
+#   def as_json(options=nil)
+#     returning(self.attributes) do |value|
+#       value["change"] = ActiveSupport::JSON.decode(value.delete("json"))
+#     end
+#   end
   
   # return already accepted log or new one
   def self.recognize(attrs)

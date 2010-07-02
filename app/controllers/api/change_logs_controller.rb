@@ -28,13 +28,16 @@ class Api::ChangeLogsController < ApplicationController
   
   def next
     # TODO: refactoring. move the logic into the model. and consider how to be DRY those codes...
-    next_log = ChangeLog.where("id > ?", params[:id].to_i).first
-    @logs = ChangeLog.where("record_type = ? AND record_id = ? AND changed_at >= ? AND id != ?", next_log.record_type, next_log.record_id, next_log.changed_at, next_log.id).order("changed_at ASC").all
-    change = ActiveSupport::JSON.decode(next_log.json)
-    @logs.each do |log|
-      change.update(ActiveSupport::JSON.decode(log.json))
+    if next_log = ChangeLog.where("id > ?", params[:id].to_i).first
+      @logs = ChangeLog.where("record_type = ? AND record_id = ? AND changed_at >= ? AND id != ?", next_log.record_type, next_log.record_id, next_log.changed_at, next_log.id).order("changed_at ASC").all
+      change = ActiveSupport::JSON.decode(next_log.json)
+      @logs.each do |log|
+        change.update(ActiveSupport::JSON.decode(log.json))
+      end
+      next_log.json = change.merge(change){|k, v| v.as_json }.to_json
+      render :json => next_log
+    else # logs no more
+      render :nothing => true, :status => :no_content
     end
-    next_log.json = change.merge(change){|k, v| v.as_json }.to_json
-    render :json => next_log
   end
 end

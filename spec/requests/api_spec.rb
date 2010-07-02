@@ -68,15 +68,17 @@ describe "Api" do
       get api_next_change_path(@last_id), @auth_params, JSON_HEADERS
       response.should be_success
       log = ActiveSupport::JSON.decode(response.body)
-      log["change"]["name"].should == "foo"
-      log["change"]["position"].should == 3 # any newer log get should merged
-      log["change"].should have_key("id")
+      change = ActiveSupport::JSON.decode(log["json"])
+      change["name"].should == "foo"
+      change["position"].should == 3 # any newer log get should merged
+      change.should have_key("id")
       @last_id = log["id"]
       # second, get the next of last_id
       get api_next_change_path(@last_id), @auth_params, JSON_HEADERS
       response.should be_success
       log = ActiveSupport::JSON.decode(response.body)
-      log["change"]["position"].should == 3
+      change = ActiveSupport::JSON.decode(log["json"])
+      change["position"].should == 3
     end
   end
 end
