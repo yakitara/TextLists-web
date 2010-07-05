@@ -53,16 +53,34 @@ class ChangeLog < ActiveRecord::Base
 # ArgumentError: wrong number of arguments (2 for 1)
 # from /usr/local/rvm/gems/ruby-1.9.2-preview3/gems/activesupport-3.0.0.beta4/lib/active_support/json/encoding.rb:133:in `to_json'
         unless self.no_auto_log
-          change = self.attributes.slice(*self.changed)
-          jsonValue = change.merge(change){|k, v| v.as_json }
-          self.log!(jsonValue.to_json)
+          # if the reocrd (self) belongs to possible new records, those record must be logged beforehand.
+          ((self.class.class_variable_defined?("@@log_dependencies") && @@log_dependencies) || []).each do |name|
+            dep = self.send(name)
+            if dep.changed?
+              dep.log!
+              dep.no_auto_log = true
+            end
+          end
+          
+          self.log!
         end
         self.no_auto_log = nil
       end
+      # NOTE: should do auto recognizing from association?
+      def base.log_dependency(*args)
+        @@log_dependencies = args
+      end
     end
     
-    def log!(json)
-      #jsonValue = change.merge(change){|k, v| v.as_json }
+    def log!(json_or_value=nil)
+      case json_or_value
+      when String
+        json = json_or_value
+      when Hash, nil
+        c = json_or_value || self.attributes.slice(*self.changed)
+        jsonValue = c.merge(c){|k, v| v.as_json }
+        json = jsonValue.to_json
+      end
       change = ActiveSupport::JSON.decode(json)
       ChangeLog.create!(:record => self, :json => json, :user_id => self.user_id, :changed_at => change["updated_at"])
     end
