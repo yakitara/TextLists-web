@@ -13,17 +13,14 @@ class Api::ChangeLogsController < ApplicationController
   def create
     @log = ChangeLog.recognize(params.slice(:json, :user_id, :record_type, :record_id))
     if @log.accept
-      render :json => {:id => @log.record.id}
+      value = {:id => @log.record_id }
+      logger.info "  API Response: #{value.to_json}"
+      render :json => value
     else
-      render :json => {:errors => @log.errors.full_messages}, :status => :unprocessable_entity
+      value = {:errors => @log.errors.full_messages}
+      logger.info "  API Response: #{value.to_json}"
+      render :json => value, :status => :unprocessable_entity
     end
-#     klass = params[:record_type].camelcase.constantize
-#     @record = params[:record_id] ? klass.find(params[:record_id]) : klass.new(:user => current_user)
-#     if @record.merge(params[:change])
-#       render :json => {:id => @record.id}
-#     else
-#       render :json => {:errors => @record.errors.full_messages}, :status => :unprocessable_entity
-#     end
   end
   
   def next
@@ -35,6 +32,7 @@ class Api::ChangeLogsController < ApplicationController
         change.update(ActiveSupport::JSON.decode(log.json))
       end
       next_log.json = change.merge(change){|k, v| v.as_json }.to_json
+      logger.info "  API Response: #{next_log.to_json}"
       render :json => next_log
     else # logs no more
       render :nothing => true, :status => :no_content
