@@ -1,4 +1,4 @@
-<%= form_for [@list, @item] do |form| %>
+<%= form_for [@list, @item], :html => {"accept-charset" => "UTF-8"} do |form| %>
 <% if @item.errors.any? %>
   <div id="errorExplanation">
     <h2>The following errors prohibited this form from being saved:</h2>
