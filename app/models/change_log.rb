@@ -54,7 +54,7 @@ class ChangeLog < ActiveRecord::Base
 # from /usr/local/rvm/gems/ruby-1.9.2-preview3/gems/activesupport-3.0.0.beta4/lib/active_support/json/encoding.rb:133:in `to_json'
         unless self.no_auto_log
           # if the reocrd (self) belongs to possible new records, those record must be logged beforehand.
-          ((self.class.class_variable_defined?("@@log_dependencies") && @@log_dependencies) || []).each do |name|
+          ((self.class.class_variable_defined?("@@log_dependencies") && self.class.class_variable_get("@@log_dependencies")) || []).each do |name|
             dep = self.send(name)
             if dep.changed?
               dep.log!
@@ -68,7 +68,7 @@ class ChangeLog < ActiveRecord::Base
       end
       # NOTE: should do auto recognizing from association?
       def base.log_dependency(*args)
-        @@log_dependencies = args
+        self.class_variable_set("@@log_dependencies", args)
       end
     end
     
