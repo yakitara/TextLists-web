@@ -24,16 +24,19 @@ class ChangeLog < ActiveRecord::Base
     
     change = ActiveSupport::JSON.decode(self.json)
     transaction do
-      record = self.record_id ? self.record : (self.record = self.record_type.camelcase.constantize.new(:user_id => self.user_id))
-      record.no_auto_log = true
-      if record.new_record?
-        record.update_attributes!(change)
-        log = record.log!(self.json)
+      #record = self.record_id ? self.record : (self.record = self.record_type.camelcase.constantize.new(:user_id => self.user_id))
+      self.record ||= self.record_type.camelcase.constantize.new(:user_id => self.user_id)
+      self.record.no_auto_log = true
+      if self.record.new_record?
+        self.record.update_attributes!(change)
+        #log = record.log!(self.json)
+        save!
       else
-        log = record.log!(self.json)
+        save!
+        #log = record.log!(self.json)
         # It is possible that a client post older changes than server's. Overwriting the record with
         # that change may revert the record. So, let's merge the change with newer changes.
-        record.change_logs.where("changed_at >= ?", log.changed_at).all.each do |l|
+        record.change_logs.where("changed_at >= ?", self.changed_at).all.each do |l|
           change = change.merge(ActiveSupport::JSON.decode(l.json))
         end
         record.update_attributes!(change)
@@ -42,6 +45,11 @@ class ChangeLog < ActiveRecord::Base
     true
   rescue ActiveRecord::RecordNotSaved
     false
+  end
+  
+  before_create do
+    self.user_id ||= self.record.user_id
+    self.changed_at ||= ActiveSupport::JSON.decode(self.json)["updated_at"]
   end
   
   module Logger
@@ -81,8 +89,9 @@ class ChangeLog < ActiveRecord::Base
         jsonValue = c.merge(c){|k, v| v.as_json }
         json = jsonValue.to_json
       end
-      change = ActiveSupport::JSON.decode(json)
-      ChangeLog.create!(:record => self, :json => json, :user_id => self.user_id, :changed_at => change["updated_at"])
+      ChangeLog.create!(:record => self, :json => json)
+#       change = ActiveSupport::JSON.decode(json)
+#       ChangeLog.create!(:record => self, :json => json, :user_id => self.user_id, :changed_at => change["updated_at"])
     end
 =begin    
     def merge(change)

@@ -33,7 +33,7 @@ describe "Api" do
         post api_changes_path, @auth_params.merge(:record_type => "List", :json => change.to_json).to_json, JSON_HEADERS
         # TODO: be a more readable spec
         response.should be_success
-        ActiveSupport::JSON.decode(response.body).should have_key("id")
+        ActiveSupport::JSON.decode(response.body)["id"].should_not be_nil
         ActiveSupport::JSON.decode(ChangeLog.last.json).except("user_id","id").should == change.stringify_keys
       end
     end
