@@ -26,6 +26,15 @@ describe "Api" do
     @auth_params = {:user_id => @user.id, :key => @key}
   end
   
+  describe "POST /api/in-box/items" do
+    it "change logs should be ordered as Item, Listing" do
+      post api_inbox_items_path, @auth_params.merge(:item => {"content" => "foo"})
+      logs = ChangeLog.all
+      logs[-2].record_type.should == "Item"
+      logs[-1].record_type.should == "Listing"
+    end
+  end
+  
   describe "POST /api/changes" do
     context "a new record" do
       it "works" do

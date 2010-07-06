@@ -27,7 +27,7 @@ class Api::ItemsController < ApplicationController
   def create
     @item = Item.new(params[:item])
     if list_name = params[:list]
-      @item.lists << List.find_by_name(list_name)
+      @item.listings.build(:list => List.find_by_name(list_name))
     end
     
     respond_to do |format|
