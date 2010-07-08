@@ -30,6 +30,18 @@ describe "Lists" do
     end
   end
   
+  describe "delete a list doesn't delete the list nor associated listings" do
+    before(:each) do
+      @list = @current_user.lists.create!(:name => "list")
+      @listing = @current_user.listings.create!(:list => @list, :item => @current_user.items.create!(:content => "item"))
+      delete list_path(@list)
+      @list = List.unscoped.find(@list)
+      @listing = Listing.unscoped.find(@listing)
+    end
+    it { @list.deleted_at.should_not be_nil }
+    it { @listing.deleted_at.should_not be_nil }
+  end
+  
   describe "xhr GET /lists/:id/sort" do
     it "works"
   end

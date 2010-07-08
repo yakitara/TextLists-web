@@ -25,7 +25,10 @@ class ChangeLog < ActiveRecord::Base
     change = ActiveSupport::JSON.decode(self.json)
     transaction do
       record_klass = self.record_type.camelcase.constantize
-      self.record ||= record_klass.find_duplication(change) || record_klass.new(:user_id => self.user_id)
+      # TODO: it must be better to use unscoped rails3beta5 or later
+      record_klass.send(:with_exclusive_scope) do
+        self.record ||= record_klass.find_duplication(change) || record_klass.new(:user_id => self.user_id)
+      end
       # self.record ||= record_klass.new(:user_id => self.user_id)
       self.record.no_auto_log = true
       if self.record.new_record?

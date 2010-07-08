@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100620153441) do
+ActiveRecord::Schema.define(:version => 20100708075117) do
 
   create_table "change_logs", :force => true do |t|
     t.text     "json",        :null => false
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20100620153441) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id",                     :null => false
+    t.datetime "deleted_at"
   end
 
   create_table "users", :force => true do |t|
