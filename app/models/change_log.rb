@@ -24,8 +24,9 @@ class ChangeLog < ActiveRecord::Base
     
     change = ActiveSupport::JSON.decode(self.json)
     transaction do
-      #record = self.record_id ? self.record : (self.record = self.record_type.camelcase.constantize.new(:user_id => self.user_id))
-      self.record ||= self.record_type.camelcase.constantize.new(:user_id => self.user_id)
+      record_klass = self.record_type.camelcase.constantize
+      self.record ||= record_klass.find_duplication(change) || record_klass.new(:user_id => self.user_id)
+      # self.record ||= record_klass.new(:user_id => self.user_id)
       self.record.no_auto_log = true
       if self.record.new_record?
         self.record.update_attributes!(change)
@@ -77,6 +78,11 @@ class ChangeLog < ActiveRecord::Base
       # NOTE: should do auto recognizing from association?
       def base.log_dependency(*args)
         self.class_variable_set("@@log_dependencies", args)
+      end
+      unless base.method_defined?(:find_duplication)
+        def base.find_duplication(attrs)
+          nil # overwrite this method if the model wants to control duplication
+        end
       end
     end
     

@@ -10,4 +10,8 @@ class List < ActiveRecord::Base
   validates :name, :presence => true
   
   include UserScope, HalfAutoTimestamp, ChangeLog::Logger
+
+  def self.find_duplication(attrs)
+    self.find_by_name(attrs["name"])
+  end
 end

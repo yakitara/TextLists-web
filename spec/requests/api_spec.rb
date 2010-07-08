@@ -47,6 +47,15 @@ describe "Api" do
       end
     end
     
+    context "post duplicated name list on server" do
+      it "avoids duplication" do
+        change = {:name => "in-box", :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
+        post api_changes_path, @auth_params.merge(:record_type => "List", :json => change.to_json).to_json, JSON_HEADERS
+        response.should be_success
+        List.where(:name => "in-box").all.should have(1).inbox
+      end
+    end
+    
     it "a same new record posted twice"
     
     context "existed record with old change" do
