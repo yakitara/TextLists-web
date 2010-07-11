@@ -14,7 +14,9 @@ end
 gem 'ruby-openid', '2.1.8', :git => "git://github.com/openid/ruby-openid.git"
 gem 'rack-openid', :require => 'rack/openid'
 
-gem 'rspec-rails', '>= 2.0.0.beta.7', :group => :test
+group :development, :test do
+  gem 'rspec-rails', '>= 2.0.0.beta.7'
+end
 gem 'capistrano'
 
 
