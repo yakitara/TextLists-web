@@ -55,5 +55,6 @@ class ItemsController < ApplicationController
     params[:item].each.with_index do |item_id, pos|
       Listing.update_all({:position => pos}, {:list_id => @list, :item_id => item_id})
     end
+    render :nothing => true
   end
 end

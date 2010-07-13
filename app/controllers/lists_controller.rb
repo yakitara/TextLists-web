@@ -43,5 +43,6 @@ class ListsController < ApplicationController
     params[:list].each.with_index do |id, pos|
       List.update_all({:position => pos}, {:id => id})
     end
+    render :nothing => true
   end
 end
