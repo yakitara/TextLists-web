@@ -53,7 +53,7 @@ class ItemsController < ApplicationController
   
   def sort
     params[:item].each.with_index do |item_id, pos|
-      Listing.update_all({:position => pos}, {:list_id => @list, :item_id => item_id})
+      Listing.where(:list_id => @list, :item_id => item_id).first.update_attributes!(:position => pos)
     end
     render :nothing => true
   end

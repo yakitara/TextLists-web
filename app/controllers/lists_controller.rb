@@ -41,7 +41,7 @@ class ListsController < ApplicationController
   
   def sort
     params[:list].each.with_index do |id, pos|
-      List.update_all({:position => pos}, {:id => id})
+      List.where(:id => id).first.update_attributes!(:position => pos)
     end
     render :nothing => true
   end
