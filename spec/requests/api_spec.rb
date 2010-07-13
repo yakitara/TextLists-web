@@ -88,7 +88,9 @@ describe "Api" do
       log = ActiveSupport::JSON.decode(response.body)
       change = ActiveSupport::JSON.decode(log["json"])
       change["name"].should == "foo"
-      change["position"].should == 3 # any newer log get should merged
+      pending "merge feature currently disabled" do
+        change["position"].should == 3 # any newer log get should merged
+      end
       change.should have_key("id")
       @last_id = log["id"]
       # second, get the next of last_id
