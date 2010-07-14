@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_lists
   def set_lists
     List.with_user_scope(current_user) do
+      current_user.inbox!
       selects = "lists.id, lists.name, lists.position, lists.created_at" # for PostgreSQL
       @lists = List.joins("LEFT JOIN listings AS lg ON lg.list_id = lists.id AND lg.deleted_at IS NULL").group(selects)
       @lists = @lists.order("lists.position ASC, lists.created_at ASC").all(:select => "#{selects}, COUNT(lg.id) AS item_count")
