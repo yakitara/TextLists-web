@@ -13,8 +13,10 @@ class Api::ItemsController < ApplicationController
   
   around_filter do |controller, action|
     Item.with_user_scope(current_user) do
-      Listing.with_user_scope(current_user) do
-        action.call
+      List.with_user_scope(current_user) do
+        Listing.with_user_scope(current_user) do
+          action.call
+        end
       end
     end
   end
@@ -27,7 +29,8 @@ class Api::ItemsController < ApplicationController
   def create
     @item = Item.new(params[:item])
     if list_name = params[:list]
-      @item.listings.build(:list => List.find_by_name(list_name))
+      # @item.listings.build(:list => List.find_by_name(list_name))
+      @item.listings.build(:list => current_user.inbox!)
     end
     
     respond_to do |format|

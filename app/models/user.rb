@@ -4,6 +4,10 @@ class User < ActiveRecord::Base
   has_many :items
   has_many :listings
   
+  def inbox!
+    self.lists.find_by_name(List::INBOX) || self.lists.create!(:name => List::INBOX)
+  end
+  
   before_save do
     if self.salt.blank?
       require "digest/sha2"
@@ -12,8 +16,6 @@ class User < ActiveRecord::Base
   end
   
   after_create do
-    if self.lists.blank?
-      self.lists.create!(:name => List::INBOX)
-    end
+    self.inbox!
   end
 end
