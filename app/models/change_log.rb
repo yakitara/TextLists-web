@@ -27,7 +27,8 @@ class ChangeLog < ActiveRecord::Base
       record_klass = self.record_type.camelcase.constantize
       # TODO: it must be better to use unscoped rails3beta5 or later
       record_klass.send(:with_exclusive_scope) do
-        self.record ||= record_klass.find_duplication(change) || record_klass.new(:user_id => self.user_id)
+        conds = {:user_id => self.user_id}
+        self.record ||= record_klass.where(conds).find_duplication(change) || record_klass.new(conds)
       end
       # self.record ||= record_klass.new(:user_id => self.user_id)
       self.record.no_auto_log = true
