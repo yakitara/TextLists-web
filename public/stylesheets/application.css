@@ -11,3 +11,5 @@ ul.items li {margin:0.5em;}
 div.main ol {list-style:none; padding-left:0;}
 
 li.even {background:#e5ecf9;}
+
+.sortable li {cursor:move}
