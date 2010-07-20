@@ -3,7 +3,8 @@ Items::Application.routes.draw do |map|
   match "/bookmarklet(.:format)", :to => "nav#bookmarklet", :via => :get, :as => "bookmarklet"
 #  match "/api/items", :to => "items#bookmark", :via => :post, :as => "bookmark"
   match "/login", :to => "nav#login", :via => :get, :as => "login"
-  match "/openid", :to => "nav#openid", :via => :post, :as => "openid"
+#  match "/openid", :to => "nav#openid", :via => :post, :as => "openid"
+  match "/oauth", :to => "nav#oauth", :via => :get, :as => "oauth"
   match "/logout", :to => "nav#logout", :via => :delete, :as => "logout"
   
   resources :items, :only => [:new, :create]

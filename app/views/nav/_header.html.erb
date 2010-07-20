@@ -1,5 +1,5 @@
 <% if current_user? %>
-  openid: <span title='<%= session[:openid] %>'><%= truncate(session[:openid], :length => 20) %></span>
+  <span title='@<%= session[:identifier] %>'>@<%= session[:identifier] %></span>
   | <%= link_to "logout", logout_path, :method => "delete" %>
   | <%= link_to "bookmarklet", bookmarklet_path %>
 <% else %>

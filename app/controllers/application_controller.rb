@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   
   before_filter :set_current_user
   def set_current_user
-    if openid = session[:openid]
-      @current_user = User.joins(:credentials).where("credentials.identifier" => openid).first
+    if identifier = session[:identifier]
+      @current_user = User.joins(:credentials).where("credentials.identifier" => identifier).first
     end
   end
   before_filter :set_lists
