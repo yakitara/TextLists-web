@@ -32,3 +32,9 @@ namespace :deploy do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 end
+
+desc "copy secret initializers"
+task :copy_initializers do
+  run "cp #{shared_path}/config/initializers/*.rb #{latest_release}/config/initializers/ || exit 0"
+end
+after "deploy:update_code", "copy_initializers"
