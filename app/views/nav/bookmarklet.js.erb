@@ -1,9 +1,10 @@
 window.Items = {
+  KEYCODE_ESC: 27,
   bookmark: function(user_id, key) {
-    if (/Reader/.test(document.title)) {
-      var s = document.createElement('script');
-      s.src='http://jquery.com/src/jquery-latest.js';
-      s.addEventListener('load', function(){
+    var s = document.createElement('script');
+    s.src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js';
+    s.addEventListener('load', function(){
+      if (/Reader/.test(document.title)) {
         switch (document.location.pathname) {
         case "/reader/i/":
           $("div.expanded a.item-title-link").each(function(i,e){
@@ -16,45 +17,59 @@ window.Items = {
             Items.bookmarkLink(user_id, key, e.href, e.text);
           });
         }
-      });
-      document.body.appendChild(s);
-    } else {
-      Items.bookmarkLink(user_id, key, document.location, document.title);
-    }
+              } else {
+        Items.bookmarkLink(user_id, key, document.location, document.title);
+      }
+    });
+    document.body.appendChild(s);
   },
   bookmarkLink: function(user_id, key, link, title) {
+    var d=document.createElement('div');
+    d.id="items-bookmarklet";
+    d.style.zIndex="1006";
+    d.style.position="absolute";
+    d.style.top = window.pageYOffset + 30 + "px";
+    d.style.left = window.pageXOffset + 30 + "px";
+    d.style.width="208px";
+    d.style.height="108px";
+    d.style.border="1px solid";
+    d.style.padding="4px";
+    d.style.backgroundColor="white";
     var f=document.createElement('form');
     f.method='post';
     f.target='_blank';
-    //f.acceptCharset=document.inputEncoding;
     f.acceptCharset='UTF-8';
     f.action='<%= api_inbox_items_url %>?user_id=' + user_id + '&key=' + key;
-    var h=document.createElement('input');
-    h.type='hidden';
-    h.name='item[content]';
-    h.value= title+'\n'+link+'\n\n'+document.getSelection();
-    f.appendChild(h);
-    document.body.appendChild(f);
-    f.submit();
+    f.onsubmit=function(){$.ajax({
+      url:this.action,
+      data:$(this).serializeArray(),
+      dataType:'json',
+      type:'POST',
+      success:Items.closePanel
+    }); return false;};
+    f.style.margin = '0';
+    $(f).keydown(function(event){if(event.keyCode == Items.KEYCODE_ESC){Items.closePanel();}});
+    d.appendChild(f);
+    var t=document.createElement('textarea');
+    t.name='item[content]';
+    t.style.display="block";
+    t.style.width="200px";
+    t.rows=6;
+    t.innerHTML= title+'\n'+link+'\n\n'+document.getSelection();
+    f.appendChild(t);
+    var i=document.createElement('input');
+    i.type="submit";
+    i.value="new item";
+    i.style.position="absolute";
+    i.style.right="0px";
+    f.appendChild(i);
+    var a=document.createElement('a');
+    a.innerHTML='cancel';
+    a.onclick=Items.closePanel;
+    f.appendChild(a);
+    document.body.appendChild(d);
   },
-  livePulldown: function(user_id, key) {
-    $("a[target='_blank']").unbind('click').live('click', function(e){
-      e.stopPropagation();
-      e.preventDefault();
-      //e.target.href
-      //$(e.target).after('<ul style="list-style:none"><li><li>jump</li><li>inbox</li></ul>');
-      var a = e.target;
-      var ul = $("<ul>",{style:"list-style:none;padding:4px;margin:0px;border:solid 1px;width:3em;"})
-        .append($("<li>",{}).append($("<a/>",{text:"jump", href:a.href, target:"_blank", "class":"jump"})))
-        .append($("<li>",{}).append($("<a/>",{text:"in-box", href:"#", onclick:function(){ Items.bookmarkLink(user_id,key,a.href,a.text); }})));
-      $(a).after(ul);
-      return false;
-    });
-  },
-  loadPulldown: function(user_id, key) {
-    var s = document.createElement('script');
-    s.src='http://jquery.com/src/jquery-latest.js';
-    s.addEventListener('load', function(){Items.livePulldown(user_id, key);});
-    document.body.appendChild(s);
+  closePanel: function() {
+    $('#items-bookmarklet').remove();
   }
 };
