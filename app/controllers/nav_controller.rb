@@ -32,6 +32,7 @@ class NavController < ApplicationController
   def oauth
     config = Rails.application.config.oauth
     client = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret))
+    # NOTE: TwitterOAuth::Client#authorize issues an http request to the OAuth server
     access_token = client.authorize(session[:oauth][:token], session[:oauth][:secret], :oauth_verifier => params[:oauth_verifier])
     session[:identifier] = access_token.params[:screen_name]
     unless credential = Credential.find_by_identifier(session[:identifier])
@@ -40,8 +41,8 @@ class NavController < ApplicationController
       end
     end
     redirect_to session[:return_to] || root_path
-#   rescue OAuth::Unauthorized => e
-#     render :inline => "Twitter OAuth failed (#{e}).", :status => 401
+  rescue Net::HTTPFatalError, OAuth::Unauthorized => e
+    render :inline => "Twitter OAuth failed (#{e}).", :status => 401
   end
   
   def logout
