@@ -20,7 +20,7 @@
   </div>
   <div>
     <button type="submit">save</button>
-  <% if @list && !@item.new_record? %>
+  <% if false && @list && !@item.new_record? %>
     | <%= link_to "done", list_item_listing_path(@list, @item, @item.listings.first), :method => "delete" %>
   <% end %>
   </div>
