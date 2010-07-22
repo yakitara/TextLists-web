@@ -27,9 +27,13 @@ class ListingsController < ApplicationController
   end
 
   def destroy
-    @listing = Listing.first(:conditions => params.slice(:item_id, :list_id, :id))
-    # @listing.destroy
+    conds =  params.slice(:item_id, :list_id, :id)
+    @listing = Listing.first(:conditions => conds)
     @listing.done!
-    redirect_to list_items_path(params[:list_id])
+    if request.xhr?
+      render :json => conds
+    else
+      redirect_to list_items_path(params[:list_id])
+    end
   end
 end

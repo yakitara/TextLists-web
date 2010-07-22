@@ -33,4 +33,8 @@ jQuery(function ($) {
         }
       });
     $(".sortable").disableSelection();
+    
+    $('.item .done').bind("ajax:success", function(event, data, status, xhr) {
+        $("#item_" + data["item_id"]).remove();
+      });
 });

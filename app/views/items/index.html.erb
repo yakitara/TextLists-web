@@ -5,7 +5,7 @@
 <hr/>
 <ol class="sortable" data-url='<%= sort_list_items_path(@list) %>'>
 <% @items.each do |item| %>
-  <li class='<%= cycle "odd", "even" %> span-13 last' id='item_<%= item.id %>'>
+  <li class='<%= cycle "odd", "even" %> span-13 last item' id='item_<%= item.id %>'>
     <div class="span-10">
       <%= link_to truncate(item.content, :length => 140), list_item_path(@list, item) %>
       <%= extract_external_links(item.content) %>
@@ -15,7 +15,7 @@
         <%= options_from_collection_for_select @lists, :id, :name, @list.id %>
         <!-- <option value="new">new list...</option> -->
       </select>
-      <%= link_to "done", list_item_listing_path(@list, item, item.listed_listing_id), :method => "delete" %>
+      <%= link_to "done", list_item_listing_path(@list, item, item.listed_listing_id), :method => "delete", :remote => true, "data-type" => "json", :class => "done" %>
     </div>
   </li>
 <% end %>
