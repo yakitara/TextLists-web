@@ -23,7 +23,11 @@ class ListingsController < ApplicationController
 #       list = List.find(params[:listing][:list_id])
 #       list.listings.create!(params.slice(:item_id))
     end
-    redirect_to list_items_path(params[:list_id])
+    if request.xhr?
+      render :json => {:item_id => @listing.item_id}
+    else
+      redirect_to list_items_path(params[:list_id])
+    end
   end
 
   def destroy

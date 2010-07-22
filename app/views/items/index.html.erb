@@ -11,7 +11,7 @@
       <%= extract_external_links(item.content) %>
     </div>
     <div class="prepend-10">
-      <select name="listing[list_id]" data-url='<%= move_list_item_listings_path(@list, item) %>' data-method="post">
+      <select name="listing[list_id]" data-url='<%= move_list_item_listings_path(@list, item) %>' data-method="post" data-remote="true" class="list">
         <%= options_from_collection_for_select @lists, :id, :name, @list.id %>
         <!-- <option value="new">new list...</option> -->
       </select>
