@@ -3,7 +3,7 @@
 # Consider a function index of an MD5 hash of the value, or use full text indexing.
 class DropChangeLogsUniqueIndex < ActiveRecord::Migration
   def self.up
-    remove_index "change_logs", "change_logs_unique"
+    remove_index "change_logs", :name => "change_logs_unique"
     #execute "CREATE UNIQUE INDEX change_logs_unique ON change_logs USING hash (user_id, record_type, record_id, json)"
   end
 
