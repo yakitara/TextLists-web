@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100708075117) do
+ActiveRecord::Schema.define(:version => 20100730134933) do
 
   create_table "change_logs", :force => true do |t|
     t.text     "json",        :null => false
