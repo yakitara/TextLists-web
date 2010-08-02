@@ -16,4 +16,8 @@ Items::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+
+  # Rails3.0.0rc
+  # You did not specify how you would like Rails to report deprecation notices for your development environment, please set config.active_support.deprecation to :log at config/environments/development.rb
+  config.active_support.deprecation = :log
 end

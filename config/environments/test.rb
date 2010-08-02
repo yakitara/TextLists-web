@@ -29,4 +29,8 @@ Items::Application.configure do
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
+
+  # Rails3.0.0rc
+  # You did not specify how you would like Rails to report deprecation notices for your development environment, please set config.active_support.deprecation to :stderr at config/environments/test.rb
+  config.active_support.deprecation = :stderr
 end
