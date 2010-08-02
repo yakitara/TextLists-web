@@ -15,7 +15,6 @@ class ItemsController < ApplicationController
   
   def index
     if @list
-      # @items = @items.includes(:listings).where("listings.list_id" => @list).order("listings.position ASC")
       @items = @list.items.select("items.*, listings.id AS listed_listing_id")
     else
       @items = Item
@@ -25,6 +24,7 @@ class ItemsController < ApplicationController
   
   def show
     @item = Item.find(params[:id])
+#    content_for :title, "#{@item.} - #{Rails.application.config.app_name}"
   end
   
   def new

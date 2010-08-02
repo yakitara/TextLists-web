@@ -1,3 +1,11 @@
+<% content_for :title do %>
+  <% if @list.new_record? %>
+    new list
+  <% else %>
+    <%= @list.name %>/
+  <% end %>
+<% end %>
+
 <%= render :partial => "header" %>
 <% if false %>
 <%= form_for @list do |form| %>

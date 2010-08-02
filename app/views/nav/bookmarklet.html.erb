@@ -1,3 +1,7 @@
+<% content_for :title do %>
+  +items
+<% end %>
+
 <p>
 Drag the link into the bookmark bar: <%= link_to "+items", render(:partial => "bookmarklet.js") %>
 </p>

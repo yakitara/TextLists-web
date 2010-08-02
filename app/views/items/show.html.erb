@@ -1,3 +1,11 @@
+<% content_for :title do %>
+  <% if @item.new_record? %>
+    new item
+  <% else %>
+    <%= truncate @item.content %>
+  <% end %>
+<% end %>
+
 <%= form_for [@list, @item], :html => {"accept-charset" => "UTF-8"} do |form| %>
 <% if @item.errors.any? %>
   <div id="errorExplanation">
