@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   before_save do
     if self.salt.blank?
       require "digest/sha2"
-      self.salt = Digest::SHA2.hexdigest("#{self.hash}-#{Time.now}")
+      self.salt = SecureRandom.hex(32)
     end
   end
   
