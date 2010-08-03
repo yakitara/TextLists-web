@@ -24,7 +24,8 @@ class NavController < ApplicationController
     config = Rails.application.config.oauth
     client = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret))
     request_token = client.request_token(config.slice(:oauth_callback))
-    session[:oauth] = {:token => request_token.token, :secret => request_token.secret}
+    session[:oauth_token] = request_token.token
+    session[:oauth_secret] = request_token.secret
     session[:return_to] = params[:return_to]
     redirect_to request_token.authorize_url
   end
@@ -33,7 +34,7 @@ class NavController < ApplicationController
     config = Rails.application.config.oauth
     client = TwitterOAuth::Client.new(config.slice(:consumer_key, :consumer_secret))
     # NOTE: TwitterOAuth::Client#authorize issues an http request to the OAuth server
-    access_token = client.authorize(session[:oauth][:token], session[:oauth][:secret], :oauth_verifier => params[:oauth_verifier])
+    access_token = client.authorize(session[:oauth_token], session[:oauth_secret], :oauth_verifier => params[:oauth_verifier])
     session[:identifier] = access_token.params[:screen_name]
     unless credential = Credential.find_by_identifier(session[:identifier])
       Credential.transaction do
