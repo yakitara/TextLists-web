@@ -21,6 +21,7 @@ describe "Api" do
   
   before(:each) do
     #create_login_session
+    User.create! # for creating another "in-box"
     @user = User.create!
     @key = calculate_api_key(@user.salt, "*", "*")
     @auth_params = {:user_id => @user.id, :key => @key}
@@ -52,7 +53,8 @@ describe "Api" do
         change = {:name => "in-box", :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
         post api_changes_path, @auth_params.merge(:record_type => "List", :json => change.to_json).to_json, JSON_HEADERS
         response.should be_success
-        List.where(:name => "in-box").all.should have(1).inbox
+        ActiveSupport::JSON.decode(response.body)["id"].should == @user.inbox!.id
+        List.where(:user_id => @user.id, :name => "in-box").all.should have(1).inbox
       end
     end
     

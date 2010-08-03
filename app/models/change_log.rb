@@ -28,7 +28,7 @@ class ChangeLog < ActiveRecord::Base
       # TODO: it must be better to use unscoped rails3beta5 or later
       # NOTE: exclusive scope is needed (e.g. asynchronous done of listing on both server and celint)
       record_klass.send(:with_exclusive_scope) do
-        self.record ||= record_klass.find_duplication(change) || record_klass.new(:user_id => self.user_id)
+        self.record ||= record_klass.where(:user_id => self.user_id).find_duplication(change) || record_klass.new(:user_id => self.user_id)
       end
       self.record.no_auto_log = true
       if self.record.new_record?
