@@ -7,7 +7,9 @@ class Item < ActiveRecord::Base
   
   accepts_nested_attributes_for :listings
   
-  validates :content, :presence => true
+  cattr_reader :content_max_length
+  # NOTE: ":presence => true" cause inconsistent with current CoreData validation
+  validates :content, :length => {:within => 1..4000}
   
   include UserScope, HalfAutoTimestamp, ChangeLog::Logger
 end

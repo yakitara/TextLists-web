@@ -16,7 +16,8 @@ class List < ActiveRecord::Base
     end
   end
   
-  validates :name, :presence => true
+  # NOTE: ":presence => true" cause inconsistent with current CoreData validation
+  validates :name, :length => {:within => 1..20}
   
   include UserScope, HalfAutoTimestamp, ChangeLog::Logger
 

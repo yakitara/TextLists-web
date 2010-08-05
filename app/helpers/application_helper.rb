@@ -4,4 +4,8 @@ module ApplicationHelper
       link_to(image_tag("link.png"), $&, :target => "_blank")
     end.join.html_safe
   end
+
+  def underscore_exclusively_whitespaces(text)
+    (text || " ").sub(/^(\s+)$/){ $1.gsub(/\s/,"_") }
+  end
 end
