@@ -15,13 +15,8 @@ class ListingsController < ApplicationController
     Listing.transaction do
       @listing = Listing.first(:conditions => params.slice(:item_id, :list_id))
       @listing.list = List.find(params[:listing][:list_id])
+      @listing.position = 0
       @listing.save!
-#       # delete old listing
-#       old = Listing.first(:conditions => params.slice(:item_id, :list_id))
-#       old.destroy
-#       # insert new listing
-#       list = List.find(params[:listing][:list_id])
-#       list.listings.create!(params.slice(:item_id))
     end
     if request.xhr?
       render :json => {:item_id => @listing.item_id}

@@ -5,9 +5,9 @@ describe "Listings" do
   
   before(:each) do
     create_login_session
-    @list = @current_user.lists.create!(:name => "foo")
+    @list = @current_user.lists.create!(:name => "list a")
     @item = @current_user.items.create!(:content => "hoge")
-    @listing = @list.listings.create!(:item => @item, :user => @current_user)
+    @listing = @list.listings.create!(:item => @item, :user => @current_user, :position => 3)
   end
   
   describe "Done" do
@@ -21,14 +21,17 @@ describe "Listings" do
   
   describe "Move to another list" do
     before(:each) do
-      @list_b = @current_user.lists.create!(:name => "bar")
+      @list_b = @current_user.lists.create!(:name => "list b")
+      post move_list_item_listings_path(@list, @item), :listing => {:list_id => @list_b.id}
     end
     
     it "works" do
-      post move_list_item_listings_path(@list, @item), :listing => {:list_id => @list_b.id}
-      
       @list.should   have(0).items
       @list_b.should have(1).items
+    end
+    
+    it "position should reset to 0" do
+      @item.listings.where(:list_id => @list_b.id).first.position.should == 0
     end
   end
 end
