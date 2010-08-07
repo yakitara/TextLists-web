@@ -12,6 +12,12 @@ class Listing < ActiveRecord::Base
   belongs_to :item #, :inverse_of => :listings
   belongs_to :user #, :inverse_of => :listings
   
+  before_update do
+    if self.list_id_changed?
+      self.position = 0
+    end
+  end
+  
   def done!
     update_attributes!(:deleted_at => Time.now)
   end
