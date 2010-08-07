@@ -15,6 +15,7 @@ class ListingsController < ApplicationController
     Listing.transaction do
       @listing = Listing.first(:conditions => params.slice(:item_id, :list_id))
       @listing.list = List.find(params[:listing][:list_id])
+      @listing.position = 0
       @listing.save!
     end
     if request.xhr?
