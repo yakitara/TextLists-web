@@ -1,15 +1,11 @@
-Items::Application.routes.draw do |map|
+Items::Application.routes.draw do
   root :to => "nav#index"
-  match "/bookmarklet(.:format)", :to => "nav#bookmarklet", :via => :get, :as => "bookmarklet"
-#  match "/api/items", :to => "items#bookmark", :via => :post, :as => "bookmark"
-  match "/login", :to => "nav#login", :via => :get, :as => "login"
-#  match "/openid", :to => "nav#openid", :via => :post, :as => "openid"
-  match "/oauth", :to => "nav#oauth", :via => :get, :as => "oauth"
-  match "/logout", :to => "nav#logout", :via => :delete, :as => "logout"
+  get "/bookmarklet(.:format)", :to => "nav#bookmarklet", :as => "bookmarklet"
+  get "/login", :to => "nav#login", :as => "login"
+  get "/oauth", :to => "nav#oauth", :as => "oauth"
+  delete "/logout", :to => "nav#logout", :as => "logout"
   
   resources :items, :only => [:new, :create]
-  
-  #match %r|/lists/:id$|, :to => redirect("/lists/%{id}/items"), :as => :list
   
   resources :lists, :only => [:show, :new, :update, :create, :destroy] do
     collection do
@@ -26,18 +22,16 @@ Items::Application.routes.draw do |map|
       end
     end
   end
-
-  match "/api/key", :to => "api#key", :via => :get, :as => "api_key"
-  #match "/api/changes", :to => "api#changes", :via => :get, :as => "api_changes"
-  match "/api/changes/next(/:id)", :to => "api/change_logs#next", :via => :get, :as => "api_next_change"
+  
+  get "/api/key", :to => "api#key", :as => "api_key"
+  get "/api/changes/next(/:id)", :to => "api/change_logs#next", :as => "api_next_change"
   namespace :api do
     resources :items, :only => [:create, :show, :update]
-    match "in-box/items(.:format)", :to => "items#create", :via => :post, :as => "inbox_items", :defaults => {:list => "in-box"}
+    post "in-box/items(.:format)", :to => "items#create", :as => "inbox_items", :defaults => {:list => "in-box"}
     resources :lists, :only => [:create, :show, :update]
     resources :listings, :only => [:create, :show, :update]
     resources :changes, :controller => "change_logs", :only => [:create]
   end
-  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
