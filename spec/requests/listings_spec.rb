@@ -15,7 +15,27 @@ describe "Listings" do
     it "works" do
       delete list_item_listing_path(@list, @item, @listing)
       response.should_not contain("hoge")
-      @list.should have(0).items
+      @list.should have(0).item
+    end
+    
+    it "should work with xhr" do
+      pending
+    end
+  end
+
+  describe "Undone" do
+    before do
+      @listing.done!
+    end
+    
+    it "works" do
+      put undone_item_listing_path(@item, @listing)
+      response.should_not contain("hoge")
+      @list.should have(1).item
+    end
+    
+    it "should work with xhr" do
+      pending
     end
   end
   

@@ -5,7 +5,16 @@ Items::Application.routes.draw do
   get "/oauth", :to => "nav#oauth", :as => "oauth"
   delete "/logout", :to => "nav#logout", :as => "logout"
   
-  resources :items, :only => [:new, :create]
+  resources :items, :only => [:new, :create, :show] do
+    collection do
+      get :done
+    end
+    resources :listings, :only => [] do
+      member do
+        put :undone
+      end
+    end
+  end
   
   resources :lists, :only => [:show, :new, :update, :create, :destroy] do
     collection do

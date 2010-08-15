@@ -49,7 +49,7 @@ jQuery(function ($) {
       });
     $(".sortable").disableSelection();
     
-    $('.item .done, .list').bind("ajax:success", function(event, data, status, xhr) {
+    $('.item .ajax_remove, .list').bind("ajax:success", function(event, data, status, xhr) {
         $("#item_" + data["item_id"]).remove();
       });
 });

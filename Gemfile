@@ -11,11 +11,10 @@ group :tasks do
   gem 'yaml_waml'
 end
 
-
 gem 'twitter_oauth'
 # gem 'ruby-openid', '2.1.8', :git => "git://github.com/openid/ruby-openid.git"
 # gem 'rack-openid', :require => 'rack/openid'
-
+gem 'will_paginate'
 
 group :development, :test do
   gem 'rspec-rails', '>= 2.0.0.beta.17'

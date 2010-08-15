@@ -1,0 +1,21 @@
+<% content_for :title do %>
+  done items
+<% end %>
+
+<ol>
+<%= will_paginate @items %>
+<% @items.each do |item| %>
+  <% listing = item.listings.first %>
+  <li class='<%= cycle "odd", "even" %> span-13 last item' id='item_<%= item.id %>'>
+    <div class="span-10">
+      <%= link_to underscore_exclusively_whitespaces(truncate(item.content, :length => 140)), item_path(item) %>
+      <%= extract_external_links(item.content) %>
+    </div>
+    <div class="prepend-10">
+      <%= time_ago_in_words listing.deleted_at %> ago
+      from <%= link_to listing.list.name, list_path(listing.list) %>.
+      <%= link_to "undone", undone_item_listing_path(item, listing), :method => "put", :remote => true, "data-type" => "json", :class => "ajax_remove" %>
+    </div>
+  </li>
+<% end %>
+</ol>

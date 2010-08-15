@@ -21,7 +21,7 @@
         <%= options_from_collection_for_select @lists, :id, :name, @list.id %>
         <!-- <option value="new">new list...</option> -->
       </select>
-      <%= link_to "done", list_item_listing_path(@list, item, item.listed_listing_id), :method => "delete", :remote => true, "data-type" => "json", :class => "done" %>
+      <%= link_to "done", list_item_listing_path(@list, item, item.listed_listing_id), :method => "delete", :remote => true, "data-type" => "json", :class => "ajax_remove" %>
     </div>
   </li>
 <% end %>

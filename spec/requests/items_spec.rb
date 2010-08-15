@@ -27,4 +27,12 @@ describe "Items" do
       response.should contain("hoge updated")
     end
   end
+  
+  describe "done list" do
+    it "works" do
+      pending
+#       get done_items_path
+#       response.should be_success
+    end
+  end
 end

@@ -1,5 +1,6 @@
 class Listing < ActiveRecord::Base
-  default_scope :conditions => {:deleted_at => nil}, :order => "position ASC, created_at DESC"
+#  default_scope :conditions => {:deleted_at => nil}, :order => "position ASC, created_at DESC"
+  default_scope where(:deleted_at => nil).order("position ASC, created_at DESC")
 #   def self.without_default_scope(&block)
 #     self.with_exclusive_scope(&block)
 #   end

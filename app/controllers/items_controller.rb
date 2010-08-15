@@ -22,6 +22,10 @@ class ItemsController < ApplicationController
     @items = @items.all
   end
   
+  def done
+    @items = Item.includes(:listings => :list).where("listings.deleted_at IS NOT NULL").paginate :page => params[:page], :order => 'listings.deleted_at DESC'
+  end
+  
   def show
     @item = Item.find(params[:id])
 #    content_for :title, "#{@item.} - #{Rails.application.config.app_name}"

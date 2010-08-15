@@ -35,4 +35,15 @@ class ListingsController < ApplicationController
       redirect_to list_items_path(params[:list_id])
     end
   end
+
+  def undone
+    conds = params.slice(:item_id, :id)
+    @listing = Listing.unscoped.where(:user_id => current_user).where(conds).first
+    @listing.update_attributes!(:deleted_at => nil)
+    if request.xhr?
+      render :json => conds
+    else
+      redirect_to done_items_path
+    end
+  end
 end
