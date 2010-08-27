@@ -1,15 +1,22 @@
 textarea {height:auto;}
+hr {margin-bottom:0.5em;}
 
 div.container {margin:1em;}
 
 nav ul {list-style:none; padding-left:0;}
 nav ul ol {list-style:none; padding-left:0.5em;}
-
+/*
 ul.items {padding-left:1em;}
-ul.items li {margin:0.5em;}
+ul.items li {margin:2em;}
 
 div.main ol {list-style:none; padding-left:0;}
-
+*/
 li.even {background:#e5ecf9;}
 
 .sortable li {cursor:move}
+
+ol.items {list-style:none; padding-left:0;}
+ol.items li {
+  padding:0.5em 4px;
+  border-bottom:solid 1px lightgray;
+}

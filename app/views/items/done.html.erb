@@ -2,7 +2,7 @@
   done items
 <% end %>
 
-<ol>
+<ol class="items">
 <%= will_paginate @items %>
 <% @items.each do |item| %>
   <% listing = item.listings.first %>
