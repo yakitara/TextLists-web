@@ -1,6 +1,6 @@
 class List < ActiveRecord::Base
   INBOX = "in-box"
-  default_scope :conditions => {:deleted_at => nil}, :order => "lists.position ASC, lists.created_at DESC"
+  default_scope :conditions => {:deleted_at => nil}, :order => "lists.position ASC, lists.created_at ASC"
   
   belongs_to :user
   has_many :listings, :dependent => :destroy, :order => "listings.position ASC, listings.updated_at DESC", :inverse_of => :list
