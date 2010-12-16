@@ -40,7 +40,7 @@ class ChangeLog < ActiveRecord::Base
         #log = record.log!(self.json)
         # It is possible that a client post older changes than server's. Overwriting the record with
         # that change may revert the record. So, let's merge the change with newer changes.
-        record.change_logs.where("changed_at >= ?", self.changed_at).all.each do |l|
+        record.change_logs.where("changed_at >= ?", self.changed_at).except(:order).order("changed_at ASC").all.each do |l|
           change = change.merge(ActiveSupport::JSON.decode(l.json))
         end
         record.update_attributes!(change)
