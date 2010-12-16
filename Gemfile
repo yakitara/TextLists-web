@@ -1,10 +1,12 @@
 # -*-ruby-*-
 source 'http://rubygems.org'
 
-gem 'rails', '>= 3.0.0.beta3'
+gem 'bundler'
+gem 'rails', '>= 3.0.3' #, '>= 3.0.0.beta3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'pg'
-gem 'bundler'
+gem 'silent-postgres'
+gem 'jquery-rails'
 
 group :tasks do
   gem 'ar_fixtures'
@@ -17,7 +19,7 @@ gem 'twitter_oauth'
 gem 'will_paginate'
 
 group :development, :test do
-  gem 'rspec-rails', '>= 2.0.0.beta.17'
+  gem 'rspec-rails', '>= 2.3.0' #, '>= 2.0.0.beta.17'
 end
 gem 'capistrano'
 
