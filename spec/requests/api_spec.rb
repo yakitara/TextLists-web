@@ -70,7 +70,7 @@ describe "Api" do
         @list = List.find(@list.id)
         @list.position.should == 0
         @list.name.should == "new name"
-        @list.updated_at.should be_close(1.day.ago, 5.second)
+        @list.updated_at.should be_within(5.second).of(1.day.ago)
         @posted_change = ActiveSupport::JSON.decode(ChangeLog.last.json)
         @posted_change.should == change.stringify_keys
       end
