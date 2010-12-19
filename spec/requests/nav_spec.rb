@@ -69,8 +69,12 @@ describe "Nav" do
       end
       
       it "works" do
-        get bookmarklet_path(:format => "html")
-        response.should be_success
+        #get bookmarklet_path(:format => "html")
+        visit bookmarklet_path(:format => "html")
+        #response.should be_success
+        within :css, "textarea" do
+          page.should have_content("javascript:")
+        end
       end
     end
     context ".js" do

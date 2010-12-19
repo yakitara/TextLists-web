@@ -9,24 +9,27 @@ describe "Lists" do
   
   describe "new -> create -> show -> update -> destroy" do
     it "works!" do
-      get new_list_path
-      response.should be_success
+      visit new_list_path
+      #response.should be_success
       
       fill_in "list[name]", :with => "foo"
       click_button "save"
-      response.should contain("foo")
+      #response.should contain("foo")
+      page.should have_content("foo")
       
       fill_in "list[name]", :with => "foo updated"
       click_button "save"
-      response.should contain("foo updated")
+      #response.should contain("foo updated")
+      page.should have_content("foo updated")
       
       # NOTE: webrat doesn't seem to know about ujs
       # click_link "delete this list"
       # FIXME: should popup confirm dialog
-      
-      list = @current_user.lists.first
-      delete list_path(list)
-      response.should_not contain("foo updated")
+      # list = @current_user.lists.first
+      # delete list_path(list)
+      # response.should_not contain("foo updated")
+      click "delete this list"
+      page.should_not have_content("foo updated")
     end
   end
   
@@ -34,7 +37,10 @@ describe "Lists" do
     before(:each) do
       @list = @current_user.lists.create!(:name => "list")
       @listing = @current_user.listings.create!(:list => @list, :item => @current_user.items.create!(:content => "item"))
-      delete list_path(@list)
+      # delete list_path(@list)
+      visit list_path(@list)
+      click "delete this list"
+
       @list = List.unscoped.find(@list)
       @listing = Listing.unscoped.find(@listing)
     end

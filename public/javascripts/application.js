@@ -3,6 +3,7 @@ jQuery(function ($) {
         csrf_param = $('meta[name=csrf-param]').attr('content');
     
     $('select[data-url]').live('change', function () {
+//    $('select[data-url]').bind('change', function () {
         var el = $(this),
           url = el.attr('data-url'),
           method = el.attr('data-method');
