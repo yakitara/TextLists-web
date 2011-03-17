@@ -28,7 +28,7 @@ describe "Lists" do
       # list = @current_user.lists.first
       # delete list_path(list)
       # response.should_not contain("foo updated")
-      click "delete this list"
+      click_link "delete this list"
       page.should_not have_content("foo updated")
     end
   end
@@ -39,7 +39,7 @@ describe "Lists" do
       @listing = @current_user.listings.create!(:list => @list, :item => @current_user.items.create!(:content => "item"))
       # delete list_path(@list)
       visit list_path(@list)
-      click "delete this list"
+      click_link "delete this list"
 
       @list = List.unscoped.find(@list)
       @listing = Listing.unscoped.find(@listing)
