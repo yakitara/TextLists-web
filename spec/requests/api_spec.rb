@@ -44,7 +44,8 @@ describe "Api" do
         # TODO: be a more readable spec
         response.should be_success
         ActiveSupport::JSON.decode(response.body)["id"].should_not be_nil
-        ActiveSupport::JSON.decode(ChangeLog.last.json).except("user_id","id").should == change.stringify_keys
+        #ActiveSupport::JSON.decode(ChangeLog.last.json).except("user_id","id").should == change.stringify_keys
+        ChangeLog.last.json.should == change.to_json
       end
     end
     
