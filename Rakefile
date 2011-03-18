@@ -17,4 +17,4 @@ def load_task(task_file)
 end
 load_task "ar_fixtures"
 
-Rails::Application.load_tasks
+Items::Application.load_tasks
