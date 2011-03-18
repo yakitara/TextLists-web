@@ -19,8 +19,10 @@ gem 'twitter_oauth'
 gem 'will_paginate'
 
 group :development, :test do
-  gem 'rspec-rails', '>= 2.3.0' #, '>= 2.0.0.beta.17'
-  gem 'capybara'
+  gem 'rspec-rails' #, '>= 2.3.0' #, '>= 2.0.0.beta.17'
+  # NOTE: Capybara 0.4.1.2 has bug around :js => true
+  # gem 'capybara' , '> 0.4.1.2', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'capybara' , :git => 'git://github.com/jnicklas/capybara.git'
   gem 'akephalos'
   #gem 'akephalos', :git => 'git://github.com/thoughtbot/akephalos.git'
   gem 'launchy'

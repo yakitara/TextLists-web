@@ -5,10 +5,18 @@ require 'rspec/rails'
 
 # capybara
 require 'capybara/rails'
-require 'akephalos'
-#Capybara.javascript_driver = :akephalos
-Capybara.default_driver = :akephalos
+require 'capybara/rspec'
+#require 'akephalos'
+Capybara.javascript_driver = :akephalos
+#Capybara.default_driver = :akephalos
 
+# http://blog.yakitara.com/2011/03/use-transactionalfixtures-with-capybara.html
+ActiveRecord::ConnectionAdapters::ConnectionPool.class_eval do
+  def current_connection_id
+    # Thread.current.object_id
+    Thread.main.object_id
+  end
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -33,20 +41,20 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   # use database_cleaner for akephalos
-  if true
-    config.use_transactional_fixtures = false
-    config.before(:suite) do
-      # DatabaseCleaner.strategy = :transaction
-      DatabaseCleaner.strategy = :truncation
-      DatabaseCleaner.clean_with(:truncation)
-    end
+  # if true
+  #   config.use_transactional_fixtures = false
+  #   config.before(:suite) do
+  #     # DatabaseCleaner.strategy = :transaction
+  #     DatabaseCleaner.strategy = :truncation
+  #     DatabaseCleaner.clean_with(:truncation)
+  #   end
 
-    config.before(:each) do
-      DatabaseCleaner.start
-    end
+  #   config.before(:each) do
+  #     DatabaseCleaner.start
+  #   end
 
-    config.after(:each) do
-      DatabaseCleaner.clean
-    end
-  end
+  #   config.after(:each) do
+  #     DatabaseCleaner.clean
+  #   end
+  # end
 end

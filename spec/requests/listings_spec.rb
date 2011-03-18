@@ -52,7 +52,7 @@ describe "Listings" do
     end
   end
   
-  describe "Move to another list" do
+  describe "Move to another list", :js => true do
     before(:each) do
       @list_b = @current_user.lists.create!(:name => "list b")
       #post move_list_item_listings_path(@list, @item), :listing => {:list_id => @list_b.id}
