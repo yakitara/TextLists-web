@@ -1,9 +1,12 @@
-require 'rvm/capistrano' # Adjust for load path
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano" # Load RVM's capistrano plugin.
+require 'bundler/capistrano'
 
-set :application, "items"
-set :repository,  "silent.yakitara.com:/home/shared/git/items.git"
+set :application, "textlists"
+#set :repository,  "silent.yakitara.com:/home/shared/git/items.git"
 set :scm, :git
 set :deploy_via, :remote_cache
+set :local_repository,  "."
 
 # server "silent.yakitara.com", :app, :web, :db, :primary => true
 # set :deploy_to, "/var/www/items"
@@ -14,7 +17,8 @@ set :use_sudo, false
 task "jerle" do
   server "jerle.yakitara.com", :app, :web, :db, :primary => true
   set :deploy_to, "/var/www/textlists"
-  set :rvm_ruby_string, 'ruby-1.9.2-head' # Or whatever env you want it to run in.
+  set :rvm_ruby_string, 'ruby-1.9.2-p180' # Or whatever env you want it to run in.
+  set :repository,  "/var/www/git/textlists.git"
 end
 
 task "silent" do
