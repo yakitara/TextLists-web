@@ -20,3 +20,43 @@ ol.items li {
   padding:0.5em 4px;
   border-bottom:solid 1px lightgray;
 }
+
+/* TextLists2 */
+form.new_item input[type=text] {
+    width: 420px;
+}
+form.edit_item textarea {
+    width: 482px;
+}
+
+div.item {
+    border: 1px solid dimgray;
+    margin-bottom: -1px;
+    padding: 0px 0.5em;
+    position: relative;
+}
+div.item.selected {
+    background-color: LightSteelBlue;
+}
+div.item .changed {
+    color: red;
+    position: absolute;
+    right: 2px;
+    top: 0px;
+}
+div.item .actions {
+    display: none;
+    border: 1px solid dimgray;
+    border-top: 0px;
+    position: absolute;
+    right: -1px;
+    padding: 0px 4px;
+    background-color: inherit;
+    z-index: 1;
+}
+div.item.selected:hover .actions {
+    display: block;
+}
+div.item .actions select {
+    width: 80px;
+}

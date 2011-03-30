@@ -19,7 +19,7 @@ class ListingsController < ApplicationController
       @listing.save!
     end
     if request.xhr?
-      render :json => {:item_id => @listing.item_id}
+      render :json => {:list_id => @listing.list_id, :item_id => @listing.item_id}
     else
       redirect_to list_items_path(params[:list_id])
     end

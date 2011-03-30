@@ -12,6 +12,5 @@
   List: <%= form.text_field :name %> <button type="submit">save</button>
 <% if !@list.new_record? %>
   | <%= link_to "delete this list", list_path(@list), :method => "delete", :confirm => "Delete this list." %>
-  | <%= link_to "new item", [:new, @list, :item] %>
 <% end %>
 <% end %>

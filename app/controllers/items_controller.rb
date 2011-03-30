@@ -22,36 +22,45 @@ class ItemsController < ApplicationController
     @items = @items.all
   end
   
+  # index of done items
   def done
     @items = Item.includes(:listings => :list).where("listings.deleted_at IS NOT NULL").paginate :page => params[:page], :order => 'listings.deleted_at DESC'
   end
   
-  def show
-    @item = Item.find(params[:id])
-#    content_for :title, "#{@item.} - #{Rails.application.config.app_name}"
-  end
+#   def show
+#     @item = Item.find(params[:id])
+# #    content_for :title, "#{@item.} - #{Rails.application.config.app_name}"
+#   end
   
-  def new
-    @item = Item.new
-    @item.listings.build(:list => @list)
-    render :show
-  end
+  # def new
+  #   @item = Item.new
+  #   @item.listings.build(:list => @list)
+  #   render :show
+  # end
   
   def create
-    @item = Item.new(params[:item])
-    if @item.save
-      redirect_to(@list ? [@list, :items] : root_path)
+    # @item = Item.new(params[:item])
+    if @list
+      @item = @list.items.build(params[:item])
     else
-      render :show
+      @item = Item.new(params[:item])
+    end
+    
+    if @item.save
+      render :partial => @item, :locals => {:list => @list, :selectable_lists => @lists}
+    #   redirect_to(@list ? [@list, :items] : root_path)
+    # else
+    #   render :show
     end
   end
   
   def update
     @item = Item.find(params[:id])
     if @item.update_attributes(params[:item])
-      redirect_to(@list ? [@list, :items] : root_path)
-    else
-      render :show
+      render :json => {:title => @item.title}
+    #   redirect_to(@list ? [@list, :items] : root_path)
+    # else
+    #   render :show
     end
   end
   

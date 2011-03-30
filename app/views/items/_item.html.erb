@@ -1,0 +1,24 @@
+<div class="item toggle" id='<%= dom_id(item) %>'>
+  <div class="title">
+    <%= item.title %>
+  </div>
+  <div class="changed" style="display:none;">changed</div>
+  <div class="edit" style="display:none;">
+    <%= form_for item, :remote => true do |f| %>
+      <%= f.text_area :content, :rows => 6 %>
+    <% end %>
+  </div>
+  <div class="actions">
+    <div>
+      <%= form_for item.listings.first, :url => move_list_item_listings_path(list, item), :remote => true, :html => {:class => "move_item", :method => "post"} do |f| %>
+        <%= f.select :list_id, options_from_collection_for_select(selectable_lists, :id, :name, list.id) %>
+        <%= f.submit "move" %>
+      <% end %>
+    </div>
+    <div>
+      <%= form_for [list, item, item.listings.first], :remote => true, :html => {:class => "done_item", :method => "delete"} do |f| %>
+        <%= f.submit "done" %>
+      <% end %>
+    </div>
+  </div>
+</div>

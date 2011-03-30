@@ -5,7 +5,7 @@ Items::Application.routes.draw do
   get "/oauth", :to => "nav#oauth", :as => "oauth"
   delete "/logout", :to => "nav#logout", :as => "logout"
   
-  resources :items, :only => [:new, :create, :show] do
+  resources :items, :only => [:create, :update] do
     collection do
       get :done
     end
@@ -20,7 +20,7 @@ Items::Application.routes.draw do
     collection do
       post :sort
     end
-    resources :items, :only => [:index, :show, :new, :create, :update] do
+    resources :items, :only => [:index, :create, :update] do
       collection do
         post :sort
       end

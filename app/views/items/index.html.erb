@@ -9,6 +9,28 @@
 <% end %>
 
 <hr/>
+
+<% if true %>
+
+
+
+<div class="list" id='<%= dom_id(@list) %>'>
+  <%= form_for [@list, @list.items.build], :remote => true, :html => {"data-type" => "html"} do |f| %>
+    <%= hidden_field_tag "item[listings_attributes][][list_id]", @list.id %>
+    <%= f.text_field :content %>
+    <%= f.submit "create item" %>
+  <% end %>
+
+  <div class="items sortable" data-url='<%= sort_list_items_path(@list) %>'>
+    <%= render @items, :list => @list, :selectable_lists => @lists %>
+  </div>
+</div>
+
+
+
+
+
+<% else %>
 <ol class="sortable items" data-url='<%= sort_list_items_path(@list) %>'>
 <% @items.each do |item| %>
   <li class='<%= cycle "odd", "even" %> span-13 last item' id='item_<%= item.id %>'>
@@ -26,3 +48,4 @@
   </li>
 <% end %>
 </ol>
+<% end %>

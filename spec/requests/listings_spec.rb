@@ -10,25 +10,25 @@ describe "Listings" do
     @listing = @list.listings.create!(:item => @item, :user => @current_user, :position => 3)
   end
   
-  describe "Done" do
-    # TODO: from each index and show, but they are ujs link which aren't yet supported by webrat
-    it "works" do
-      #delete list_item_listing_path(@list, @item, @listing)
-      #response.should_not contain("hoge")
-      visit list_path(@list)
-      page.should have_content("hoge")
+  # describe "Done" do
+  #   # TODO: from each index and show, but they are ujs link which aren't yet supported by webrat
+  #   it "works" do
+  #     #delete list_item_listing_path(@list, @item, @listing)
+  #     #response.should_not contain("hoge")
+  #     visit list_path(@list)
+  #     page.should have_content("hoge")
 
-      within :css, "#item_#{@item.id}" do
-        click_link "done"
-      end
-      page.should_not have_content("hoge")
-      @list.should have(0).item
-    end
+  #     within :css, "#item_#{@item.id}" do
+  #       click_link "done"
+  #     end
+  #     page.should_not have_content("hoge")
+  #     @list.should have(0).item
+  #   end
     
-    it "should work with xhr" do
-      pending
-    end
-  end
+  #   it "should work with xhr" do
+  #     pending
+  #   end
+  # end
 
   describe "Undone" do
     before do

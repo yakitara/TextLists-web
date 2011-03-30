@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  default_scope :order => "items.created_at DESC"
+  #default_scope :order => "items.created_at DESC"
   
   belongs_to :user
   has_many :listings, :dependent => :destroy, :inverse_of => :item
@@ -12,4 +12,8 @@ class Item < ActiveRecord::Base
   validates :content, :length => {:within => 1..4000}
   
   include UserScope, HalfAutoTimestamp, ChangeLog::Logger
+  
+  def title
+    self.content[/(.*)\n?/,0]
+  end
 end
