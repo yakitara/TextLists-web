@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "Items" do
   include RequestsSupport
+  # fixtures :all
   
   before(:each) do
     create_login_session
@@ -9,30 +10,53 @@ describe "Items" do
   
   context "#index" do
     before(:each) do
-      @list = @current_user.lists.create!(:name => "foo")
+      @list = @current_user.lists.create!(:name => "a list")
+    end
+    
+    def create_item(attrs)
+      @current_user.items.create!(attrs).tap do |item|
+        @list.listings.create!(:item => item, :user => @current_user)
+      end
     end
     
     it "prepends a new item", :js => true do
       visit list_items_path(@list.id)
+      
       within "form.new_item" do
         fill_in 'item[content]', :with => "new item!"
         click_on "create item"
       end
       find("div.items div.item:first-child .title").should have_content("new item!")
     end
-
+    
     it "gets done", :js => true do
-      @item = Item.create!(:content => "should get done", :user => @current_user)
-      @list.listings.create!(:item => @item, :user => @current_user)
+      @item = create_item(:content => "should be done")
+      
       visit list_items_path(@list.id)
+      
       item_selector = "div.items div.item#item_#{@item.id}"
       within(item_selector) do
-        find(".title").should have_content("should get done")
+        find(".title").should have_content("should be done")
         click_on "done"
       end
       page.should have_no_selector(item_selector)
     end
-
+    
+    it "moves to another list", :js => true do
+      @current_user.lists.create!(:name => "another list")
+      @item = create_item(:content => "should be moved")
+      
+      visit list_items_path(@list.id)
+      
+      item_selector = "div.items div.item#item_#{@item.id}"
+      within(item_selector) do
+        find(".title").should have_content("should be moved")
+        select "another list", :from => "listing[list_id]"
+        click_on "move"
+      end
+      page.should have_no_selector(item_selector)
+    end
+    
     it "sorts items" # it semms to be difficult to do even with drag_to
   end
   

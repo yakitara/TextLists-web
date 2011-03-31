@@ -26,7 +26,10 @@ form.new_item input[type=text] {
     width: 420px;
 }
 form.edit_item textarea {
-    width: 482px;
+    /*width: 482px;*/
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
 }
 
 div.item {

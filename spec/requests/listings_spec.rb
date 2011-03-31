@@ -52,24 +52,24 @@ describe "Listings" do
     end
   end
   
-  describe "Move to another list", :js => true do
-    before(:each) do
-      @list_b = @current_user.lists.create!(:name => "list b")
-      #post move_list_item_listings_path(@list, @item), :listing => {:list_id => @list_b.id}
-      visit list_path(@list)
-#save_and_open_page
-      within :css, "#item_#{@item.id}" do
-        select "list b", :from => 'listing[list_id]'
-      end
-    end
+#   describe "Move to another list", :js => true do
+#     before(:each) do
+#       @list_b = @current_user.lists.create!(:name => "list b")
+#       #post move_list_item_listings_path(@list, @item), :listing => {:list_id => @list_b.id}
+#       visit list_path(@list)
+# #save_and_open_page
+#       within :css, "#item_#{@item.id}" do
+#         select "list b", :from => 'listing[list_id]'
+#       end
+#     end
     
-    it "works" do
-      @list.should   have(0).items
-      @list_b.should have(1).items
-    end
+#     it "works" do
+#       @list.should   have(0).items
+#       @list_b.should have(1).items
+#     end
     
-    it "position should reset to 0" do
-      @item.listings.where(:list_id => @list_b.id).first.position.should == 0
-    end
-  end
+#     it "position should reset to 0" do
+#       @item.listings.where(:list_id => @list_b.id).first.position.should == 0
+#     end
+#   end
 end

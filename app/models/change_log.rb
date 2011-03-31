@@ -8,6 +8,11 @@ class ChangeLog < ActiveRecord::Base
   belongs_to :record, :polymorphic => true
   default_scope :order => "id ASC"
   
+  def decoded(reload=false)
+    @decoded = nil if reload
+    @decoded ||= HashWithIndifferentAccess.new(ActiveSupport::JSON.decode(self.json))
+  end
+
 #   def as_json(options=nil)
 #     returning(self.attributes) do |value|
 #       value["change"] = ActiveSupport::JSON.decode(value.delete("json"))
@@ -22,7 +27,7 @@ class ChangeLog < ActiveRecord::Base
   def accept
     return true unless self.new_record?
     
-    change = ActiveSupport::JSON.decode(self.json)
+    change = self.decoded
     transaction do
       record_klass = self.record_type.camelcase.constantize #.where(:user_id => self.user_id)
       # TODO: it must be better to use unscoped rails3beta5 or later
@@ -38,10 +43,10 @@ class ChangeLog < ActiveRecord::Base
       else
         save!
         #log = record.log!(self.json)
-        # It is possible that a client post older changes than server's. Overwriting the record with
+        # It is possible that a client posts older changes than server's. Overwriting the record with
         # that change may revert the record. So, let's merge the change with newer changes.
         record.change_logs.where("changed_at >= ?", self.changed_at).except(:order).order("changed_at ASC").all.each do |l|
-          change = change.merge(ActiveSupport::JSON.decode(l.json))
+          change = change.merge(l.decoded)
         end
         record.update_attributes!(change)
       end
@@ -89,16 +94,16 @@ class ChangeLog < ActiveRecord::Base
       end
     end
     
-    def log!(json_or_value=nil)
-      case json_or_value
-      when String
-        json = json_or_value
-      when Hash, nil
-        c = json_or_value || self.attributes.slice(*self.changed)
-        jsonValue = c.merge(c){|k, v| v.as_json }
+    def log!
+      c = self.attributes.slice(*self.changed)
+      jsonValue = c.merge(c){|k, v| v.as_json }
+      # merge with last update to reduce change_logs of autosave
+      if (last = ChangeLog.last) && (last.record == self) && last.decoded[:created_at].nil?
+        last.update_attributes!(:json => last.decoded.merge(jsonValue).to_json)
+      else
         json = jsonValue.to_json
+        ChangeLog.create!(:record => self, :json => json)
       end
-      ChangeLog.create!(:record => self, :json => json)
 #       change = ActiveSupport::JSON.decode(json)
 #       ChangeLog.create!(:record => self, :json => json, :user_id => self.user_id, :changed_at => change["updated_at"])
     end
