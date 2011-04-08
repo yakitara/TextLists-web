@@ -38,14 +38,48 @@ describe "Api" do
   
   describe "POST /api/changes" do
     context "a new record" do
-      it "works" do
-        change = {:name => "foo", :position => 3, :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
-        post api_changes_path, @auth_params.merge(:record_type => "List", :json => change.to_json).to_json, JSON_HEADERS
-        # TODO: be a more readable spec
-        response.should be_success
-        ActiveSupport::JSON.decode(response.body)["id"].should_not be_nil
-        #ActiveSupport::JSON.decode(ChangeLog.last.json).except("user_id","id").should == change.stringify_keys
-        ChangeLog.last.json.should == change.to_json
+      before do
+        @change = {:name => "foo", :position => 3, :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
+        post api_changes_path, @auth_params.merge(:record_type => "List", :json => @change.to_json).to_json, JSON_HEADERS
+      end
+      it { response.should be_success }
+      context "id in the response " do
+        it { ActiveSupport::JSON.decode(response.body)["id"].should_not be_nil }
+      end
+      context"the last change log" do
+        it("equal to the given change"){ ChangeLog.last.json.should == @change.to_json }
+      end
+    end
+    
+    it "an update"
+    
+    context "multiple records" do
+      before do
+        @timestamp = "2010-06-24T10:10:10+09:00"
+        @changes = [
+          {
+            :record_type => "List", 
+            :json => {:name => "foo", :position => 3, :created_at => @timestamp, :updated_at => @timestamp}.to_json
+          },
+          {
+            :record_type => "Item", :record_id => items(:item_a).id,
+            :json => {:content => "updated", :updated_at => @timestamp}.to_json
+          },
+        ]
+        post api_changes_path, @auth_params.merge(:changes => @changes).to_json, JSON_HEADERS
+        @list = List.where(:name => "foo").last
+      end
+      it { response.should be_success }
+      it "creates new list named 'foo'" do
+        @list.should_not be_nil
+      end
+      context "updated item" do
+        subject { items(:item_a, true) }
+        its(:content) { should == "updated" }
+        its(:updated_at) { should == DateTime.parse(@timestamp) }
+      end
+      it "response body as expected" do
+        response.body.should == [{:id => @list.id}, {:id => items(:item_a).id}].to_json
       end
     end
     

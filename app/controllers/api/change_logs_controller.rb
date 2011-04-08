@@ -11,16 +11,29 @@ class Api::ChangeLogsController < ApplicationController
   respond_to :json
   
   def create
-    @log = ChangeLog.recognize(params.slice(:json, :user_id, :record_type, :record_id))
-    if @log.accept
-      value = {:id => @log.record_id }
-      logger.info "  API Response: #{value.to_json}"
-      render :json => value
-    else
-      value = {:errors => @log.errors.full_messages}
-      logger.info "  API Response: #{value.to_json}"
-      render :json => value, :status => :unprocessable_entity
+    changes = params[:changes] || [params.slice(:json, :user_id, :record_type, :record_id)]
+    
+    results = changes.map do |change|
+      log = ChangeLog.recognize(change)
+      if log.accept
+        {:id => log.record_id }
+      else
+        {:errors => log.errors.full_messages}
+      end
     end
+    
+    if results.size > 1
+      logger.info "  API Response: #{results.to_json}"
+      render :json => results
+    else
+      result = results.first
+      logger.info "  API Response: #{result.to_json}"
+      unless result.has_key?(:errors)
+        render :json => result
+      else
+        render :json => result, :status => :unprocessable_entity
+      end
+    end    
   end
   
   def next
