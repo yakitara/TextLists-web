@@ -23,7 +23,7 @@ class Listing < ActiveRecord::Base
     update_attributes!(:deleted_at => Time.now)
   end
   
-  include UserScope, HalfAutoTimestamp, ChangeLog::Logger
+  include UserScope, HalfAutoTimestamp, ChangeLog::Logger, BelongsToUuid
   # to avoid logging item after the log of listing
   log_dependency :item
 end

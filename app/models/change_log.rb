@@ -8,9 +8,13 @@ class ChangeLog < ActiveRecord::Base
   belongs_to :record, :polymorphic => true
   default_scope :order => "id ASC"
   
+  def self.decode(json)
+    HashWithIndifferentAccess.new(ActiveSupport::JSON.decode(json))
+  end
+  
   def decoded(reload=false)
     @decoded = nil if reload
-    @decoded ||= HashWithIndifferentAccess.new(ActiveSupport::JSON.decode(self.json))
+    @decoded ||= self.class.decode(self.json)
   end
 
 #   def as_json(options=nil)

@@ -39,7 +39,7 @@ describe "Api" do
   describe "POST /api/changes" do
     context "a new record" do
       before do
-        @change = {:name => "foo", :position => 3, :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
+        @change = {:name => "foo", :position => 3, :created_at => "2010-06-24T10:10:10+0000", :updated_at => "2010-06-24T10:10:10+0000"}
         post api_changes_path, @auth_params.merge(:record_type => "List", :json => @change.to_json).to_json, JSON_HEADERS
       end
       it { response.should be_success }
@@ -55,19 +55,25 @@ describe "Api" do
     
     context "multiple records" do
       before do
-        @timestamp = "2010-06-24T10:10:10+09:00"
+        @timestamp = "2010-06-24T10:10:10+0000"
+        @list_uuid = "cfe7df54-5c0b-4616-914d-a76dd8f14ce1"
         @changes = [
           {
             :record_type => "List", 
-            :json => {:name => "foo", :position => 3, :created_at => @timestamp, :updated_at => @timestamp}.to_json
+            :json => {:name => "foo", :position => 3, :created_at => @timestamp, :updated_at => @timestamp, :uuid => @list_uuid}.to_json
           },
           {
             :record_type => "Item", :record_id => items(:item_a).id,
             :json => {:content => "updated", :updated_at => @timestamp}.to_json
           },
+          {
+            :record_type => "Listing",
+            :json => {:item_id => items(:item_a).id, :list_uuid => @list_uuid, :updated_at => @timestamp}.to_json
+          },
         ]
         post api_changes_path, @auth_params.merge(:changes => @changes).to_json, JSON_HEADERS
         @list = List.where(:name => "foo").last
+        @listing = @list.listings.where(:item_id => items(:item_a).id).first
       end
       it { response.should be_success }
       it "creates new list named 'foo'" do
@@ -79,13 +85,13 @@ describe "Api" do
         its(:updated_at) { should == DateTime.parse(@timestamp) }
       end
       it "response body as expected" do
-        response.body.should == [{:id => @list.id}, {:id => items(:item_a).id}].to_json
+        response.body.should == [{:id => @list.id}, {:id => items(:item_a).id}, {:id => @listing.id}].to_json
       end
     end
     
     context "post duplicated name list on server" do
       it "avoids duplication" do
-        change = {:name => "in-box", :created_at => "2010-06-24T10:10:10+09:00", :updated_at => "2010-06-24T10:10:10+09:00"}
+        change = {:name => "in-box", :created_at => "2010-06-24T10:10:10+0000", :updated_at => "2010-06-24T10:10:10+0000"}
         post api_changes_path, @auth_params.merge(:record_type => "List", :json => change.to_json).to_json, JSON_HEADERS
         response.should be_success
         ActiveSupport::JSON.decode(response.body)["id"].should == @user.inbox!.id
