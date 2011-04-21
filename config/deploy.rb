@@ -94,12 +94,8 @@ task :copy_initializers do
 end
 after "deploy:update_code", "copy_initializers"
 
-task :foo do
-#  p shared_children
-#  p shared_tmp
-#  set :shared_tmp, true
-#  p shared_tmp
-#  p shared_children
-  # set :shared_children, shared_children.push("tmp").uniq
-  # p shared_children
+desc "pg_dump"
+task :pg_dump do
+  run "pg_dump items_production | gzip > ~/items_production-#{Time.now.strftime("%Y-%m-%d-%H%M%S")}.sql.gz"
 end
+before "deploy:update_code", "pg_dump"
