@@ -30,7 +30,7 @@ describe "Api" do
   describe "POST /api/in-box/items" do
     it "change logs should be ordered as Item, Listing" do
       post api_inbox_items_path, @auth_params.merge(:item => {"content" => "foo"})
-      logs = ChangeLog.all
+      logs = @user.change_logs.all
       logs[-2].record_type.should == "Item"
       logs[-1].record_type.should == "Listing"
     end
@@ -47,7 +47,7 @@ describe "Api" do
         it { ActiveSupport::JSON.decode(response.body)["id"].should_not be_nil }
       end
       context"the last change log" do
-        it("equal to the given change"){ ChangeLog.last.json.should == @change.to_json }
+        it("equal to the given change"){ @user.change_logs.last.json.should == @change.to_json }
       end
     end
     
@@ -112,7 +112,7 @@ describe "Api" do
         @list.position.should == 0
         @list.name.should == "new name"
         @list.updated_at.should be_within(5.second).of(1.day.ago)
-        @posted_change = ActiveSupport::JSON.decode(ChangeLog.last.json)
+        @posted_change = ActiveSupport::JSON.decode(@user.change_logs.last.json)
         @posted_change.should == change.stringify_keys
       end
     end
@@ -121,8 +121,27 @@ describe "Api" do
   end
   
   describe "GET /api/changes/next/:id" do
+    context "?limit=3" do
+      before do
+        @new_list = @user.lists.create!(:name => "new list")
+        @new_list.update_attributes!(:position => 0)
+        @user.inbox!.update_attributes!(:position => 1)
+        get api_next_change_path(0, :limit => 3), @auth_params, JSON_HEADERS
+        @logs = ActiveSupport::JSON.decode(response.body)
+      end
+      describe "response" do
+        it { response.should be_success }
+        subject { @logs }
+        it { should be_kind_of Array }
+        it { should have(3).items }
+        it ", but total 4 changes" do
+          @user.should have(4).change_logs
+        end
+      end
+    end
+
     it "works" do
-      @last_id = ChangeLog.last.id
+      @last_id = @user.change_logs.last.id
       @list = List.create!(:user => @user, :name => "foo")
       @list.update_attributes!(:position => 3)
       # first, but newer change is get merged with
@@ -131,9 +150,9 @@ describe "Api" do
       log = ActiveSupport::JSON.decode(response.body)
       change = ActiveSupport::JSON.decode(log["json"])
       change["name"].should == "foo"
-      pending "merge feature currently disabled" do
-        change["position"].should == 3 # any newer log get should merged
-      end
+      # pending "merge feature currently disabled" do
+      #   change["position"].should == 3 # any newer log get should merged
+      # end
       change.should have_key("id")
       @last_id = log["id"]
       # second, get the next of last_id

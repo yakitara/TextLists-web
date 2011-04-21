@@ -40,17 +40,13 @@ class Api::ChangeLogsController < ApplicationController
   end
   
   def next
-    # TODO: refactoring. move the logic into the model. and consider how to be DRY those codes...
-    if next_log = ChangeLog.where("id > ?", params[:id].to_i).first
-      # 2010-07-13: Merging newer log will cause unknwon list_id of listings on the client synchronizing
-#       @logs = ChangeLog.where("record_type = ? AND record_id = ? AND changed_at >= ? AND id != ?", next_log.record_type, next_log.record_id, next_log.changed_at, next_log.id).order("changed_at ASC").all
-#       change = ActiveSupport::JSON.decode(next_log.json)
-#       @logs.each do |log|
-#         change.update(ActiveSupport::JSON.decode(log.json))
-#       end
-#       next_log.json = change.merge(change){|k, v| v.as_json }.to_json
-      logger.info "  API Response: #{next_log.to_json}"
-      render :json => next_log
+    # if limit > 1, responses array of logs
+    limit = [params[:limit].to_i, 1].max
+    logs = ChangeLog.where("id > ?", params[:id].to_i).limit(limit).all
+    if logs.present?
+      value = limit > 1 ? logs : logs.first
+      logger.info "  API Response: #{value.to_json}"
+      render :json => value
     else # logs no more
       render :nothing => true, :status => :no_content
     end

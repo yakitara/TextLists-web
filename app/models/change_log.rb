@@ -5,6 +5,7 @@
 class ChangeLog < ActiveRecord::Base
   include UserScope
   
+  belongs_to :user
   belongs_to :record, :polymorphic => true
   default_scope :order => "id ASC"
   
