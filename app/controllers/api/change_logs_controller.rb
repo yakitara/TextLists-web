@@ -13,11 +13,8 @@ class Api::ChangeLogsController < ApplicationController
   def create
     changes = params[:changes] || [params.slice(:json, :user_id, :record_type, :record_id)]
     
-    # NOTE: This transaction keep order of change_logs
-    logs = []
     results = changes.map do |change|
       log = ChangeLog.recognize(change)
-      logs << log
       if log.accept
         {:id => log.record_id }
       else
