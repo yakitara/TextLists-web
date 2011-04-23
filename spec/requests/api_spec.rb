@@ -119,14 +119,14 @@ describe "Api" do
     
     it "an existed record posted twice"
   end
-  
-  describe "GET /api/changes/next/:id" do
-    context "?limit=3" do
+
+  describe "GET /api/0.3/changes/:id/next/:limit" do
+    context "response multiple change_logs" do
       before do
         @new_list = @user.lists.create!(:name => "new list")
         @new_list.update_attributes!(:position => 0)
         @user.inbox!.update_attributes!(:position => 1)
-        get api_next_change_path(0, :limit => 3), @auth_params, JSON_HEADERS
+        get api_change_next_path(0.3, 0, 3), @auth_params, JSON_HEADERS
         @logs = ActiveSupport::JSON.decode(response.body)
       end
       describe "response" do
@@ -139,7 +139,37 @@ describe "Api" do
         end
       end
     end
-
+    context "last change_log" do
+      before do
+        @last_log = @user.change_logs.last
+      end
+      context "is updated" do
+        before do
+          @last_log.update_attribute(:changed_at, @last_log.changed_at + 1.second)
+          get api_change_next_path(0.3, @last_log.id, 3), @auth_params, JSON_HEADERS
+          @response_json = ActiveSupport::JSON.decode(response.body)
+        end
+        it { response.should be_success }
+        describe "response JSON" do
+          subject { @response_json }
+          it { should be_kind_of Array }
+          it { should have(1).item }
+          it "has same log id as given" do
+            subject[0]["id"].should == @last_log.id
+          end
+        end
+      end
+      context "is not updated" do
+        before do
+          get api_change_next_path(0.3, @last_log.id, 3), @auth_params, JSON_HEADERS
+        end
+        subject { response.status_message }
+        it { should == "No Content" }
+      end
+    end
+  end
+  
+  describe "GET /api/changes/next/:id (DEPRECATED API)" do
     it "works" do
       @last_id = @user.change_logs.last.id
       @list = List.create!(:user => @user, :name => "foo")

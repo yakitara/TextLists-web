@@ -37,15 +37,28 @@ class Api::ChangeLogsController < ApplicationController
   end
   
   def next
-    # if limit > 1, responses array of logs
-    limit = [params[:limit].to_i, 1].max
-    logs = ChangeLog.where("id > ?", params[:id].to_i).limit(limit).all
-    if logs.present?
-      value = limit > 1 ? logs : logs.first
-      logger.info "  API Response: #{value.to_json}"
-      render :json => value
-    else # logs no more
-      render :nothing => true, :status => :no_content
+    case params[:version]
+    when "0.3"
+      # responses array of logs (<= :limit)
+      logs = ChangeLog.where("id > ?", params[:change_id]).limit(params[:limit]).all
+      if logs.empty?
+        logs = ChangeLog.where(:id => params[:change_id]).where("changed_at > created_at").all
+      end
+
+      if logs.present?
+        logger.info "  API Response: #{logs.to_json}"
+        render :json => logs
+      else # logs no more
+        render :nothing => true, :status => :no_content
+      end
+    else # old version
+      log = ChangeLog.where("id > ?", params[:id]).first
+      if log
+        logger.info "  API Response: #{log.to_json}"
+        render :json => log
+      else # logs no more
+        render :nothing => true, :status => :no_content
+      end
     end
   end
 end

@@ -29,6 +29,7 @@ group :development, :test do
   gem 'launchy'
   gem 'ruby-debug19'
 #  gem 'database_cleaner'
+  gem 'timecop'
 end
 # https://capistrano.lighthouseapp.com/projects/8716/tickets/187-gemspec-for-2520-declares-dependencies-twice
 gem 'capistrano', :git => 'git://github.com/capistrano/capistrano.git'

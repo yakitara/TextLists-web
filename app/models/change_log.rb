@@ -61,9 +61,11 @@ class ChangeLog < ActiveRecord::Base
     false
   end
   
-  before_create do
+  before_save do
     self.user_id ||= self.record.user_id
-    self.changed_at ||= ActiveSupport::JSON.decode(self.json)["updated_at"]
+    unless self.changed_at_changed?
+      self.changed_at = ActiveSupport::JSON.decode(self.json)["updated_at"]
+    end
   end
   
   module Logger

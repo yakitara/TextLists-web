@@ -32,14 +32,22 @@ Items::Application.routes.draw do
     end
   end
   
-  get "/api/key", :to => "api#key", :as => "api_key"
-  get "/api/changes/next(/:id)", :to => "api/change_logs#next", :as => "api_next_change"
-  namespace :api do
+  # old api
+  get "/api/key", :to => "api#key", :as => "api_key", :format => false
+  get "/api/changes/next(/:id)", :to => "api/change_logs#next", :as => "api_next_change", :format => false
+  namespace :api, :format => false do
     resources :items, :only => [:create, :show, :update]
-    post "in-box/items(.:format)", :to => "items#create", :as => "inbox_items", :defaults => {:list => "in-box"}
+    post "in-box/items", :to => "items#create", :as => "inbox_items", :defaults => {:list => "in-box"}
     resources :lists, :only => [:create, :show, :update]
     resources :listings, :only => [:create, :show, :update]
-    resources :changes, :controller => "change_logs", :only => [:create]
+#    resources :changes, :controller => "change_logs", :only => [:create]
+  end
+  
+  # new versioned api
+  scope "/api(/:version)", :module => "api", :as => "api", :version => %r"[^/]+", :format => false do
+    resources :changes, :controller => "change_logs", :only => [:create] do
+      get "next/:limit", :to => "change_logs#next", :as => "next"
+    end
   end
   
   # The priority is based upon order of creation:
