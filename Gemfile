@@ -8,6 +8,10 @@ gem 'pg'
 gem 'jquery-rails'
 gem 'uuidtools'
 
+group :production do
+  gem 'passenger'
+end
+
 group :tasks do
   gem 'ar_fixtures'
   gem 'yaml_waml'

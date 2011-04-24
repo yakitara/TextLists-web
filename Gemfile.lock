@@ -63,9 +63,11 @@ GEM
       ffi (~> 0.6.3)
     columnize (0.3.2)
     configuration (1.2.0)
+    daemon_controller (0.2.6)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    fastthread (1.0.7)
     ffi (0.6.3)
       rake (>= 0.8.7)
     highline (1.6.1)
@@ -98,6 +100,11 @@ GEM
       net-ssh (>= 1.99.1)
     nokogiri (1.4.4)
     oauth (0.4.4)
+    passenger (3.0.7)
+      daemon_controller (>= 0.2.5)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
     pg (0.10.1)
     polyglot (0.3.1)
     rack (1.2.2)
@@ -175,6 +182,7 @@ DEPENDENCIES
   capybara!
   jquery-rails
   launchy
+  passenger
   pg
   rails
   rspec-rails
