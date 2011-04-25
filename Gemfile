@@ -7,6 +7,7 @@ gem 'rails' #, '>= 3.0.3' #, '>= 3.0.0.beta3'
 gem 'pg'
 gem 'jquery-rails'
 gem 'uuidtools'
+gem 'hoptoad_notifier'
 
 group :production do
   gem 'passenger'

@@ -16,3 +16,15 @@ Register as you own app at https://dev.twitter.com/apps.
       :consumer_secret => "#{secret}",
       :oauth_callback => "http://localhost:3000/oauth",
     }
+
+
+Production Environment
+-----------------------
+After `cap deploy:update_code` #{deploy_to}/shared/config/initializers/*r.b will be copied to #{latest_release}/config/initializers.
+Place those secret initializers files for production at #{deploy_to}/shared/config/initializers/
+
+### Create ${deploy_to}shared/config/initializers/hoptoad.rb
+
+    HoptoadNotifier.configure do |config|
+      config.api_key = "#{Hoptaod API key}"
+    end
