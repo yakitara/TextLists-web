@@ -19,6 +19,7 @@ If you see any error, try:
 ruby version
 ------------
 If you change ruby version with RVM,
+
 1. update :rvm_ruby_string in config/deploy.rb
 2. run `rvm use --default`
 
