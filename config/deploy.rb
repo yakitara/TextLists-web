@@ -7,6 +7,8 @@ set :application, "textlists"
 set :scm, :git
 set :deploy_via, :remote_cache
 set :local_repository,  "."
+set :repository, "git://github.com/yakitara/TextLists-web.git"
+
 
 # server "silent.yakitara.com", :app, :web, :db, :primary => true
 # set :deploy_to, "/var/www/items"
@@ -16,20 +18,19 @@ set :use_sudo, false
 # set :shared_tmp, true # for my patch of capistrano
 # raise "Use `bundle exec cap`!" unless shared_children.include?("tmp")
 
-task "jerle" do
+desc "production"
+task "textlists.yakitara.com" do
   server "jerle.yakitara.com", :app, :web, :db, :primary => true
   set :deploy_to, "/var/www/textlists"
   set :rvm_ruby_string, 'ruby-1.9.2-p180'
-  set :repository, "/var/www/git/textlists.git"
 end
 
-task "jerle.8080" do
+desc "staging"
+task "textlists.yakitara.com:8080" do
   server "jerle.yakitara.com", :app, :web, :db, :primary => true
   set :deploy_to, "/var/www/textlists.8080"
   set :rvm_ruby_string, 'ruby-1.9.2-p180'
-  set :repository, "/var/www/git/textlists.git"
-  set :branch, "TextLists2"
-  set :rvm_bin_path, "/usr/local/bin"
+  # set :rvm_bin_path, "/usr/local/bin"
   set :passenger_standalone, {:port => 8080}
 end
 
