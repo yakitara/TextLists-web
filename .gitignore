@@ -4,4 +4,5 @@ log/*.log
 tmp/**/*
 webrat.log
 config/initializers/oauth_consumer_secret.rb
+config/initializers/secret_token.rb
 .DS_Store
