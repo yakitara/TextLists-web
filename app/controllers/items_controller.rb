@@ -24,7 +24,7 @@ class ItemsController < ApplicationController
   
   # index of done items
   def done
-    @items = Item.includes(:listings => :list).where("listings.deleted_at IS NOT NULL").paginate :page => params[:page], :order => 'listings.deleted_at DESC'
+    @items = Item.includes(:listings => :list).where("listings.deleted_at IS NOT NULL").order('listings.deleted_at DESC').paginate(:page => params[:page])
   end
   
 #   def show
