@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
   
   def index
     if @list
-      @items = @list.items.select("items.*, listings.id AS listed_listing_id")
+      @items = @list.items.select("items.*, listings.id AS listed_listing_id").includes(:listings)
     else
       @items = Item
     end
