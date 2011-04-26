@@ -1,7 +1,6 @@
 <div class="item toggle" id='<%= dom_id(item) %>'>
   <div class="title">
-    <%= item.title %>
-    <%= extract_external_links(item.content) %>
+    <%= render "title", :item => item %>
   </div>
   <div class="changed" style="display:none;">changed</div>
   <div class="edit" style="display:none;">

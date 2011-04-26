@@ -57,10 +57,8 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     if @item.update_attributes(params[:item])
-      render :json => {:title => @item.title}
-    #   redirect_to(@list ? [@list, :items] : root_path)
-    # else
-    #   render :show
+      title_html = render_to_string(:partial => "title.html", :locals => {:item => @item})
+      render :json => {:title => title_html}
     end
   end
   
