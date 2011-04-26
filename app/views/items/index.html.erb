@@ -10,10 +10,6 @@
 
 <hr/>
 
-<% if true %>
-
-
-
 <div class="list" id='<%= dom_id(@list) %>'>
   <%= form_for [@list, @list.items.build], :remote => true, :html => {"data-type" => "html"} do |f| %>
     <%= hidden_field_tag "item[listings_attributes][][list_id]", @list.id %>
@@ -25,27 +21,3 @@
     <%= render @items, :list => @list, :selectable_lists => @lists %>
   </div>
 </div>
-
-
-
-
-
-<% else %>
-<ol class="sortable items" data-url='<%= sort_list_items_path(@list) %>'>
-<% @items.each do |item| %>
-  <li class='<%= cycle "odd", "even" %> span-13 last item' id='item_<%= item.id %>'>
-    <div class="span-10">
-      <%= link_to underscore_exclusively_whitespaces(truncate(item.content, :length => 140)), list_item_path(@list, item) %>
-      <%= extract_external_links(item.content) %>
-    </div>
-    <div class="prepend-10">
-      <select name="listing[list_id]" data-url='<%= move_list_item_listings_path(@list, item) %>' data-method="post" data-remote="true" class="list">
-        <%= options_from_collection_for_select @lists, :id, :name, @list.id %>
-        <!-- <option value="new">new list...</option> -->
-      </select>
-      <%= link_to "done", list_item_listing_path(@list, item, item.listed_listing_id), :method => "delete", :remote => true, "data-type" => "json", :class => "ajax_remove" %>
-    </div>
-  </li>
-<% end %>
-</ol>
-<% end %>

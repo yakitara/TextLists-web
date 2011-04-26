@@ -1,7 +1,7 @@
 module ApplicationHelper
   def extract_external_links(text)
-    text.scan(ActionView::Helpers::TextHelper::AUTO_LINK_RE).map do
-      link_to(image_tag("link.png"), $&, :target => "_blank")
+    text.gsub(ActionView::Helpers::TextHelper::AUTO_LINK_RE).map do |m|
+      link_to(image_tag("link.png"), m, :target => "_blank", :title => m)
     end.join.html_safe
   end
 
