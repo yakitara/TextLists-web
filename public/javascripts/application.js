@@ -111,6 +111,10 @@ $('.item .undone_item').live("ajax:success", function(event, data, status, xhr) 
     $(this).parents(".item").remove();
 });
 // move
+$('.item form.move_item select').live('change', function (event) {
+    $(this).parents(".item").find("input").attr("disabled", "disabled");
+    $(this).parents("form").submit();
+});
 $('.item form.move_item').live("ajax:success", function (event, data, status, xhr) {
     var src_list_id = Number($(this).parents(".list")[0].id.match(/list_(\d+)/)[1]);
     if (data.list_id !== src_list_id) {

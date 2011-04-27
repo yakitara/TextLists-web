@@ -51,7 +51,7 @@ describe "Items" do
       within(item_selector) do
         find(".title").should have_content("should be moved")
         select "another list", :from => "listing[list_id]"
-        click_on "move"
+        #click_on "move"
       end
       page.should have_no_selector(item_selector)
     end
