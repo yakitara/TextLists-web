@@ -49,10 +49,6 @@ jQuery(function ($) {
         }
       });
     $(".sortable").disableSelection();
-    
-    $('.item .ajax_remove, .list').bind("ajax:success", function(event, data, status, xhr) {
-        $("#item_" + data["item_id"]).remove();
-      });
 });
 
 
@@ -101,13 +97,17 @@ $('.item form.edit_item').live("ajax:success", function (event, data, status, xh
     item.children(".changed").fadeOut();
     item.children(".title").html(data.title);
 });
-// selected
+// click to ".selected"
 $('.item').live("click", function () {
     $('.item').removeClass("selected");
     $(this).addClass("selected");
 });
 // done
 $('.item form.done_item').live("ajax:success", function (event, data, status, xhr) {
+    $(this).parents(".item").remove();
+});
+// undone
+$('.item .undone_item').live("ajax:success", function(event, data, status, xhr) {
     $(this).parents(".item").remove();
 });
 // move

@@ -14,7 +14,7 @@
     <div class="prepend-10">
       <%= time_ago_in_words listing.deleted_at %> ago
       from <%= link_to listing.list.name, list_path(listing.list) %>.
-      <%= link_to "undone", undone_item_listing_path(item, listing), :method => "put", :remote => true, "data-type" => "json", :class => "ajax_remove" %>
+      <%= link_to "undone", undone_item_listing_path(item, listing), :method => "put", :remote => true, "data-type" => "json", :class => "undone_item" %>
     </div>
   </li>
 <% end %>
