@@ -1,43 +1,4 @@
 jQuery(function ($) {
-    // var csrf_token = $('meta[name=csrf-token]').attr('content'),
-    //     csrf_param = $('meta[name=csrf-param]').attr('content');
-    
-//     $('select[data-url]').live('change', function () {
-// //    $('select[data-url]').bind('change', function () {
-//         var el = $(this),
-//           url = el.attr('data-url'),
-//           method = el.attr('data-method');
-//         if (el.attr('data-remote')) {
-//           $.ajax({
-//             url: url,
-//                 type: method.toUpperCase(),
-//                 data: el.serialize(),
-//                 success: function (data, status, xhr) { el.trigger('ajax:success', [data, status, xhr]); }
-//             });
-//         } else {
-          
-//         }
-// /*
-//         var node = $(this),
-//             url = node.attr('data-url'),
-//             method = node.attr('data-method'),
-//             form = $('<form method="post" action="'+url+'">'),
-//             metadata_input = '<input name="_method" value="'+method+'" type="hidden" />';
-        
-//         if (csrf_param != null && csrf_token != null) {
-//           metadata_input += '<input name="'+csrf_param+'" value="'+csrf_token+'" type="hidden" />';
-//         }
-        
-//         form.hide()
-//             .append(metadata_input)
-//             .append(node)
-//             .appendTo('body');
-        
-//         e.preventDefault();
-//         form.submit();
-// */
-//     });
-    
     $(".sortable").sortable({
       axis: 'y',
       update:function(event, ui) {
@@ -51,12 +12,13 @@ jQuery(function ($) {
     $(".sortable").disableSelection();
 });
 
-
+// new item
 $('form.new_item').live("ajax:success", function(event, data, status, xhr) {
     $('.items').prepend(data);
     this.reset();
 });
 
+// open/close item
 $('.item .title').live("dblclick", function () {
     $(this).parent().children(".edit").toggle();
 });
@@ -97,20 +59,24 @@ $('.item form.edit_item').live("ajax:success", function (event, data, status, xh
     item.children(".changed").fadeOut();
     item.children(".title").html(data.title);
 });
+
 // click to ".selected"
 $('.item').live("click", function () {
     $('.item').removeClass("selected");
     $(this).addClass("selected");
 });
-// done
+
+// done item
 $('.item form.done_item').live("ajax:success", function (event, data, status, xhr) {
     $(this).parents(".item").remove();
 });
-// undone
+
+// undone item
 $('.item .undone_item').live("ajax:success", function(event, data, status, xhr) {
     $(this).parents(".item").remove();
 });
-// move
+
+// move item
 $('.item form.move_item select').live('change', function (event) {
     $(this).parents(".item").find("input").attr("disabled", "disabled");
     $(this).parents("form").submit();
