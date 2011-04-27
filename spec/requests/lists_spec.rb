@@ -22,12 +22,6 @@ describe "Lists" do
       #response.should contain("foo updated")
       page.should have_content("foo updated")
       
-      # NOTE: webrat doesn't seem to know about ujs
-      # click_link "delete this list"
-      # FIXME: should popup confirm dialog
-      # list = @current_user.lists.first
-      # delete list_path(list)
-      # response.should_not contain("foo updated")
       click_link "delete this list"
       page.should_not have_content("foo updated")
     end
@@ -46,9 +40,5 @@ describe "Lists" do
     end
     it { @list.deleted_at.should_not be_nil }
     it { @listing.deleted_at.should_not be_nil }
-  end
-  
-  describe "xhr GET /lists/:id/sort" do
-    it "works"
   end
 end

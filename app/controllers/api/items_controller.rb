@@ -1,15 +1,6 @@
 class Api::ItemsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :set_lists
   before_filter :api_key_required
-#   before_filter do
-#     user = User.find(params[:user_id])
-#     if params[:key] == calculate_api_key(user.salt)
-#       @current_user = user
-#     else
-#       render :nothing => true, :status => 403
-#       false
-#     end
-#   end
   
   around_filter do |controller, action|
     Item.with_user_scope(current_user) do

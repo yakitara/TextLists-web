@@ -58,33 +58,7 @@ describe "Items" do
     
     it "sorts items" # it semms to be difficult to do even with drag_to
   end
-  
-  # describe "new -> create -> update" do
-  #   it "works" do
-  #     @list = @current_user.lists.create!(:name => "foo")
-      
-  #     #get list_items_path(@list.id)
-  #     #response.should be_success
-  #     visit list_items_path(@list.id)
 
-  #     click_link "new item"
-  #     # new -> create
-  #     fill_in "item[content]", :with => "hoge"
-  #     click_button "save"
-  #     # index
-  #     # response.should contain("hoge")
-  #     page.should have_content("hoge")
-      
-  #     click_link "hoge"
-  #     # show -> update
-  #     fill_in "item[content]", :with => "hoge updated"
-  #     click_button "save"
-  #     # index
-  #     # response.should contain("hoge updated")
-  #     page.should have_content("hoge updated")
-  #   end
-  # end
-  
   describe "#done" do
     before do
       visit done_items_path

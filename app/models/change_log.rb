@@ -1,7 +1,7 @@
 # The basic rule is simple:
-# 1. Sotre any change logs of clients and the server into the server.
+# 1. Store any change logs of clients and the server into the server.
 # 2. In ASC sequential order of change_logs.id, apply any unapplied logs to records.
-#   - If any newer changed_at logs are available, the change of the current log is going to be merged with them)
+#   - If any newer changed_at logs are available, the change of the current log is going to be merged with them
 class ChangeLog < ActiveRecord::Base
   include UserScope
   

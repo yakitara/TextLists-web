@@ -1,9 +1,9 @@
 # -*-ruby-*-
+# http://gembundler.com/man/gemfile.5.html
 source 'http://rubygems.org'
 
 gem 'bundler'
-gem 'rails' #, '>= 3.0.3' #, '>= 3.0.0.beta3'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'rails'
 gem 'pg'
 gem 'jquery-rails'
 gem 'uuidtools'
@@ -19,8 +19,6 @@ group :tasks do
 end
 
 gem 'twitter_oauth'
-# gem 'ruby-openid', '2.1.8', :git => "git://github.com/openid/ruby-openid.git"
-# gem 'rack-openid', :require => 'rack/openid'
 gem 'will_paginate'
 
 group :development, :test do
@@ -28,6 +26,7 @@ group :development, :test do
   gem 'rspec-rails' #, '>= 2.3.0' #, '>= 2.0.0.beta.17'
   # NOTE: Capybara 0.4.1.2 has bug around :js => true
   # gem 'capybara' , '> 0.4.1.2', :git => 'git://github.com/jnicklas/capybara.git'
+  # TODO: 2011-04-27: soom capybara 1.0 will be released
   gem 'capybara' , :git => 'git://github.com/jnicklas/capybara.git'
   gem 'akephalos'
   #gem 'akephalos', :git => 'git://github.com/thoughtbot/akephalos.git'
@@ -38,29 +37,3 @@ group :development, :test do
 end
 # https://capistrano.lighthouseapp.com/projects/8716/tickets/187-gemspec-for-2520-declares-dependencies-twice
 gem 'capistrano', :git => 'git://github.com/capistrano/capistrano.git'
-
-
-
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri', '1.4.1'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-# Bundle gems for certain environments:
-# gem 'rspec-rails', :group => :test
-# group :test do
-#   gem 'webrat'
-# end

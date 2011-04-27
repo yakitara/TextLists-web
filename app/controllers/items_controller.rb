@@ -27,19 +27,7 @@ class ItemsController < ApplicationController
     @items = Item.includes(:listings => :list).where("listings.deleted_at IS NOT NULL").order('listings.deleted_at DESC').paginate(:page => params[:page])
   end
   
-#   def show
-#     @item = Item.find(params[:id])
-# #    content_for :title, "#{@item.} - #{Rails.application.config.app_name}"
-#   end
-  
-  # def new
-  #   @item = Item.new
-  #   @item.listings.build(:list => @list)
-  #   render :show
-  # end
-  
   def create
-    # @item = Item.new(params[:item])
     if @list
       @item = @list.items.build(params[:item])
     else
@@ -48,9 +36,6 @@ class ItemsController < ApplicationController
     
     if @item.save
       render :partial => @item, :locals => {:list => @list, :selectable_lists => @lists}
-    #   redirect_to(@list ? [@list, :items] : root_path)
-    # else
-    #   render :show
     end
   end
   

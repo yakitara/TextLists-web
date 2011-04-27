@@ -8,8 +8,8 @@
   <% listing = item.listings.first %>
   <li class='<%= cycle "odd", "even" %> span-13 last item' id='item_<%= item.id %>'>
     <div class="span-10">
-      <%= link_to underscore_exclusively_whitespaces(truncate(item.content, :length => 140)), item_path(item) %>
-      <%= extract_external_links(item.content) %>
+      <%= underscore_exclusively_whitespaces truncate(item.content, :length => 140) %>
+      <%= extract_external_links item.content %>
     </div>
     <div class="prepend-10">
       <%= time_ago_in_words listing.deleted_at %> ago
