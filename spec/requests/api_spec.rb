@@ -145,7 +145,7 @@ describe "Api" do
       end
       context "is updated" do
         before do
-          @last_log.update_attribute(:changed_at, @last_log.changed_at + 1.second)
+          @last_log.update_attribute(:changed_at, @last_log.changed_at + 2.second)
           get api_change_next_path(0.3, @last_log.id, 3), @auth_params, JSON_HEADERS
           @response_json = ActiveSupport::JSON.decode(response.body)
         end
