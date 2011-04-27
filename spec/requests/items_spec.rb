@@ -2,10 +2,9 @@ require 'spec_helper'
 
 describe "Items" do
   include RequestsSupport
-  # fixtures :all
   
   before(:each) do
-    create_login_session
+    create_login_session("taro")
   end
   
   context "#index" do
@@ -86,11 +85,19 @@ describe "Items" do
   #   end
   # end
   
-#   describe "done list" do
-#     it "works" do
-#       pending
-# #       get done_items_path
-# #       response.should be_success
-#     end
-#   end
+  describe "#done" do
+    before do
+      visit done_items_path
+    end
+    describe "undone", :js => true do
+      before do
+        @selector = ".items .item##{dom_id(items(:done_item))}"
+        within(@selector) do
+          click_on "undone"
+        end
+      end
+      subject { page }
+      it { should_not have_selector(@selector) }
+    end
+  end
 end

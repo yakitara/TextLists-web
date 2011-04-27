@@ -1,0 +1,5 @@
+done_item_in_list_a:
+  user: taro
+  list: list_a
+  item: done_item
+  deleted_at: 2011-04-26 14:07:32 +0900

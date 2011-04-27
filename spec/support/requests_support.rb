@@ -1,4 +1,6 @@
 module RequestsSupport
+  include ActionController::RecordIdentifier # for dom_id() helper
+
 #   def create_login_session
 #     resp = stub(OpenID::Consumer)
 #     resp.should_receive(:status).and_return(:success)
@@ -15,7 +17,8 @@ module RequestsSupport
 #     Credential.find_by_identifier_and_user_id("http://example.com", @current_user.id).should_not be_nil
 #   end  
 
-  def create_login_session
+  def create_login_session(name=nil)
+    name ||= "yakitaracom"
     client = mock(TwitterOAuth::Client)
     TwitterOAuth::Client.should_receive(:new).twice.and_return(client)
     request_token = mock(OAuth::RequestToken)
@@ -25,7 +28,7 @@ module RequestsSupport
     client.should_receive(:request_token).and_return(request_token)
     access_token = mock(OAuth::AccessToken)
     client.should_receive(:authorize).and_return(access_token)
-    access_token.should_receive(:params).and_return({:screen_name => "yakitaracom"})
+    access_token.should_receive(:params).and_return({:screen_name => name})
     cred_count = Credential.count
     user_count = User.count
     
@@ -39,11 +42,11 @@ module RequestsSupport
     # response.should be_redirect
     
 #    session[:identifier].should == "yakitaracom"
-    User.count.should == user_count + 1
-    Credential.count.should == cred_count + 1
+    # User.count.should == user_count + 1
+    # Credential.count.should == cred_count + 1
     # @current_user = User.first
     # Credential.find_by_identifier_and_user_id("yakitaracom", @current_user.id).should_not be_nil
-    @current_user = User.joins(:credentials).where(:credentials => {:identifier => "yakitaracom"}).first
+    @current_user = User.joins(:credentials).where(:credentials => {:identifier => name}).first
   end
 
   # webrat
