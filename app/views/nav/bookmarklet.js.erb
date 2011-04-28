@@ -35,10 +35,13 @@ function openTextListsBookmarklet() {
   d.style.padding="4px";
   document.body.appendChild(d);
   var a = document.createElement('a');
-  a.href = "javascript:closeTextListsBookmarklet(); return false;";
-  a.innerHTML = "close";
+  a.href = "javascript:closeTextListsBookmarklet(); false;";
+  a.innerHTML=" ";
+  a.style.background="url(<%= image_path('close.png') %>) no-repeat"
+  a.style.width="16px";
+  a.style.height="16px";
   a.style.position="absolute";
-  a.style.right="2px"
+  a.style.right="4px"
   d.appendChild(a);
   var i = document.createElement('iframe');
   i.src = "<%= new_bookmark_url %>?title=" + encodeURIComponent(title) + "&link=" + encodeURIComponent(link) + "&selection=" + encodeURIComponent(document.getSelection());
