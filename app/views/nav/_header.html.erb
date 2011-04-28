@@ -1,7 +1,7 @@
 <% if current_user? %>
   <span title='@<%= session[:identifier] %>'>@<%= session[:identifier] %></span>
-  | <%= link_to "logout", logout_path, :method => "delete" %>
-  | <%= link_to "bookmarklet", bookmarklet_path %>
+  ( <%= link_to "logout", logout_path, :method => "delete" %> )
+  | <%= link_to "Bookmarklet", bookmarklet_path %>
 <% else %>
   <%= link_to "login", login_path %>
 <% end %>
