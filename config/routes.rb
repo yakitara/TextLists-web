@@ -2,6 +2,7 @@
 Items::Application.routes.draw do
   root :to => "nav#index"
   get "/bookmarklet(.:format)", :to => "nav#bookmarklet", :as => "bookmarklet"
+  get "/bookmark/new", :to => "nav#bookmark", :as => "new_bookmark"
   get "/login", :to => "nav#login", :as => "login"
   get "/oauth", :to => "nav#oauth", :as => "oauth"
   delete "/logout", :to => "nav#logout", :as => "logout"

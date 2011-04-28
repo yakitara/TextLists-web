@@ -35,7 +35,12 @@ class ItemsController < ApplicationController
     end
     
     if @item.save
-      render :partial => @item, :locals => {:list => @list, :selectable_lists => @lists}
+      if request.xhr?
+        render :partial => @item, :locals => {:list => @list, :selectable_lists => @lists}
+      else
+        # from bookmarklet
+        render :text => "<hr/>A note created.", :layout => "bookmarklet"
+      end
     end
   end
   

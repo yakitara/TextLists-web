@@ -1,8 +1,4 @@
 class NavController < ApplicationController
-  before_filter :only => [:login, :oauth] do
-  end
-  
-  
   def index
     render :nothing => true, :layout => true
   end
@@ -39,6 +35,26 @@ class NavController < ApplicationController
     redirect_to root_url
   end
 
+  # /bookmark(.js) and /bookmark(.html)
   def bookmarklet
+  end
+
+  # /bookmark/new
+  def bookmark
+    if current_user?
+      @item = current_user.items.new(:content => <<-CONTENT)
+#{params[:title]}
+#{params[:link]}
+
+#{params[:selection]}
+      CONTENT
+      @item.listings.build(:list => current_user.inbox!)
+      render :layout => "bookmarklet"
+    else
+      render :inline => <<-INLINE, :layout => "bookmarklet"
+<p><%= link_to "Login required", login_path(:return_to => "/close.html"), :target => "_blank" %>.</p>
+<p>After login, please <%= link_to "try again", new_bookmark_path %>.</p>
+      INLINE
+    end
   end
 end

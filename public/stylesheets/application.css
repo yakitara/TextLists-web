@@ -67,3 +67,21 @@ div.item.selected:hover .actions {
 div.item .actions select {
     width: 80px;
 }
+
+/* bookmarklet */
+.bookmark {
+    overflow: hidden;
+}
+.bookmark textarea {
+    width: 196px;
+    padding: 2px;
+    margin: 2px;
+}
+.bookmark select {
+    margin: 0px;
+    width: 110px;
+}
+.bookmark input {
+    margin: 0px;
+    float:right;
+}

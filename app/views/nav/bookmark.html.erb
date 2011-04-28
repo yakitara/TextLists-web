@@ -1,0 +1,9 @@
+<div class="bookmark">
+  <%= form_for @item do |f| %>
+    <%= f.text_area :content, :rows => 6 %>
+    <%= f.fields_for :listings do |listings_fields| %>
+      <%= listings_fields.collection_select :list_id, @lists, :id, :name %>
+    <% end %>
+    <%= f.submit "bookmark" %>
+  <% end %>
+</div>
