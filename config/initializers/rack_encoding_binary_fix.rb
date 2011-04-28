@@ -11,7 +11,7 @@ ActionDispatch::Http::Parameters.module_eval do
   private
   def normalize_parameters_with_force_encoding_to_utf8(value)
     case value
-    when Hash, Array
+    when Hash, Array, nil
     else
       value = value.force_encoding("UTF-8")
     end
