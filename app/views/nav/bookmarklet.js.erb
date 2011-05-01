@@ -37,7 +37,7 @@ function openTextListsBookmarklet() {
   var a = document.createElement('a');
   a.href = "javascript:closeTextListsBookmarklet(); false;";
   a.innerHTML=" ";
-  a.style.background="url(<%= image_path('close.png') %>) no-repeat"
+  a.style.background="url(<%= URI.join(root_url, image_path('close.png')) %>) no-repeat"
   a.style.width="16px";
   a.style.height="16px";
   a.style.position="absolute";
