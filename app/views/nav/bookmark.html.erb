@@ -1,5 +1,5 @@
 <div class="bookmark">
-  <%= form_for @item do |f| %>
+  <%= form_for @item, :remote => true, :html => {"data-type" => "json"} do |f| %>
     <%= f.text_area :content, :rows => 6 %>
     <%= f.fields_for :listings do |listings_fields| %>
       <%= listings_fields.collection_select :list_id, @lists, :id, :name %>
@@ -7,3 +7,9 @@
     <%= f.submit "bookmark" %>
   <% end %>
 </div>
+
+<script>
+$("form").live("ajax:success", function (event) {
+  window.parent.postMessage("closeTextListsBookmarklet", "*");
+});
+</script>

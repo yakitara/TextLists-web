@@ -49,6 +49,12 @@ function openTextListsBookmarklet() {
   i.style.height="130px";
   i.style.border="0px";
   d.appendChild(i);
+
+  window.addEventListener("message", function (event) {
+    if ("<%= root_url %>".match(event.origin)) {
+      closeTextListsBookmarklet();
+    }
+  }, false);
 }
 // jQuerify
 (function () {
