@@ -50,9 +50,11 @@ function openTextListsBookmarklet() {
   i.style.border="0px";
   d.appendChild(i);
 
-  window.addEventListener("message", function (event) {
-    if ("<%= root_url %>".match(event.origin)) {
-      closeTextListsBookmarklet();
+  $(window).bind("message", function (event) {
+    if ("<%= root_url %>".match(event.originalEvent.origin)) {
+      if (event.originalEvent.data === "closeTextListsBookmarklet") {
+        closeTextListsBookmarklet();
+      }
     }
   }, false);
 }
