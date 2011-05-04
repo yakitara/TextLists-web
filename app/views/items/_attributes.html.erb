@@ -1,0 +1,3 @@
+<% [:created_at, :updated_at].each do |attr| %>
+  <div title="<%= item.send(attr) %>"><%= attr.to_s.humanize %>: <%= time_ago_in_words item.send(attr) %> ago</div>
+<% end %>

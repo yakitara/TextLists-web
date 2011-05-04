@@ -46,7 +46,8 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if @item.update_attributes(params[:item])
       title_html = render_to_string(:partial => "title.html", :locals => {:item => @item})
-      render :json => {:title => title_html}
+      attributes_html = render_to_string(:partial => "attributes.html", :locals => {:item => @item})
+      render :json => {:title => title_html, :attributes => attributes_html}
     end
   end
   

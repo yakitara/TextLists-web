@@ -7,6 +7,9 @@
     <%= form_for item, :remote => true do |f| %>
       <%= f.text_area :content, :rows => 6 %>
     <% end %>
+    <div class="attributes">
+      <%= render "attributes", :item => item %>
+    </div>
   </div>
   <div class="actions">
     <div>

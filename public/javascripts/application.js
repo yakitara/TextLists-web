@@ -58,6 +58,7 @@ $('.item form.edit_item').live("ajax:success", function (event, data, status, xh
     var item = $(this).parents(".item");
     item.children(".changed").fadeOut();
     item.children(".title").html(data.title);
+    item.find(".attributes").html(data.attributes);
 });
 
 // click to ".selected"
