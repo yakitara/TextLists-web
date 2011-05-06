@@ -17,7 +17,9 @@
     <%= csrf_meta_tag %>
     <title>
       <% if content_for? :title %>
-        <%= yield :title %> - <%= Rails.application.config.app_name %>
+        <%= yield :title %>
+      <% elsif content_for? :sub_title %>
+        <%= yield :sub_title %> - <%= Rails.application.config.app_name %>
       <% else %>
         <%= Rails.application.config.app_name %>
       <% end %>
