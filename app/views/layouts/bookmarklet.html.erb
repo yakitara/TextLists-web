@@ -13,13 +13,7 @@
     <%= javascript_include_tag "jquery", "jquery-ui-1.8.custom.min", "rails", "application" %>
     <%#= javascript_tag "$.ajaxSetup({ async: false });" if Rails.env == "test" %>
     <%= csrf_meta_tag %>
-    <title>
-      <% if content_for? :title %>
-        <%= yield :title %> - <%= Rails.application.config.app_name %>
-      <% else %>
-        <%= Rails.application.config.app_name %>
-      <% end %>
-    </title>
+    <title>+TextLists</title>
   </head>
   <body>
     <div class="bookmarklet">

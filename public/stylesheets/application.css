@@ -22,6 +22,30 @@ ol.items li {
 }
 
 /* TextLists2 */
+.header {
+  position: relative;
+}
+.header .login {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+.header .title {
+  font-size: 140%;
+  font-weight: bold:
+}
+.header .title a {
+  text-decoration: none;
+}
+
+.description h2 {
+  border-bottom: solid 2px gray;
+}
+
+.screenshot {
+  border: solid 1px gray;
+}
+
 .items {
     padding-bottom: 60px;
 }

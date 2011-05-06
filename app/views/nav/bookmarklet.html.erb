@@ -1,19 +1,11 @@
 <% content_for :title do %>
-  Bookmarklet
+  +TextLists
 <% end %>
 
-<p>
-Drag the link into the bookmark bar: <%= link_to "+TextLists", render(:partial => "bookmarklet.js") %>
-</p>
-
-<p>
-For iPhone OS devices,
+Install the bookmarklet for iOS devices:
 <ol>
   <li>Bookmark this page.</li>
   <li>Copy the text area below.</li>
   <li>Paste the content of the clipboard into url of the bookmark created this time</li>
 </ol>
-</p>
-<textarea rows="8">
-<%= render :partial => "bookmarklet.js"%>
-</textarea>
+<textarea rows="4"><%= render :partial => "bookmarklet.js"%></textarea>

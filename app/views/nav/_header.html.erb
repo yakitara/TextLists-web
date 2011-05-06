@@ -1,7 +1,12 @@
-<% if current_user? %>
-  <span title='@<%= session[:identifier] %>'>@<%= session[:identifier] %></span>
-  ( <%= link_to "logout", logout_path, :method => "delete" %> )
-  | <%= link_to "Bookmarklet", bookmarklet_path %>
-<% else %>
-  <%= link_to "login", login_path %>
-<% end %>
+<div class="header">
+  <span class="title"><%= link_to "TextLists", root_path %></span>
+
+  <div class="login">
+    <% if current_user? %>
+      <span title='@<%= session[:identifier] %>'>@<%= session[:identifier] %></span>
+      ( <%= link_to "logout", logout_path, :method => "delete" %> )
+    <% else %>
+      <%= link_to "login", login_path %>
+    <% end %>
+  </div>
+</div>
