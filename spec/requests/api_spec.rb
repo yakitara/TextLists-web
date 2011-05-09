@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 # When hang at /usr/local/rvm/gems/ruby-1.9.2-preview3/gems/activerecord-3.0.0.beta4/lib/active_record/base.rb:1041:in `method_missing'
@@ -118,7 +119,20 @@ describe "Api" do
     end
     
     it "an existed record posted twice"
+
+    it "ensures a bugfix, a listing failed to belongs to uuid of a deleted list", :bugfix => true do
+      @changes = [
+        {"created_at"=>"2011-05-08T23:06:03+0900", "record_type"=>"List", "json"=>"{\"name\":\"in-box\",\"created_at\":\"2011-05-08T22:20:49+0900\",\"updated_at\":\"2011-05-08T22:20:49+0900\",\"uuid\":\"294F769C-FE57-494D-A65B-844EDC899E93\",\"position\":999}"},
+        {"created_at"=>"2011-05-08T23:06:03+0900", "record_type"=>"List", "json"=>"{\"name\":\"テスト\",\"deleted_at\":\"2011-05-08T22:53:52+0900\",\"position\":999,\"updated_at\":\"2011-05-08T22:53:52+0900\",\"uuid\":\"3DF44D43-211C-4A06-9732-577F5F36B650\",\"created_at\":\"2011-05-08T22:21:01+0900\"}"},
+        {"created_at"=>"2011-05-08T23:06:03+0900", "record_type"=>"Item", "json"=>"{\"updated_at\":\"2011-05-08T22:21:13+0900\",\"content\":\"テスト\",\"uuid\":\"C2BB9FDD-0E4D-49BA-9ADC-9CB49678726D\",\"created_at\":\"2011-05-08T22:21:13+0900\"}"},
+        {"created_at"=>"2011-05-08T23:06:03+0900", "record_type"=>"Item", "json"=>"{\"updated_at\":\"2011-05-08T22:21:38+0900\",\"content\":\"テスト\",\"uuid\":\"0472F957-4EFD-4AC6-B974-59F810C17A06\",\"created_at\":\"2011-05-08T22:21:38+0900\"}"},
+        {"created_at"=>"2011-05-08T23:06:03+0900", "record_type"=>"Listing", "json"=>"{\"list_uuid\":\"3DF44D43-211C-4A06-9732-577F5F36B650\",\"item_uuid\":\"C2BB9FDD-0E4D-49BA-9ADC-9CB49678726D\",\"position\":0,\"created_at\":\"2011-05-08T22:21:13+0900\",\"deleted_at\":\"2011-05-08T22:53:52+0900\",\"updated_at\":\"2011-05-08T22:53:52+0900\",\"uuid\":\"6D8B2A3B-922F-471A-956D-5B234E55FE24\"}"},
+        {"created_at"=>"2011-05-08T23:06:03+0900", "record_type"=>"Listing", "json"=>"{\"list_uuid\":\"3DF44D43-211C-4A06-9732-577F5F36B650\",\"item_uuid\":\"0472F957-4EFD-4AC6-B974-59F810C17A06\",\"position\":0,\"created_at\":\"2011-05-08T22:21:38+0900\",\"deleted_at\":\"2011-05-08T22:53:52+0900\",\"updated_at\":\"2011-05-08T22:53:52+0900\",\"uuid\":\"A0A659AB-3BAA-4C11-BABF-21F9E96A611F\"}"}
+      ]
+      post api_changes_path, @auth_params.merge(:changes => @changes).to_json, JSON_HEADERS
+    end
   end
+
 
   describe "GET /api/0.3/changes/:id/next/:limit" do
     context "response multiple change_logs" do

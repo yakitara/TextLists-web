@@ -5,7 +5,7 @@ module BelongsToUuid
         base.class_eval do
           attr_reader "#{name}_uuid"
           define_method "#{name}_uuid=" do |value|
-            self.send("#{name}_id=", reflection.klass.where(:uuid => value).first.id)
+            self.send("#{name}_id=", reflection.klass.unscoped.where(:uuid => value).first.id)
           end
         end
       end
