@@ -1,6 +1,40 @@
 <div class="description">
-  <h1>TextLists</h1>
-<a href="http://twitter.com/share" class="twitter-share-button" data-url="http://textlists.yakitara.com/" data-count="horizontal" data-via="textlists">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+  <h1>
+    TextLists
+    <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://textlists.yakitara.com/" data-count="horizontal" data-via="textlists"></a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+  </h1>
+
+  <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 2,
+  interval: 6000,
+  width: 'auto',
+  height: 300,
+  theme: {
+    shell: {
+      background: '#c0cfdb',
+      color: '#2d19c4'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#2e2e2e',
+      links: '#1707eb'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: false,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('textlists').start();
+</script>
 
   <h2>What?</h2>
   <ul>
