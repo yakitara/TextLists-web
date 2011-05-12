@@ -21,11 +21,11 @@
     <div class="label-options">
       <% list.labels.each do |l| %>
     <% if item.labels.include?(l) %>
-        <span class="label unassign">
+        <span class="label unassign" style="background-color: #<%= l.color %>">
           <%= link_to l.name, [list, item, l], :remote => true, :method => "delete" %>
         </span>
     <% else %>
-        <span class="label assign">
+        <span class="label assign" style="background-color: #<%= l.color %>">
           <%= link_to l.name, [list, item, l], :remote => true, :method => "post" %>
         </span>
     <% end %>
