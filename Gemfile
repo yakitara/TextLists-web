@@ -28,7 +28,9 @@ group :development, :test do
   # gem 'capybara' , '> 0.4.1.2', :git => 'git://github.com/jnicklas/capybara.git'
   # TODO: 2011-04-27: soom capybara 1.0 will be released
   gem 'capybara' , :git => 'git://github.com/jnicklas/capybara.git'
-  gem 'akephalos'
+  #gem 'akephalos'
+  #gem 'akephalos', :path => "../akephalos"
+  gem 'akephalos', :git => 'git://github.com/hiroshi/akephalos.git', :branch => "capybara_0.4.0_or_newer"
   #gem 'akephalos', :git => 'git://github.com/thoughtbot/akephalos.git'
   gem 'launchy'
   gem 'ruby-debug19'
