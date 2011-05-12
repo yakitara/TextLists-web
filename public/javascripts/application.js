@@ -19,7 +19,7 @@ $('form.new_item').live("ajax:success", function(event, data, status, xhr) {
 });
 
 // open/close item
-$('.item .title').live("dblclick", function () {
+$('.item .head').live("dblclick", function () {
     $(this).parent().children(".edit").toggle();
 });
 
@@ -57,7 +57,7 @@ $('.item textarea').live('keyup', function(e) {
 $('.item form.edit_item').live("ajax:success", function (event, data, status, xhr) {
     var item = $(this).parents(".item");
     item.children(".changed").fadeOut();
-    item.children(".title").html(data.title);
+    item.find(".title").html(data.title);
     item.find(".attributes").html(data.attributes);
 });
 

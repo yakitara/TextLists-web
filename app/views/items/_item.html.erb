@@ -1,6 +1,8 @@
 <div class="item" id='<%= dom_id(item) %>'>
-  <div class="title">
-    <%= render "title", :item => item %>
+  <div class="head">
+    <span class="title">
+      <%= render "title", :item => item %>
+    </span>
     <span class="labels">
       <%= render :partial => "label", :collection => item.labels, :list => list %>
     </span>
