@@ -164,6 +164,8 @@ $('.color-picker button.ok').live("click", function (event, data, status, xhr) {
     $(".color-picker .options").hide();
 });
 jQuery(function ($) {
-    var color = $("form.new_label input.color")[0].value;
-    $(".color-picker input")[0].value = color;
+    var input = $("form.new_label input.color")[0];
+    if (input) {
+      $(".color-picker input")[0].value = input.value;
+    }
 });
