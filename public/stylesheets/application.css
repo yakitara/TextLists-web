@@ -75,11 +75,11 @@ div.item .changed {
     right: 2px;
     top: 0px;
 }
-/*div.item .labels {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-}*/
+div.item .label {
+    color: white;
+    font-size: smaller;
+    padding: 1px 2px;
+}
 div.item .menu-switch {
     display: none;
     position: absolute;
@@ -115,6 +115,12 @@ form.new_label input.name {
     margin: 1px;
     position: relative;
     background-color: white;
+    color: black;
+}
+.label a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 .label .delete {
     display: none;
@@ -146,6 +152,7 @@ form.new_label input.name {
     background: white;
     border: solid 1px gray;
     padding: 2px;
+    z-index: 1;
 }
 .color-picker .options .color {
     width: 13px;

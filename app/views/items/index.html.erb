@@ -27,7 +27,7 @@
     Labels:
     <%= form_for [@list, Label.new(:color => "ff0000")], :remote => true, :html => {"data-type" => "html"} do |f| %>
       <span class="color-picker">
-        <span class="switch" style="background-color: #<%= f.object.color %>;">&ensp</span>
+        <span class="switch" style="background-color: #<%= f.object.color %>;">&ensp;</span>
         <div class="options" style="display:none;">
           <div class="color" style="background-color: red;"></div>
           <div class="color" style="background-color: blue;"></div>

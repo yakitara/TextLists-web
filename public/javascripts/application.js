@@ -115,13 +115,17 @@ $('.label.unassign a').live("ajax:success", function (event, data, status, xhr) 
 
 // toggle filter items by label
 $('.filter .label a').live("click", function (event, data, status, xhr) {
+    $(".filter .label").removeClass("selected");
     var current = decodeURI(document.location.hash);
+    var label = $(this).parents(".label")[0];
     if (current === decodeURI(this.hash)) {
+      // cancel label
       $('.item').show();
       document.location.hash = "";
       event.preventDefault();
     } else {        
-      var label = $(this).parents(".label")[0];
+      // apply label
+      $(label).addClass("selected");
       $('.item').hide();
       $('.item:has(.' + label.id + ')').show();
     }

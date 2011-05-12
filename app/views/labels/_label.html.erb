@@ -1,4 +1,16 @@
 <div class="label" id="<%= dom_id(label) %>">
-  <%= link_to label.name, "##{label.name}" %>
+  <style type="text/css">
+    #<%= dom_id(label) %>.selected {
+      color: white;
+      background-color: #<%= label.color %>
+    }
+  </style>
+
+  <%#= link_to label.name, "##{label.name}" %>
+  <a href="#<%= label.name %>">
+    <span class="color" style="background-color: #<%= label.color %>">&ensp;</span>
+    <span class="name"><%= label.name %></span>
+  </a>
+
   <div class="delete"><%= link_to image_tag("close.png"), [list, label], :method => "delete", :remote => true%></div>
 </div>
