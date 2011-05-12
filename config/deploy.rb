@@ -26,12 +26,13 @@ task "textlists.yakitara.com" do
 end
 
 desc "staging"
-task "textlists.yakitara.com:8080" do
+task "textlists.yakitara.com.8080" do
   server "jerle.yakitara.com", :app, :web, :db, :primary => true
   set :deploy_to, "/var/www/textlists.8080"
   set :rvm_ruby_string, 'ruby-1.9.2-p180'
   # set :rvm_bin_path, "/usr/local/bin"
   set :passenger_standalone, {:port => 8080}
+  set :branch, "labels"
 end
 
 # task "silent" do
