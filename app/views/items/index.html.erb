@@ -10,7 +10,7 @@
 
 <hr/>
 
-<div class="list" id='<%= dom_id(@list) %>'>
+<div class="list span-13" id='<%= dom_id(@list) %>'>
   <%= form_for [@list, @list.items.build], :remote => true, :html => {"data-type" => "html"} do |f| %>
     <%= hidden_field_tag "item[listings_attributes][][list_id]", @list.id %>
     <%= f.text_field :content %>
@@ -19,5 +19,29 @@
 
   <div class="items sortable" data-url='<%= sort_list_items_path(@list) %>'>
     <%= render @items, :list => @list, :selectable_lists => @lists %>
+  </div>
+</div>
+
+<div class="span-3 last">
+  <div class="filter">
+    Labels:
+    <%= form_for [@list, Label.new(:color => "ff0000")], :remote => true, :html => {"data-type" => "html"} do |f| %>
+      <span class="color-picker">
+        <span class="switch" style="background-color: #<%= f.object.color %>;">&ensp</span>
+        <div class="options" style="display:none;">
+          <div class="color" style="background-color: red;"></div>
+          <div class="color" style="background-color: blue;"></div>
+          <div style="clear:both;"></div>
+          <input type="text" size="6"/>
+          <button type="button" class="ok">OK</button>
+        </div>
+      </span>
+      <%= f.hidden_field :color, :size => 6, :class => "color" %>
+      <%= f.text_field :name, :placeholder => "new label", :class => "name" %>
+      <%= f.submit "create label" %>
+    <% end %>
+    <div class="labels">
+      <%= render @list.labels, :list => @list %>
+    </div>
   </div>
 </div>

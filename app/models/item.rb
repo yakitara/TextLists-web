@@ -2,8 +2,12 @@ class Item < ActiveRecord::Base
   #default_scope :order => "items.created_at DESC"
   
   belongs_to :user
+  
   has_many :listings, :dependent => :destroy, :inverse_of => :item
   has_many :lists, :through => :listings
+  
+  has_many :labelings, :dependent => :destroy, :conditions => {:deleted_at => nil}
+  has_many :labels, :through => :labelings
   
   accepts_nested_attributes_for :listings
   

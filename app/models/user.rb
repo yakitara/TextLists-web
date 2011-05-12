@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :lists
   has_many :items
   has_many :listings
+  has_many :labels
   has_many :change_logs
   
   def inbox!

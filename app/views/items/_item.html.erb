@@ -1,6 +1,9 @@
-<div class="item toggle" id='<%= dom_id(item) %>'>
+<div class="item" id='<%= dom_id(item) %>'>
   <div class="title">
     <%= render "title", :item => item %>
+    <span class="labels">
+      <%= render :partial => "label", :collection => item.labels, :list => list %>
+    </span>
   </div>
   <div class="changed" style="display:none;">changed</div>
   <div class="edit" style="display:none;">
@@ -11,18 +14,36 @@
       <%= render "attributes", :item => item %>
     </div>
   </div>
-  <div class="actions">
-    <div>
-      <%= form_for item.listings.first, :url => move_list_item_listings_path(list, item), :remote => true, :html => {:class => "move_item", :method => "post"} do |f| %>
-        <%= f.select :list_id, options_from_collection_for_select(selectable_lists, :id, :name, list.id) %>
-        <%#= f.submit "move" %>
+
+
+  <a class="menu-switch" href="javascript:;">labels</a>
+  <div class="menu">
+    <div class="label-options">
+      <% list.labels.each do |l| %>
+    <% if item.labels.include?(l) %>
+        <span class="label unassign">
+          <%= link_to l.name, [list, item, l], :remote => true, :method => "delete" %>
+        </span>
+    <% else %>
+        <span class="label assign">
+          <%= link_to l.name, [list, item, l], :remote => true, :method => "post" %>
+        </span>
+    <% end %>
       <% end %>
     </div>
-    <hr/>
-    <div>
-      <%= form_for [list, item, item.listings.first], :remote => true, :html => {:class => "done_item", :method => "delete"} do |f| %>
-        <%= f.submit "done" %>
-      <% end %>
+    <div class="actions selected">
+      <div>
+        <%= form_for item.listings.first, :url => move_list_item_listings_path(list, item), :remote => true, :html => {:class => "move_item", :method => "post"} do |f| %>
+          <%= f.select :list_id, options_from_collection_for_select(selectable_lists, :id, :name, list.id) %>
+          <%#= f.submit "move" %>
+        <% end %>
+      </div>
+      <hr/>
+      <div>
+        <%= form_for [list, item, item.listings.first], :remote => true, :html => {:class => "done_item", :method => "delete"} do |f| %>
+          <%= f.submit "done" %>
+          <% end %>
+      </div>
     </div>
-  </div>
+  </div><!-- .menu -->
 </div>

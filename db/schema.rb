@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110420012451) do
+ActiveRecord::Schema.define(:version => 20110509093845) do
 
   create_table "change_logs", :force => true do |t|
     t.text     "json",        :null => false
@@ -36,6 +36,28 @@ ActiveRecord::Schema.define(:version => 20110420012451) do
     t.datetime "updated_at"
     t.integer  "user_id",                  :null => false
     t.string   "uuid",       :limit => 36
+  end
+
+  create_table "labelings", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "label_id",   :null => false
+    t.integer  "item_id",    :null => false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "labelings", ["label_id", "item_id"], :name => "index_labelings_on_label_id_and_item_id", :unique => true
+
+  create_table "labels", :force => true do |t|
+    t.integer  "user_id",                                 :null => false
+    t.integer  "list_id",                                 :null => false
+    t.integer  "position",                 :default => 0, :null => false
+    t.string   "name",       :limit => 20,                :null => false
+    t.string   "color",      :limit => 6,                 :null => false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "listings", :force => true do |t|

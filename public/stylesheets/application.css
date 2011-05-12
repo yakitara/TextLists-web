@@ -75,21 +75,87 @@ div.item .changed {
     right: 2px;
     top: 0px;
 }
-div.item .actions {
+/*div.item .labels {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}*/
+div.item .menu-switch {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+div.item:hover .menu-switch {
+    display: inline;
+}
+div.item .menu > div {
     display: none;
     border: 1px solid dimgray;
     border-top: 0px;
     position: absolute;
     right: -1px;
     padding: 0px 4px;
-    background-color: inherit;
+    background-color: LightSteelBlue;
     z-index: 1;
 }
-div.item.selected:hover .actions {
+div.item.selected:hover .menu > div.selected {
     display: block;
 }
 div.item .actions select {
     width: 80px;
+}
+
+
+/* label */
+form.new_label input.name {
+    width: 8em;
+}
+.label {
+    margin: 1px;
+    position: relative;
+    background-color: white;
+}
+.label .delete {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.label:hover .delete {
+    display: block;
+}
+.label.unassign {
+    text-decoration: line-through;
+}
+
+/* color-picker */
+.color-picker {
+    margin: 0.5em 2px;
+}
+.color-picker .switch {
+    padding: 1px 2px;
+    border: solid 1px lightgray;
+}
+.color-picker .switch:hover {
+    cursor: pointer;
+}
+.color-picker .options {
+    position: absolute;
+    width: 100px;
+    background: white;
+    border: solid 1px gray;
+    padding: 2px;
+}
+.color-picker .options .color {
+    width: 13px;
+    height: 13px;
+    border: solid 1px lightgray;
+    margine: 2px;
+    float: left;
+}
+.color-picker .options .color:hover {
+    cursor: pointer;
 }
 
 /* bookmarklet */

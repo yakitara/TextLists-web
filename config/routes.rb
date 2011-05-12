@@ -31,7 +31,13 @@ Items::Application.routes.draw do
           post :move
         end
       end
+#       resources :labels, :only => [:update], :controller => "labelings" do
+# #        post :create, :to => "labelings#create"
+#       end
+      post "labels/:label_id", :to => "labelings#create", :as => "label"
+      delete "labels/:label_id", :to => "labelings#destroy", :as => "label"
     end
+    resources :labels, :only => [:create, :destroy]
   end
   
   # old api

@@ -1,0 +1,4 @@
+<div class="label" id="<%= dom_id(label) %>">
+  <%= link_to label.name, "##{label.name}" %>
+  <div class="delete"><%= link_to image_tag("close.png"), [list, label], :method => "delete", :remote => true%></div>
+</div>
