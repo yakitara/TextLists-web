@@ -15,7 +15,8 @@ Items::Application.configure do
   config.action_controller.perform_caching = false
 
   # Raise exceptions instead of rendering exception templates
-  config.action_dispatch.show_exceptions = false
+  # 2011-05-13: comment out because this prevent logging out exception backtrace in request specs (:js => true)
+  # config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
