@@ -12,7 +12,7 @@ close_circle.png:
 /* @pjs transparent=true; */
 void setup() {
   int m = 5.2; // mergin
-  int s = 16; // size
+  int s = 14; // size
   size(s, s);
   background(0, 0, 0, 0);
 

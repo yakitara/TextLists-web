@@ -22,6 +22,10 @@ ol.items li {
 }
 
 /* TextLists2 */
+img.middle {
+    vertical-align: middle;
+}
+
 .header {
   position: relative;
 }
@@ -85,9 +89,6 @@ div.item .menu-switch {
 }
 div.item.selected .menu-switch {
     display: inline;
-}
-div.item .menu-switch img {
-    vertical-align: bottom;
 }
 
 div.item .menu > div {

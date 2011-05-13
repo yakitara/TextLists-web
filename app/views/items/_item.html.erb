@@ -6,7 +6,7 @@
     <span class="labels">
       <%= render :partial => "label", :collection => item.labels, :list => list %>
     </span>
-    <a class="menu-switch" href="javascript:;"><%= image_tag("label.png") %></a>
+    <a class="menu-switch" href="javascript:;" title="manage labels"><%= image_tag("label.png", :class => "middle") %></a>
   </div>
   <div class="changed" style="display:none;">changed</div>
   <div class="edit" style="display:none;">
