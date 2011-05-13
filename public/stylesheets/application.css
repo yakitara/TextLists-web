@@ -82,13 +82,14 @@ div.item .label {
 }
 div.item .menu-switch {
     display: none;
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
 }
-div.item:hover .menu-switch {
+div.item.selected .menu-switch {
     display: inline;
 }
+div.item .menu-switch img {
+    vertical-align: bottom;
+}
+
 div.item .menu > div {
     display: none;
     border: 1px solid dimgray;

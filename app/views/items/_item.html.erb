@@ -6,6 +6,7 @@
     <span class="labels">
       <%= render :partial => "label", :collection => item.labels, :list => list %>
     </span>
+    <a class="menu-switch" href="javascript:;"><%= image_tag("label.png") %></a>
   </div>
   <div class="changed" style="display:none;">changed</div>
   <div class="edit" style="display:none;">
@@ -17,8 +18,6 @@
     </div>
   </div>
 
-
-  <a class="menu-switch" href="javascript:;">labels</a>
   <div class="menu">
     <div class="label-options">
       <% list.labels.each do |l| %>
