@@ -12,14 +12,10 @@ class ListingsController < ApplicationController
   end
   
   def move
-    Listing.transaction do
-      @listing = Listing.first(:conditions => params.slice(:item_id, :list_id))
-      @listing.list = List.find(params[:listing][:list_id])
-      @listing.position = 0
-      @listing.save!
-    end
+    @item = current_user.items.find(params[:item_id])
+    @item.move!(current_user.lists.find(params[:list_id]), List.find(params[:listing][:list_id]))
     if request.xhr?
-      render :json => {:list_id => @listing.list_id, :item_id => @listing.item_id}
+      render :json => {:list_id => params[:listing][:list_id], :item_id => @item.id}
     else
       redirect_to list_items_path(params[:list_id])
     end

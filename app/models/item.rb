@@ -20,4 +20,13 @@ class Item < ActiveRecord::Base
   def title
     self.content[/(.*)\n?/,0]
   end
+
+  def move!(from_list, to_list)
+    self.class.transaction do
+      listing = self.listings.where(:list_id => from_list.id).first
+      listing.list = to_list
+      listing.save!
+      self.labelings.each{|l| l.done! }
+    end
+  end
 end
