@@ -133,6 +133,9 @@ form.new_label input.name {
 .label.unassign {
     text-decoration: line-through;
 }
+.filter .label a {
+    display: block;
+}
 
 /* color-picker */
 .color-picker {
