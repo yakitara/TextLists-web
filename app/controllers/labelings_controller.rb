@@ -13,14 +13,16 @@ class LabelingsController < ApplicationController
     else
       labelings.create!
     end
-    respond_to do |format|
-      format.html { render :partial => "/items/label", :locals => { :label => @label } }
-    end
+    # respond_to do |format|
+    #   format.html { render :partial => "/items/label", :locals => { :label => @label } }
+    # end
+    render :nothing => true
   end
 
   def destroy
     @rabeling = @item.labelings.where(:label_id => @label.id).first
     @rabeling.done!
-    render :json => {:label_id => @label.id}
+    #render :json => {:label_id => @label.id}
+    render :nothing => true
   end
 end

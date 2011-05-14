@@ -1,6 +1,6 @@
-<div class="label" id="<%= dom_id(label) %>">
+<div class="label <%= dom_id(label) %>" id="<%= dom_id(label) %>">
   <style type="text/css">
-    #<%= dom_id(label) %>.selected {
+    .<%= dom_id(label) %>.selected, .<%= dom_id(label) %>.attached {
       color: white;
       background-color: #<%= label.color %>
     }

@@ -80,15 +80,30 @@ div.item .changed {
     top: 0px;
 }
 div.item .label {
-    color: white;
     font-size: smaller;
     padding: 1px 2px;
-}
-div.item .menu-switch {
     display: none;
 }
-div.item.selected .menu-switch {
+div.item .label.attached {
     display: inline;
+}
+div.item .label.attached .color{
+    display: none;
+}
+div.item .labels.managing .label {
+    display: inline;
+}
+div.item .labels.managing .label:hover {
+    cursor: pointer;
+}
+div.item .manage-labels {
+    display: none;
+    position: absolute;
+    right: -4px;
+    top: 0px;
+}
+div.item.selected .manage-labels {
+    display: block;
 }
 
 div.item .menu > div {
@@ -132,8 +147,12 @@ form.new_label input.name {
 .label:hover .delete {
     display: block;
 }
+.label.assign {
+    background-color: lightgray;
+    color: black;
+}
 .label.unassign {
-    text-decoration: line-through;
+    color: white;
 }
 .filter .label a {
     display: block;

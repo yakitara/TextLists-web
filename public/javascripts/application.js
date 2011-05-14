@@ -98,21 +98,6 @@ $('form.new_label').live("ajax:success", function(event, data, status, xhr) {
 $('.label .delete a').live("ajax:success", function (event, data, status, xhr) {
     $(this).parents(".label").remove();
 });
-// toggle item menu
-$('.item .menu-switch').live("click", function (event, data, status, xhr) {
-    $(this).parents(".item").find(".menu").children().toggleClass("selected");
-});
-
-// assign label to item
-$('.label.assign a').live("ajax:success", function (event, data, status, xhr) {
-    $(this).parents(".item").find(".labels").prepend(data);
-});
-// unassign label to item
-$('.label.unassign a').live("ajax:success", function (event, data, status, xhr) {
-    var dom_class = "label_" + data.label_id;
-    $(this).parents(".item").find(".labels ." + dom_class).remove();
-});
-
 // toggle filter items by label
 $('.filter .label a').live("click", function (event, data, status, xhr) {
     $(".filter .label").removeClass("selected");
@@ -127,9 +112,26 @@ $('.filter .label a').live("click", function (event, data, status, xhr) {
       // apply label
       $(label).addClass("selected");
       $('.item').hide();
-      $('.item:has(.' + label.id + ')').show();
+      $('.item:has(.' + label.id + '.attached)').show();
     }
 });
+
+// manage item labels
+$('.item .manage-labels').live("click", function (event, data, status, xhr) {
+    //$(this).parents(".item").find(".labels").children().toggle();
+    $(this).parents(".item").find(".labels").toggleClass("managing");
+});
+// attach / detach item labels
+$('.item .labels.managing .label').live("click", function (event, data, status, xhr) {
+    var attached = $(this).is(".attached");
+    if (attached) {
+      $(this).find("a.detach").click();
+    } else {
+      $(this).find("a.attach").click();
+    }
+    $(this).toggleClass("attached");
+});
+
 
 // color-picker
 $('body').live("click", function (event, data, status, xhr) {

@@ -1,3 +1,10 @@
-<span class="label <%= dom_id(label) %>" style="background-color: #<%= label.color %>">
+<%
+  attached = item.labels.include?(label) ? "attached" : ""
+%>
+<span class="label <%= dom_id(label) %> <%= attached %>">
+  <span class="color" style="background-color: #<%= label.color %>">&ensp;</span>
   <%= label.name %>
+  <%= link_to "attach", [list, item, label], :remote => true, :method => "post", :class => "attach", :style => "display:none;" %>
+  <%= link_to "detach", [list, item, label], :remote => true, :method => "delete", :class => "detach", :style => "display:none;" %>
 </span>
+
