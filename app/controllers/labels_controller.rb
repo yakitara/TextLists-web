@@ -6,7 +6,12 @@ class LabelsController < ApplicationController
   def create
     @label = @list.labels.build(params[:label].merge(:user_id => current_user.id))
     if @label.save
-      render :partial => @label, :locals => {:list => @list}
+      json = {}
+      json[:label] = render_to_string :partial => "label.html", :object => @label, :locals => {:list => @list}
+      json[:item_labels] = @list.items.includes(:labels).all.inject({}) do |h, item|
+        h.update(item.id => render_to_string(:partial => "items/label.html", :object => @label, :locals => {:list => @list, :item => item}))
+      end
+      render :json => json
     end
   end
 

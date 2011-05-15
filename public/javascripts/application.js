@@ -91,12 +91,21 @@ $('.item form.move_item').live("ajax:success", function (event, data, status, xh
 
 // new label
 $('form.new_label').live("ajax:success", function(event, data, status, xhr) {
-    $('.filter .labels').prepend(data);
+    //$('.filter .labels').prepend(data);
+    $('.filter .labels').prepend(data.label);
+    $.each(data.item_labels, function (item_id, html) {
+      $('#item_' + item_id + ' .labels').prepend(html);
+    });
     this.reset();
 });
-// delete label
+//delete label
+$('.label .delete a').live("click", function (event, data, status, xhr) {
+    event.stopImmediatePropagation(); // don't select the label
+});
 $('.label .delete a').live("ajax:success", function (event, data, status, xhr) {
-    $(this).parents(".label").remove();
+    var label = $(this).parents(".label");
+    label.remove();
+    $(".item ." + label[0].id).remove();
 });
 // toggle filter items by label
 $('.filter .label a').live("click", function (event, data, status, xhr) {
