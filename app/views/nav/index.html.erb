@@ -1,9 +1,19 @@
 <div class="description">
+  <div class="span-10">
   <h1>
     TextLists
     <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://textlists.yakitara.com/" data-count="horizontal" data-via="textlists"></a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
   </h1>
 
+  <h2>What?</h2>
+  <ul>
+    <li>A kind of note taking application.</li>
+    <li>Notes are organized with lists.</li>
+    <li>Reorder notes and lists as you like.</li>
+  </ul>
+  </div>
+
+  <div class="span-6 last">
   <script src="http://widgets.twimg.com/j/2/widget.js"></script>
 <script>
 new TWTR.Widget({
@@ -34,14 +44,9 @@ new TWTR.Widget({
     behavior: 'all'
   }
 }).render().setUser('textlists').start();
-</script>
+  </script>
+  </div>
 
-  <h2>What?</h2>
-  <ul>
-    <li>A kind of note taking application.</li>
-    <li>Notes are organized with lists.</li>
-    <li>Reorder notes and lists as you like.</li>
-  </ul>
   <h2>iOS App</h2>
   <%= link_to image_tag("as_available_appstore_icon_20091006.png"), "http://itunes.apple.com/us/app/textlists/id386144907", :target => "_blank" %>
 
