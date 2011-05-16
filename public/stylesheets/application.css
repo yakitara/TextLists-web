@@ -102,7 +102,7 @@ div.item .manage-labels {
     right: -4px;
     top: 0px;
 }
-div.item.selected .manage-labels {
+div.item:hover .manage-labels {
     display: block;
 }
 

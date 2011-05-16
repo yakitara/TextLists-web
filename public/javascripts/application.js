@@ -126,9 +126,15 @@ $('.filter .label a').live("click", function (event, data, status, xhr) {
 });
 
 // manage item labels
+$('.item .manage-labels').live("dblclick", function (event, data, status, xhr) {
+    event.stopPropagation(); // don't open item
+});
 $('.item .manage-labels').live("click", function (event, data, status, xhr) {
-    //$(this).parents(".item").find(".labels").children().toggle();
     $(this).parents(".item").find(".labels").toggleClass("managing");
+    event.stopPropagation(); // don't open item
+});
+$('body').live("click", function (event, data, status, xhr) {
+    $(".item .labels.managing").removeClass("managing");
 });
 // attach / detach item labels
 $('.item .labels.managing .label').live("click", function (event, data, status, xhr) {
@@ -139,6 +145,7 @@ $('.item .labels.managing .label').live("click", function (event, data, status, 
       $(this).find("a.attach").click();
     }
     $(this).toggleClass("attached");
+    event.stopPropagation();
 });
 
 
