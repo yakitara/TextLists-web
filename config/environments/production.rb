@@ -39,4 +39,8 @@ Items::Application.configure do
 
   # Enable threaded mode
   # config.threadsafe!
+
+  # You did not specify how you would like Rails to report deprecation notices for your production environment, please set config.active_support.deprecation to :notify at config/environments/production.rb
+  config.active_support.deprecation = :notify
+
 end
