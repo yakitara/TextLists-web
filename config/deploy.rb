@@ -8,6 +8,7 @@ set :scm, :git
 set :deploy_via, :remote_cache
 set :local_repository,  "."
 set :repository, "git://github.com/yakitara/TextLists-web.git"
+set :branch, "master"
 
 
 # server "silent.yakitara.com", :app, :web, :db, :primary => true
