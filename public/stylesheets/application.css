@@ -146,13 +146,6 @@ form.new_label input.name {
 .label:hover .delete {
     display: block;
 }
-.label.assign {
-    background-color: lightgray;
-    color: black;
-}
-.label.unassign {
-    color: white;
-}
 .filter .label a {
     display: block;
 }
