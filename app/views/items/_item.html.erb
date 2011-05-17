@@ -8,7 +8,7 @@
     </span>
     <a class="manage-labels" href="javascript:;" title="manage labels"><%= image_tag("label.png", :class => "middle") %></a>
   </div>
-  <div class="changed" style="display:none;">changed</div>
+  <div class="changed" style="display:none;">autosaving...</div>
   <div class="edit" style="display:none;">
     <%= form_for item, :remote => true do |f| %>
       <%= f.text_area :content, :rows => 6 %>
