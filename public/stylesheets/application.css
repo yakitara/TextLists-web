@@ -73,7 +73,7 @@ div.item .changed {
     color: red;
     position: absolute;
     right: 2px;
-    top: 0px;
+    bottom: 0px;
 }
 div.item .actions {
     display: none;

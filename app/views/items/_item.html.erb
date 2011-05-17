@@ -2,7 +2,7 @@
   <div class="title">
     <%= render "title", :item => item %>
   </div>
-  <div class="changed" style="display:none;">changed</div>
+  <div class="changed" style="display:none;">autosaving...</div>
   <div class="edit" style="display:none;">
     <%= form_for item, :remote => true do |f| %>
       <%= f.text_area :content, :rows => 6 %>
