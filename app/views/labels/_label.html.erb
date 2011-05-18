@@ -5,11 +5,14 @@
       background-color: #<%= label.color %>
     }
   </style>
-
-  <a href="#<%= label.name %>">
-    <span class="color" style="background-color: #<%= label.color %>">&ensp;</span>
-    <span class="name"><%= label.name %></span>
-  </a>
-  <div class="delete"><%= link_to image_tag("close_circle.png", :class => "middle"), [list, label], :method => "delete", :remote => true, :title => "delete the label '#{label.name}'", :confirm => "Are you sure you want to delete the label '#{label.name}'?" %></div>
-
+  <div class="show toggle">
+    <a href="#<%= label.name %>" class="name">
+      <span class="color" style="background-color: #<%= label.color %>">&ensp;</span>
+      <span class="name"><%= label.name %></span>
+    </a>
+    <%= link_to image_tag("gear.png", :class => "middle"), "javascript:;", :title => "edit the label '#{label.name}'", :class => "edit toggle" %>
+  </div>
+  <div class="edit toggle" style="display:none;">
+    <%= render "labels/form.html", :label => label, :list => list %>
+  </div>
 </div>

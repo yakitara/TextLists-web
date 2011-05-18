@@ -90,24 +90,60 @@ $('.item form.move_item').live("ajax:success", function (event, data, status, xh
 });
 
 // new label
+$('.filter a.new').live("click", function(event, data, status, xhr) {
+    $(".filter .label.new").find("div.toggle").toggle();
+});
+// toggle label form
+$('.label a.toggle').live("click", function(event, data, status, xhr) {
+    $(this).parents(".label").find("div.toggle").toggle();
+});
+// color-picker
+$('.color-picker .options .color').live("click", function (event, data, status, xhr) {
+    // http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-jquery#answer-3971432
+    function rgb2hex(rgb) {
+      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+      function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+      }
+      return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    }
+    var color = rgb2hex($(this).css("background-color"));
+    var input = $(this).parents("form").find("input.color")[0];
+    input.value = color;
+    //$(this).parents("form").find(".color.result").css("background-color", "#" + color);
+    $('.label form input.color').change();
+});
+$('.label form input.color').live("change", function (event, data, status, xhr) {
+    var input = $(this).parents("form").find("input.color")[0];
+    var color = input.value;
+    $(this).parents("form").find(".color.result").css("background-color", "#" + color);
+});
+// label created
 $('form.new_label').live("ajax:success", function(event, data, status, xhr) {
-    //$('.filter .labels').prepend(data);
     $('.filter .labels').prepend(data.label);
-    $.each(data.item_labels, function (item_id, html) {
-      $('#item_' + item_id + ' .labels').prepend(html);
+    $.each(data.item_labels, function (item_id, node) {
+      $('#item_' + item_id + ' .labels').prepend(node);
     });
+    // reset form
     this.reset();
+    $('.label form input.color').change();
+    $('.filter a.new').click();
 });
-//delete label
-$('.label .delete a').live("click", function (event, data, status, xhr) {
-    event.stopImmediatePropagation(); // don't select the label
+// label updated
+$('form.edit_label').live("ajax:success", function(event, data, status, xhr) {
+    $(this).parents(".label").replaceWith(data.label);
+    $.each(data.item_labels, function (item_id, node) {
+      $('#item_' + item_id + ' .labels .label_' + data.label_id).replaceWith(node);
+    });
 });
-$('.label .delete a').live("ajax:success", function (event, data, status, xhr) {
+// delete label
+$('.label a.delete').live("ajax:success", function (event, data, status, xhr) {
     var label = $(this).parents(".label");
     label.remove();
     $(".item ." + label[0].id).remove();
 });
-// toggle filter items by label
+
+// apply/cancel label filter for items
 $('.filter .label a').live("click", function (event, data, status, xhr) {
     $(".filter .label").removeClass("selected");
     var current = decodeURI(document.location.hash);
@@ -146,44 +182,4 @@ $('.item .labels.managing .label').live("click", function (event, data, status, 
     }
     $(this).toggleClass("attached");
     event.stopPropagation();
-});
-
-
-// color-picker
-$('body').live("click", function (event, data, status, xhr) {
-    $(".color-picker .options").hide();
-});
-$('.color-picker').live("click", function (event, data, status, xhr) {
-    event.stopPropagation();
-});
-$('.color-picker .switch').live("click", function (event, data, status, xhr) {
-    $(this).parents(".color-picker").find(".options").toggle();
-    // var options = $(this).parents(".color-picker").find(".options");
-    // if (options.is(":hidden")) {
-    // } else {
-    // }
-});
-$('.color-picker .options .color').live("click", function (event, data, status, xhr) {
-    // http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-jquery#answer-3971432
-    function rgb2hex(rgb) {
-      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-      function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
-      }
-      return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-    }
-    var input = $(this).parents(".options").find("input")[0];
-    input.value = rgb2hex($(this).css("background-color"));
-});
-$('.color-picker button.ok').live("click", function (event, data, status, xhr) {
-    var color = $(".color-picker input")[0].value;
-    $("form.new_label input.color")[0].value = color;
-    $(this).parents(".color-picker").find(".switch").css("background-color", "#" + color);
-    $(".color-picker .options").hide();
-});
-jQuery(function ($) {
-    var input = $("form.new_label input.color")[0];
-    if (input) {
-      $(".color-picker input")[0].value = input.value;
-    }
 });

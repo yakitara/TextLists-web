@@ -24,22 +24,12 @@
 
 <div class="span-3 last">
   <div class="filter">
-    Labels:
-    <%= form_for [@list, Label.new(:color => "ff0000")], :remote => true do |f| %>
-      <span class="color-picker">
-        <span class="switch" style="background-color: #<%= f.object.color %>;">&ensp;</span>
-        <div class="options" style="display:none;">
-          <div class="color" style="background-color: red;"></div>
-          <div class="color" style="background-color: blue;"></div>
-          <div style="clear:both;"></div>
-          <input type="text" size="6"/>
-          <button type="button" class="ok">OK</button>
-        </div>
-      </span>
-      <%= f.hidden_field :color, :size => 6, :class => "color" %>
-      <%= f.text_field :name, :placeholder => "new label", :class => "name" %>
-      <%= f.submit "create label" %>
-    <% end %>
+    Labels: <%= link_to "new", "javascript:;", :class => "new" %>
+    <div class="label new">
+      <div class="toggle" style="display:none;">
+        <%= render "labels/form", :list => @list, :label => Label.new(:color => "ff0000") %>
+      </div>
+    </div>
     <div class="labels">
       <%= render @list.labels, :list => @list %>
     </div>

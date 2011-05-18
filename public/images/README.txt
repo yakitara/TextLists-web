@@ -49,4 +49,28 @@ void setup() {
   stroke(255, 0, 0);
   ellipse(s/5, s/2, s/16, s/16);
 }
-      
+
+gear.png:      
+/* @pjs transparent=true; */
+void setup() {
+  int s = 12; // size
+  int tw = s/6; // tooth weight
+  int ww = s/5; // wheel weight
+  size(s, s);
+  background(0, 0, 0, 0);
+  stroke(100);
+
+  // teeth
+  strokeWeight(tw);
+  strokeCap(SQUARE);
+  for (int i=0; i< 8; i++) {
+    line(
+      s/2 + s/4 * sin(TWO_PI * i / 8),
+      s/2 + s/4 * cos(TWO_PI * i / 8),
+      s/2 + s/2 * sin(TWO_PI * i / 8),
+      s/2 + s/2 * cos(TWO_PI * i / 8));
+  }
+  // wheel 
+  strokeWeight(ww);
+  ellipse(s/2, s/2, s*2/3 - ww, s*2/3 - ww);
+}

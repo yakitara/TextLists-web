@@ -1,0 +1,20 @@
+<%= form_for [list, label], :remote => true do |f| %>
+  <span class="color result" style="background-color: #<%= f.object.color %>;">&ensp;</span>
+  <%= f.text_field :name, :placeholder => (label.new_record? ? "new label" : "label name"), :class => "name" %>
+  <%= link_to image_tag("close_circle.png"), "javascript:;", :class => "close toggle", :title => "close editing the label" %>
+  <span class="color-picker">
+    <div class="options">
+      <div class="color" style="background-color: red;"></div>
+      <div class="color" style="background-color: blue;"></div>
+      <div style="clear:both;"></div>
+      <!-- <button type="button" class="ok">OK</button> -->
+    </div>
+  </span>
+  <%= f.text_field :color, :size => 6, :class => "color" %>
+  <div class="buttons">
+  <% unless label.new_record? %>
+    <%= link_to "delete", [list, label], :method => "delete", :remote => true, :title => "delete the label '#{label.name}'", :confirm => "Are you sure you want to delete the label '#{label.name}'?", :class => "delete bottom-right" %>
+  <% end %>
+    <%= f.submit(label.new_record? ? "create" : "update", :class => "submit") %>
+  </div>
+<% end %>

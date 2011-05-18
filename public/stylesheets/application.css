@@ -22,9 +22,15 @@ ol.items li {
 }
 
 /* TextLists2 */
-img.middle {
+/*img.middle {
     vertical-align: middle;
 }
+
+.bottom-right {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}*/
 
 .header {
   position: relative;
@@ -83,6 +89,7 @@ div.item .label {
     font-size: smaller;
     padding: 1px 2px;
     display: none;
+    margin: 0px 1px;
 }
 div.item .label.attached {
     display: inline;
@@ -125,34 +132,47 @@ div.item .actions select {
 }
 
 /* label */
-form.new_label input.name {
-    width: 8em;
-}
 .label {
-    margin: 1px;
     position: relative;
     background-color: white;
     color: dimgray;
 }
-.label a {
+.label a.name {
     text-decoration: none;
     color: inherit;
 }
-.label .delete {
+.filter .label a.name {
+    display: block;
+}
+.filter .label a.edit {
     display: none;
+}
+.filter .label:hover a.edit {
+    display: inline;
     position: absolute;
-    top: 0px;
     right: 0px;
+    bottom: 0px;
 }
-.label:hover .delete {
-    display: block;
+.filter .label form {
+    border: solid 1px lightgray;
+    padding: 0px 2px;
+    position: relative;
+    background-color: white;
 }
-.filter .label a {
-    display: block;
+.filter .label form input.name {
+    width: 6.5em;
+}
+.filter .label form .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+.filter .label form .buttons {
+    text-align: right;
 }
 
 /* color-picker */
-.color-picker {
+/*.color-picker {
     margin: 0.5em 2px;
 }
 .color-picker .switch {
@@ -169,7 +189,7 @@ form.new_label input.name {
     border: solid 1px gray;
     padding: 2px;
     z-index: 1;
-}
+}*/
 .color-picker .options .color {
     width: 13px;
     height: 13px;
