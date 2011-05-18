@@ -22,6 +22,7 @@ set :use_sudo, false
 desc "production"
 task "textlists.yakitara.com" do
   server "jerle.yakitara.com", :app, :web, :db, :primary => true
+  set :warmup_url, "http://textlists.yakitara.com/"
   set :deploy_to, "/var/www/textlists"
   set :rvm_ruby_string, 'ruby-1.9.2-p180'
 end
@@ -29,6 +30,7 @@ end
 desc "staging"
 task "textlists.yakitara.com.8080" do
   server "jerle.yakitara.com", :app, :web, :db, :primary => true
+  set :warmup_url, "http://staging.textlists.yakitara.com:8080/"
   set :deploy_to, "/var/www/textlists.8080"
   set :rvm_ruby_string, 'ruby-1.9.2-p180'
   # set :rvm_bin_path, "/usr/local/bin"
@@ -53,6 +55,13 @@ namespace :deploy do
     run "chown -R :#{group} #{latest_release}"
   end
   after "deploy:finalize_update", "deploy:change_group"
+
+  desc "warmup a server instance"
+  task :warmup do
+    puts run_locally "curl -Is #{warmup_url}"
+  end
+  after "deploy:restart", "deploy:warmup"
+  after "deploy:start", "deploy:warmup"
 end
 
 # for passenger
