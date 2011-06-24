@@ -1,6 +1,11 @@
 function closeTextListsBookmarklet() {
-   var e = document.getElementById('textlists-bookmarklet');
-   e.parentNode.removeChild(e);
+  var ids = ['', '-js', '-jquery'], ids_len = ids.length;
+  for (var i = 0; i < ids_len; i++) {
+    var e = document.getElementById('textlists-bookmarklet' + ids[i]);
+    if (e) {
+      document.body.removeChild(e);
+    }
+  }
 }
 function openTextListsBookmarklet() {
   var title = document.title;
@@ -62,6 +67,7 @@ function openTextListsBookmarklet() {
 (function () {
   var s = document.createElement('script');
   s.src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js';
+  s.id='textlists-bookmarklet-jquery';
   s.addEventListener('load', function() { openTextListsBookmarklet(); });
   document.body.appendChild(s);
 })();
