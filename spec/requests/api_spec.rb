@@ -89,6 +89,17 @@ describe "Api" do
         response.body.should == [{:id => @list.id}, {:id => items(:item_a).id}, {:id => @listing.id}].to_json
       end
     end
+
+    context "a same new record posted twice" do
+      before do
+        @item = @user.items.create!(:uuid => "C1C95015-F203-4B7E-8051-4AB6E7C543E7", :content => "with uuid")
+        change = {:record_type => "Item", :json => @item.to_json(:only => [:uuid, :user_id, :content, :created_at, :updated_at])}
+        post api_changes_path, @auth_params.merge(:changes => [change]).to_json, JSON_HEADERS
+      end
+      it "responded id should == last one" do
+        ActiveSupport::JSON.decode(response.body)["id"].should == @item.id
+      end
+    end
     
     context "post duplicated name list on server" do
       it "avoids duplication" do
@@ -99,8 +110,6 @@ describe "Api" do
         List.where(:user_id => @user.id, :name => "in-box").all.should have(1).inbox
       end
     end
-    
-    it "a same new record posted twice"
     
     context "existed record with old change" do
       it "works" do

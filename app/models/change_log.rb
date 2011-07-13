@@ -94,11 +94,28 @@ class ChangeLog < ActiveRecord::Base
       def base.log_dependency(*args)
         self.class_variable_set("@@log_dependencies", args)
       end
-      unless base.method_defined?(:find_duplication)
-        def base.find_duplication(attrs)
-          nil # overwrite this method if the model wants to control duplication
+
+      def base._find_duplication(attrs)
+        attrs["uuid"] && self.find_by_uuid(attrs["uuid"])
+      end
+
+      if base.method_defined?(:find_duplication)
+        def base.find_duplication_with_uuid(attrs)
+          self.find_duplication_without_uuid(attrs) || self._find_duplication(attrs)
+        end
+        class << base
+          alias_method_chain :find_duplication, :uuid
+        end
+      else
+        class << base
+          alias_method :find_duplication, :_find_duplication
         end
       end
+      # unless base.method_defined?(:find_duplication)
+      #   def base.find_duplication(attrs)
+      #     nil # overwrite this method if the model wants to control duplication
+      #   end
+      # end
     end
     
     def log!
