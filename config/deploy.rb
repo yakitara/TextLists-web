@@ -1,7 +1,8 @@
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+# $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano" # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
 
+set :rvm_type, :system
 set :application, "textlists"
 #set :repository,  "silent.yakitara.com:/home/shared/git/items.git"
 set :scm, :git
