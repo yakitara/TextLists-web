@@ -9,7 +9,7 @@ class Item < ActiveRecord::Base
   
   cattr_reader :content_max_length
   # NOTE: ":presence => true" cause inconsistent with current CoreData validation
-  validates :content, :length => {:within => 1..4000}
+  validates :content, :length => {:within => 1..8000}
   
   include UserScope, HalfAutoTimestamp, ChangeLog::Logger
   
